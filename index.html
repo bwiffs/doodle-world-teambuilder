@@ -1590,6 +1590,16 @@
                                 }
                             }
                         });
+
+if (teamData[index]) {
+    const doodleSelect = card.querySelector("select");
+    doodleSelect.value = teamData[index].doodle;
+    if (doodleSelect.value) {
+        doodleSelect.dispatchEvent(new Event('change'));
+    }
+    
+
+}
                         
                         // Traits/Items/Stats/Equipment
                         card.querySelector(".trait-select").value = teamData[index].trait || "";
@@ -1616,3 +1626,8 @@
     </script>
 </body>
 </html>
+
+
+
+
+Made by Bwiffs
