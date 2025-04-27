@@ -1366,43 +1366,44 @@ function createDoodleCard(index) {
         }
 
         function copyTeamCode() {
-            try {
-                // 1. Collect team data
-                const teamData = Array.from(document.querySelectorAll(".doodle-card")).map(card => ({
-                    doodle: card.querySelector("select").value,
-                    moves: Array.from(card.querySelectorAll(".moves-container select")).map(s => s.value),
-                    trait: card.querySelector(".trait-select").value,
-                    heldItem: card.querySelector(".expand-section select:nth-of-type(2)").value,
-                    stats: Array.from(card.querySelectorAll(".expand-section select:nth-of-type(n+3)")).map(s => s.value),
-                    equipment: {
-                        helmet: card.querySelector(".equipment-container select:nth-of-type(1)").value,
-                        amulet: card.querySelector(".equipment-container select:nth-of-type(2)").value,
-                        artifact: card.querySelector(".equipment-container select:nth-of-type(3)").value
-                    }
-                }));
+    try {
+        const teamData = Array.from(document.querySelectorAll(".doodle-card")).map(card => {
+            const moves = Array.from(card.querySelectorAll(".moves-container select")).map(s => s.value);
+            const stats = Array.from(card.querySelectorAll(".stat-select")).map(s => s.value);
+            
+            return {
+                doodle: card.querySelector("select").value,
+                moves: moves,
+                trait: card.querySelector(".trait-select")?.value || "",
+                heldItem: card.querySelector(".held-item-select")?.value || "",
+                stats: stats,
+                equipment: {
+                    helmet: card.querySelector(".helmet-select")?.value || "None",
+                    amulet: card.querySelector(".amulet-select")?.value || "None",
+                    artifact: card.querySelector(".artifact-select")?.value || "None"
+                }
+            };
+        });
 
-
-                const teamCode = btoa(JSON.stringify(teamData));
-                
-
-                navigator.clipboard.writeText(teamCode)
-                    .then(() => alert("Team code copied to clipboard!\n\nShare this code:\n" + teamCode))
-                    .catch(() => {
-                        // Fallback if clipboard fails
-                        const textarea = document.createElement("textarea");
-                        textarea.value = teamCode;
-                        document.body.appendChild(textarea);
-                        textarea.select();
-                        document.execCommand("copy");
-                        document.body.removeChild(textarea);
-                        alert("Team code copied!\n\n" + teamCode);
-                    });
-            } catch (error) {
-                console.error("Copy failed:", error);
-                alert("Error generating team code. Check console for details.");
-            }
-        }
-
+        const teamCode = btoa(JSON.stringify(teamData));
+        
+        navigator.clipboard.writeText(teamCode)
+            .then(() => alert("Team code copied to clipboard!"))
+            .catch(() => {
+                // Fallback if clipboard fails
+                const textarea = document.createElement("textarea");
+                textarea.value = teamCode;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+                alert("Team code copied!");
+            });
+    } catch (error) {
+        console.error("Copy failed:", error);
+        alert("Error generating team code. Check console for details.");
+    }
+}
 
        function importFromCode() {
     const teamCode = prompt("Paste team code:");
@@ -1410,119 +1411,137 @@ function createDoodleCard(index) {
 
     try {
         const teamData = JSON.parse(atob(teamCode));
-
-        document.querySelectorAll(".doodle-card").forEach((card, index) => {
-            if (teamData[index]) {
+        const teamContainer = document.getElementById("team-container");
+        
+        // Clear existing team
+        teamContainer.innerHTML = "";
+        
+        // Create new cards for each team member
+        teamData.forEach((member, index) => {
+            if (member) {
+                const card = createDoodleCard(index);
+                
                 // Set doodle
                 const doodleSelect = card.querySelector("select");
-                doodleSelect.value = teamData[index].doodle;
+                doodleSelect.value = member.doodle || "";
+                
+                // Update doodle image if selected
                 if (doodleSelect.value) {
                     const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
+                    const doodleImage = card.querySelector(".doodle-image");
                     if (selectedOption.dataset.image) {
-                        const doodleImage = card.querySelector(".doodle-image");
                         doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
                         doodleImage.textContent = "";
                     }
                 }
-
+                
                 // Set moves
                 const moveSelectors = card.querySelectorAll(".moves-container select");
-                teamData[index].moves.forEach((move, i) => {
-                    if (moveSelectors[i]) {
-                        moveSelectors[i].value = move || "";
-                        // Update move type colors
-                        const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
-                        moveSelectors[i].classList.remove(
-                            'mythic-selected', 'fire-selected', 'water-selected',
-                            'plant-selected', 'electric-selected', 'beast-selected',
-                            'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
-                            'melee-selected', 'food-selected', 'light-selected',
-                            'crystal-selected', 'metal-selected', 'spirit-selected',
-                            'ice-selected', 'dark-selected', 'poison-selected'
-                        );
-                        if (option.classList.contains('mythic')) {
-                            moveSelectors[i].classList.add('mythic-selected');
-                        } else if (option.classList.contains('fire')) {
-                            moveSelectors[i].classList.add('fire-selected');
-                        } else if (option.classList.contains('water')) {
-                            moveSelectors[i].classList.add('water-selected');
-                        } else if (option.classList.contains('plant')) {
-                            moveSelectors[i].classList.add('plant-selected');
-                        } else if (option.classList.contains('electric')) {
-                            moveSelectors[i].classList.add('electric-selected');
-                        } else if (option.classList.contains('beast')) {
-                            moveSelectors[i].classList.add('beast-selected');
-                        } else if (option.classList.contains('air')) {
-                            moveSelectors[i].classList.add('air-selected');
-                        } else if (option.classList.contains('bug')) {
-                            moveSelectors[i].classList.add('bug-selected');
-                        } else if (option.classList.contains('earth')) {
-                            moveSelectors[i].classList.add('earth-selected');
-                        } else if (option.classList.contains('mind')) {
-                            moveSelectors[i].classList.add('mind-selected');
-                        } else if (option.classList.contains('melee')) {
-                            moveSelectors[i].classList.add('melee-selected');
-                        } else if (option.classList.contains('food')) {
-                            moveSelectors[i].classList.add('food-selected');
-                        } else if (option.classList.contains('light')) {
-                            moveSelectors[i].classList.add('light-selected');
-                        } else if (option.classList.contains('crystal')) {
-                            moveSelectors[i].classList.add('crystal-selected');
-                        } else if (option.classList.contains('metal')) {
-                            moveSelectors[i].classList.add('metal-selected');
-                        } else if (option.classList.contains('spirit')) {
-                            moveSelectors[i].classList.add('spirit-selected');
-                        } else if (option.classList.contains('ice')) {
-                            moveSelectors[i].classList.add('ice-selected');
-                        } else if (option.classList.contains('dark')) {
-                            moveSelectors[i].classList.add('dark-selected');
-                        } else if (option.classList.contains('poison')) {
-                            moveSelectors[i].classList.add('poison-selected');
+                if (member.moves) {
+                    member.moves.forEach((move, i) => {
+                        if (moveSelectors[i] && move) {
+                            moveSelectors[i].value = move;
+                            
+                            // Update move type colors
+                            const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
+                            moveSelectors[i].classList.remove(
+                                'mythic-selected', 'fire-selected', 'water-selected',
+                                'plant-selected', 'electric-selected', 'beast-selected',
+                                'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                                'melee-selected', 'food-selected', 'light-selected',
+                                'crystal-selected', 'metal-selected', 'spirit-selected',
+                                'ice-selected', 'dark-selected', 'poison-selected'
+                            );
+                            
+                            if (option.classList.contains('mythic')) {
+                                moveSelectors[i].classList.add('mythic-selected');
+                            } else if (option.classList.contains('fire')) {
+                                moveSelectors[i].classList.add('fire-selected');
+                            } else if (option.classList.contains('water')) {
+                                moveSelectors[i].classList.add('water-selected');
+                            } else if (option.classList.contains('plant')) {
+                                moveSelectors[i].classList.add('plant-selected');
+                            } else if (option.classList.contains('electric')) {
+                                moveSelectors[i].classList.add('electric-selected');
+                            } else if (option.classList.contains('beast')) {
+                                moveSelectors[i].classList.add('beast-selected');
+                            } else if (option.classList.contains('air')) {
+                                moveSelectors[i].classList.add('air-selected');
+                            } else if (option.classList.contains('bug')) {
+                                moveSelectors[i].classList.add('bug-selected');
+                            } else if (option.classList.contains('earth')) {
+                                moveSelectors[i].classList.add('earth-selected');
+                            } else if (option.classList.contains('mind')) {
+                                moveSelectors[i].classList.add('mind-selected');
+                            } else if (option.classList.contains('melee')) {
+                                moveSelectors[i].classList.add('melee-selected');
+                            } else if (option.classList.contains('food')) {
+                                moveSelectors[i].classList.add('food-selected');
+                            } else if (option.classList.contains('light')) {
+                                moveSelectors[i].classList.add('light-selected');
+                            } else if (option.classList.contains('crystal')) {
+                                moveSelectors[i].classList.add('crystal-selected');
+                            } else if (option.classList.contains('metal')) {
+                                moveSelectors[i].classList.add('metal-selected');
+                            } else if (option.classList.contains('spirit')) {
+                                moveSelectors[i].classList.add('spirit-selected');
+                            } else if (option.classList.contains('ice')) {
+                                moveSelectors[i].classList.add('ice-selected');
+                            } else if (option.classList.contains('dark')) {
+                                moveSelectors[i].classList.add('dark-selected');
+                            } else if (option.classList.contains('poison')) {
+                                moveSelectors[i].classList.add('poison-selected');
+                            }
                         }
-                    }
-                });
-
+                    });
+                }
+                
                 // Set trait
-                const traitSelect = card.querySelector(".trait-select");
-                if (traitSelect) {
-                    traitSelect.value = teamData[index].trait || "";
+                if (member.trait) {
+                    const traitSelect = card.querySelector(".trait-select");
+                    if (traitSelect) traitSelect.value = member.trait;
                 }
-
+                
                 // Set held item
-                const heldItemSelect = card.querySelector(".held-item-select");
-                if (heldItemSelect) {
-                    heldItemSelect.value = teamData[index].heldItem || "";
+                if (member.heldItem) {
+                    const heldItemSelect = card.querySelector(".held-item-select");
+                    if (heldItemSelect) heldItemSelect.value = member.heldItem;
                 }
-
+                
                 // Set stats
-                const statSelectors = card.querySelectorAll(".stat-select");
-                if (statSelectors.length >= 2) {
-                    statSelectors[0].value = teamData[index].stats[0] || "";
-                    statSelectors[1].value = teamData[index].stats[1] || "";
+                if (member.stats) {
+                    const statSelectors = card.querySelectorAll(".stat-select");
+                    member.stats.forEach((stat, i) => {
+                        if (statSelectors[i] && stat) {
+                            statSelectors[i].value = stat;
+                        }
+                    });
                 }
-
+                
                 // Set equipment
-                if (teamData[index].equipment) {
+                if (member.equipment) {
                     const helmetSelect = card.querySelector(".helmet-select");
                     const amuletSelect = card.querySelector(".amulet-select");
                     const artifactSelect = card.querySelector(".artifact-select");
                     
-                    if (helmetSelect) helmetSelect.value = teamData[index].equipment.helmet || "";
-                    if (amuletSelect) amuletSelect.value = teamData[index].equipment.amulet || "";
-                    if (artifactSelect) artifactSelect.value = teamData[index].equipment.artifact || "";
+                    if (helmetSelect && member.equipment.helmet) helmetSelect.value = member.equipment.helmet;
+                    if (amuletSelect && member.equipment.amulet) amuletSelect.value = member.equipment.amulet;
+                    if (artifactSelect && member.equipment.artifact) artifactSelect.value = member.equipment.artifact;
                 }
+                
+                teamContainer.appendChild(card);
             }
         });
+        
         alert("Team imported successfully!");
     } catch (error) {
         console.error("Import failed:", error);
         alert("Invalid team code! Please check and try again.");
     }
 }
-
         initializeTeam();
     </script>
 </body>
 </html>
 
-Update
+Update 1.1
