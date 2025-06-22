@@ -136,8 +136,8 @@
             z-index: 100; 
         }
         
-        /* Move Type Colors */
-        option { color: white; } /* Basic moves (default white) */
+
+        option { color: white; } 
         
         option.mythic, select.mythic-selected { 
             color: #b19cd9;
@@ -216,7 +216,7 @@
             font-weight: bold;
         }
         
-        /* Keep dark selection background */
+
         select option:checked { background-color: #333 !important; }
 
         @media (max-width: 800px) {
@@ -489,7 +489,7 @@ const doodles = [
 ];
 
 
-        // Basic Moves
+
         const basicMoves = [
             "Allure", "Armor Break", "Armor Up", "Bark", "Blowup Blast", 
             "Body Slam", "Boom Boom", "Boring Show", "Calming Melody", 
@@ -506,27 +506,27 @@ const doodles = [
             "Screech", "Shellshock", "Shield Bash", "Slash", "Smack", "Smokescreen", 
             "Squeak", "Starbreaker", "Subterfuge", "Swagger Dance", "Swipe", 
             "Tail Smack", "Tourniquet", "Trap", "Tri-Elemental Slash", "Wildcard", 
-            "Wrap", "Yarn Snare","Elemental Claws", "Mood Swing"
+            "Wrap", "Yarn Snare","Elemental Claws", "Mood Swing","Final Gambit"
         ];
 
-        // Mythic Moves
+
         const mythicMoves = [
             "Attack Seal", "Louis Prayer", "Meteor Shower", 
             "Mythic Blast", "Playtime's Over", "Reverse Singularity", 
             "The World"
         ];
 
-        // Fire Type Moves
+  
         const fireMoves = [
             "Boil Bomb", "Burning Orb", "Fiery Bite", "Fiery Punch", 
             "Fiery Slash", "Fireball", "Firebolt", "Firecracker", 
             "Flame Rattle", "Flame Shield", "Flames of Gehenna", 
             "Forest Fire", "Foxfire", "Heat Bash", "Inflame", 
             "Incinerate", "Lava Toss", "Raging Bonfire", "Sizzle", 
-            "Solar Flare", "Soulfire"
+            "Solar Flare", "Soulfire","Pyroclast"
         ];
 
-        // Water Type Moves
+
         const waterMoves = [
             "Aquagel", "Aqua Cannon", "Bubble Shield", "Capsize", 
             "Croak", "Fin Slash", "Hydro Burst", "Rainmaker", 
@@ -536,7 +536,7 @@ const doodles = [
             "Waterbolt", "Wave Shot"
         ];
 
-        // Plant Type Moves
+
         const plantMoves = [
             "1,000 Needles", "Armillaria", "Barb Barrier", 
             "Barkskin", "Branch Launch", "Compost", 
@@ -550,7 +550,7 @@ const doodles = [
             "Thorny Thwack", "Wild Growth", "Gardentend", "Bunny Distraction"
         ];
 
-        // Electric Type Moves
+
         const electricMoves = [
             "Crackling Static", "Electrical Burns", "Electrify", 
             "Electro Bite", "Electro Punch", "Electro Slash", 
@@ -560,17 +560,17 @@ const doodles = [
             "Thunder Strike", "Thunderstorm", "Zeppelin Zap","Thunder Drum"
         ];
 
-        // Beast Type Moves
+
         const beastMoves = [
             "Berserk", "Bestial Roar", "Bestial Wrath",
             "Bite", "Call of the Wild", "Crunch",
             "Double Bite", "Feral Fury", "Ferocious Onslaught",
             "Horn Pierce", "Jumble Clobber", "Primal Rage",
             "Ravenous Rush", "Savage Blow", "Sharp Claws",
-            "Treacherous Gnaw", "War Cry", "Wild Ravage"
+            "Treacherous Gnaw", "War Cry", "Wild Ravage","Commanding Blow"
         ];
 
-        // Air Type Moves
+
         const airMoves = [
             "Aerial", "Aero Storm", "Air Strike",
             "Balloon Boost", "Eagle Eye", "Festive Fervor",
@@ -580,7 +580,7 @@ const doodles = [
             "Wing Slash"
         ];
 
-        // Bug Type Moves
+
         const bugMoves = [
             "Antenna Beam", "Bee Summon", "Butterfly Effect",
             "Entomophobia", "Fatal Sting", "Insect Instinct",
@@ -589,7 +589,7 @@ const doodles = [
             "Swaddle", "Swarm", "Web", "Web Ball"
         ];
 
-        // Earth Type Moves
+
         const earthMoves = [
             "Dirt Lump", "Earth Lance", "Earth Surge",
             "Earthquake", "Landslide", "Mend",
@@ -599,7 +599,7 @@ const doodles = [
             "Shell Crash", "Stalactites", "Stampede"
         ];
 
-        // Mind Type Moves
+
         const mindMoves = [
             "Agitate", "Ascending Flow", "Compose",
             "Enlightenment", "Forced Repetition", "Harmony",
@@ -611,7 +611,7 @@ const doodles = [
             "Trait Exchange", "Wide Shield"
         ];
 
-        // Melee Type Moves (Light Red)
+
         const meleeMoves = [
             "Adrenaline", "Body Throw", "Bone Club", "Challenge", "Chi Blast",
             "Clumsy Swing", "Counter Punch", "Crush", "Daze", "Drill Sergeant",
@@ -620,7 +620,7 @@ const doodles = [
             "Solid Charge", "Swift Hook", "Swift Shield", "Toughen", "Unguarded Strike"
         ];
 
-        // Food Type Moves (Beige)
+
         const foodMoves = [
             "Bullet Corn", "Cake Walk", "Chocolate Rain", "Create Jelly", "Devour",
             "Empty Calories", "Fast Food", "Fatten Up", "Feast", "Food Fight",
@@ -629,7 +629,7 @@ const doodles = [
             "Sugar Rush", "Sweet Aroma", "Takeout","Savory Slam", "Last Course", "Sweet Remains"
         ];
 
-        // Light Type Moves (Light Yellow)
+ 
         const lightMoves = [
             "Abyss Breaker", "Aurora Flash", "Blinding Lights", "Blessed Blade",
             "Continuous Sheen", "Divine Light", "Flare", "Flashbang", "Flashing Strike",
@@ -637,7 +637,7 @@ const doodles = [
             "Purge", "Radiant Beam", "Shining Severance", "Light Hook"
         ];
 
-        // Crystal Type Moves (Dark Cyan)
+
         const crystalMoves = [
             "Alloy Missiles", "Crystal Armor", "Crystal Arrow", "Crystal Cut",
             "Crystal Dust", "Crystal Storm", "Crystal Wall", "Diamond Dash",
@@ -645,7 +645,7 @@ const doodles = [
             "Rupture", "Shard Surge", "Sparkling Finish", "Transcendent Power","Gleamspire"
         ];
 
-        // Metal Type Moves (Dark Grey)
+
         const metalMoves = [
             "Binary Blitz", "Bonk", "Chain Imprisonment", "Gatling Gifts",
             "Iron Chomp", "Iron Slash", "Mercury Puddle", "Meteor Launch",
@@ -653,7 +653,7 @@ const doodles = [
             "Stab", "Sword Sweep","Regal Edge","Clampbound","Echo Broadcast"
         ];
 
-        // Spirit Type Moves (Very Dark Purple)
+
         const spiritMoves = [
             "Befuddlement", "Consume", "Treasure Curse", "Drain Life",
             "Gleeful Ruse", "Haunt", "Hex", "Hexblade", "Hex Punch",
@@ -663,7 +663,7 @@ const doodles = [
             "Whisper", "Phantom Rush","Boo!"
         ];
 
-        // Ice Type Moves (Very Very Light Blue)
+  
         const iceMoves = [
             "Absolute Zero", "Arctic Blitz", "Bowling Strike", "Chilling Chorus",
             "Cone Cannon", "Cone of Cold", "Flash Freeze", "Frostbite", "Frostgrip",
@@ -673,7 +673,7 @@ const doodles = [
             "Subzero Blizzard"
         ];
 
-        // Dark Type Moves (Black)
+  
         const darkMoves = [
             "Ambush", "Chaotic Bolt", "Choke", "Cold Glance", "Dark Blast",
             "Dark Slash", "Darkness Expansion", "Expectorate", "Frenzied Darkness",
@@ -683,7 +683,7 @@ const doodles = [
             "Vampiric Strike", "Worthwhile Sacrifice"
         ];
 
-        // Poison Type Moves (Light Purple)
+
         const poisonMoves = [
             "Acid Rain", "Bad Odor", "Belch", "Chemical Cleave", "Food Poisoning",
             "Foreign Substance", "Goo Blast", "Infection", "Lingering Poison",
@@ -924,12 +924,12 @@ const doodles = [
 "Cragildae Rune",
 "Bubbul Rune",
             "Snowclowne Silly Cone",
-"Onion"
+"Onion","Ruler","Doomflower","Potassium Conduit"
 
 
         ];
         
-        // Updated traits list
+
         const traits = [
             "Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose",
             "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia",
@@ -1043,7 +1043,7 @@ const doodles = [
             doodleImage.classList.add("doodle-image");
             doodleImage.textContent = "Doodle";
 
-            // Doodle select with search
+
             const doodleContainer = document.createElement("div");
             doodleContainer.classList.add("search-container");
             
@@ -1143,7 +1143,7 @@ const doodles = [
                     darkMoves.map(m => `<option value="${m}" class="dark">${m}</option>`).join("") +
                     poisonMoves.map(m => `<option value="${m}" class="poison">${m}</option>`).join("");
 
-                // Handle selection color retention
+ 
                 moveSelect.addEventListener('change', function() {
                     const selectedOption = this.options[this.selectedIndex];
                     this.classList.remove(
@@ -1199,7 +1199,7 @@ const doodles = [
                 movesContainer.appendChild(moveSelect);
             }
 
-            // Trait select with search
+
             const traitContainer = document.createElement("div");
             traitContainer.classList.add("search-container");
             
@@ -1250,7 +1250,7 @@ const doodles = [
             traitContainer.appendChild(traitSelect);
             traitContainer.appendChild(traitSearch);
 
-            // Held Item select with search
+
             const heldItemContainer = document.createElement("div");
             heldItemContainer.classList.add("search-container");
             
@@ -1301,7 +1301,7 @@ const doodles = [
             heldItemContainer.appendChild(heldItemSelect);
             heldItemContainer.appendChild(heldItemSearch);
 
-            // Stats
+  
             const statSelect1 = document.createElement("select");
             statSelect1.classList.add("stat-select");
             statSelect1.innerHTML = '<option value="">Select Stat</option>' +
@@ -1380,7 +1380,7 @@ const doodles = [
                 navigator.clipboard.writeText(teamCode)
                     .then(() => alert("Team code copied to clipboard!"))
                     .catch(() => {
-                        // Fallback if clipboard fails
+      
                         const textarea = document.createElement("textarea");
                         textarea.value = teamCode;
                         document.body.appendChild(textarea);
@@ -1403,19 +1403,19 @@ const doodles = [
                 const teamData = JSON.parse(atob(teamCode));
                 const teamContainer = document.getElementById("team-container");
                 
-                // Clear existing team
+
                 teamContainer.innerHTML = "";
                 
-                // Create new cards for each team member
+
                 teamData.forEach((member, index) => {
                     if (member) {
                         const card = createDoodleCard(index);
                         
-                        // Set doodle
+  
                         const doodleSelect = card.querySelector("select");
                         doodleSelect.value = member.doodle || "";
                         
-                        // Update doodle image if selected
+        
                         if (doodleSelect.value) {
                             const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
                             const doodleImage = card.querySelector(".doodle-image");
@@ -1425,14 +1425,14 @@ const doodles = [
                             }
                         }
                         
-                        // Set moves
+
                         const moveSelectors = card.querySelectorAll(".moves-container select");
                         if (member.moves) {
                             member.moves.forEach((move, i) => {
                                 if (moveSelectors[i] && move) {
                                     moveSelectors[i].value = move;
                                     
-                                    // Update move type colors
+
                                     const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
                                     moveSelectors[i].classList.remove(
                                         'mythic-selected', 'fire-selected', 'water-selected',
@@ -1486,19 +1486,19 @@ const doodles = [
                             });
                         }
                         
-                        // Set trait
+
                         if (member.trait) {
                             const traitSelect = card.querySelector(".trait-select");
                             if (traitSelect) traitSelect.value = member.trait;
                         }
                         
-                        // Set held item
+
                         if (member.heldItem) {
                             const heldItemSelect = card.querySelector(".held-item-select");
                             if (heldItemSelect) heldItemSelect.value = member.heldItem;
                         }
                         
-                        // Set stats
+
                         if (member.stats) {
                             const statSelectors = card.querySelectorAll(".stat-select");
                             member.stats.forEach((stat, i) => {
@@ -1508,7 +1508,7 @@ const doodles = [
                             });
                         }
                         
-                        // Set equipment
+
                         if (member.equipment) {
                             const helmetSelect = card.querySelector(".helmet-select");
                             const amuletSelect = card.querySelector(".amulet-select");
@@ -1534,4 +1534,4 @@ const doodles = [
 </body>
 </html>
 
-Scarion added
+Ranked Update
