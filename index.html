@@ -2087,6 +2087,29 @@
             }
         }
 
+function saveTeamsToStorage() {
+    localStorage.setItem('doodleTeams', JSON.stringify(teams));
+    localStorage.setItem('currentTeamIndex', currentTeamIndex);
+}
+
+function loadTeamsFromStorage() {
+    const savedTeams = localStorage.getItem('doodleTeams');
+    const savedIndex = localStorage.getItem('currentTeamIndex');
+    
+    if (savedTeams) {
+        teams = JSON.parse(savedTeams);
+        currentTeamIndex = parseInt(savedIndex) || 0;
+        return true;
+    }
+    return false;
+}
+
+if (!loadTeamsFromStorage()) {
+    initializeTeams();
+} else {
+    updateTeamList();
+    loadTeam(currentTeamIndex);
+}
         
         initializeTeams();
     </script>
