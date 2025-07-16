@@ -1,5 +1,3 @@
-<meta name="description" content="In the Doodle World Teambuilder you can create your competitive team and share it. Created by biwffs.">
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +17,7 @@
             --sidebar-bg: #222;
             --notes-bg: #252525;
             --shadow: rgba(0, 0, 0, 0.3);
+            --active-team: #4CAF50;
         }
 
         .light-mode {
@@ -33,6 +32,7 @@
             --sidebar-bg: #f0f0f0;
             --notes-bg: #f8f8f8;
             --shadow: rgba(0, 0, 0, 0.1);
+            --active-team: #2E7D32;
         }
 
         body {
@@ -70,8 +70,8 @@
         
         .main-container {
             display: flex;
-            gap: 95px;
-            max-width: 1300px;
+            gap: 20px;
+            max-width: 1400px;
             margin: 0 auto;
             align-items: flex-start;
         }
@@ -88,7 +88,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 90px;
+            gap: 20px;
             position: sticky;
             top: 20px;
             padding: 15px;
@@ -416,6 +416,52 @@
             box-shadow: 0 2px 4px var(--shadow);
         }
 
+        
+        .team-folder {
+            background-color: var(--sidebar-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+
+        .team-folder-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .team-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .team-item {
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: var(--input-bg);
+            transition: background-color 0.2s;
+        }
+
+        .team-item:hover {
+            background-color: var(--button-hover);
+        }
+
+        .team-item.active {
+            background-color: var(--active-team);
+            font-weight: bold;
+        }
+
+        .team-folder-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
         @media (max-width: 800px) {
             .main-container {
                 flex-direction: column;
@@ -439,28 +485,39 @@
         <p>Check out the <a href="https://bwiffs.github.io/doodle-world-type-calculator/" target="_blank">Doodle World Type Calculator</a></p>
     </div>
     
-    <div class="team-title-container">
-        <input type="text" class="team-title-input" id="team-title" placeholder="Enter team title...">
-    </div>
-    
-    <div class="url-import-export">
-        <button onclick="copyTeamCode()">Copy Team Code</button>
-        <button onclick="importFromCode()">Import Team Code</button>
-        <button onclick="importFromText()">Import Doodle from Text</button>
-    </div>
-
     <div class="main-container">
         <div class="team-container" id="team-container"></div>
         <div class="sidebar">
+            <div class="team-folder">
+                <div class="team-folder-title">Team Folder</div>
+                <div class="team-list" id="team-list">
+                   
+                </div>
+                <div class="team-folder-actions">
+                    <button onclick="addTeam()">Add Team</button>
+                    <button onclick="deleteTeam()">Delete Team</button>
+                </div>
+            </div>
+            
+            <div class="team-title-container">
+                <input type="text" class="team-title-input" id="team-title" placeholder="Enter team title..." onchange="updateCurrentTeamName()">
+            </div>
+            
+            <div class="url-import-export">
+                <button onclick="copyTeamCode()">Copy Team Code</button>
+                <button onclick="importFromCode()">Import Team Code</button>
+                <button onclick="importFromText()">Import Doodle from Text</button>
+            </div>
+
             <div class="notes-box">
                 <h3 class="notes-title">Team Notes</h3>
-                <textarea class="notes-textarea" id="team-notes" placeholder="Enter team notes..."></textarea>
+                <textarea class="notes-textarea" id="team-notes" placeholder="Enter team notes..." onchange="updateCurrentTeamNotes()"></textarea>
             </div>
         </div>
     </div>
 
     <script>
-        // Theme toggle functionality
+        
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
@@ -1240,6 +1297,243 @@
             "Reheat","Signal Jammer","Overgrowth Protocol","Paragon Skin","Flourish","Last Lament","Blightfrost","Jelly Sync","Mischievious","Hero Spark","Foul Welcome",
         ];
 
+
+        
+        const MAX_TEAMS = 5;
+        let teams = [];
+        let currentTeamIndex = -1;
+
+        
+        function initializeTeams() {
+            if (teams.length === 0) {
+                addTeam();
+            } else {
+                loadTeam(currentTeamIndex);
+            }
+        }
+
+        function addTeam() {
+            if (teams.length >= MAX_TEAMS) {
+                alert(`Maximum of ${MAX_TEAMS} teams reached!`);
+                return;
+            }
+
+            const newTeam = {
+                name: `Team ${teams.length + 1}`,
+                notes: "",
+                members: Array(6).fill().map(() => ({
+                    doodle: "",
+                    moves: ["", "", "", ""],
+                    trait: "",
+                    heldItem: "",
+                    stats: ["", ""],
+                    equipment: {
+                        helmet: "None",
+                        amulet: "None",
+                        artifact: "None"
+                    }
+                }))
+            };
+
+            teams.push(newTeam);
+            currentTeamIndex = teams.length - 1;
+            updateTeamList();
+            loadTeam(currentTeamIndex);
+        }
+
+        function deleteTeam() {
+            if (teams.length <= 1) {
+                alert("You must have at least one team!");
+                return;
+            }
+
+            if (currentTeamIndex === -1) return;
+
+            teams.splice(currentTeamIndex, 1);
+            
+            
+            if (currentTeamIndex >= teams.length) {
+                currentTeamIndex = teams.length - 1;
+            }
+
+            updateTeamList();
+            loadTeam(currentTeamIndex);
+        }
+
+        function updateTeamList() {
+            const teamList = document.getElementById('team-list');
+            teamList.innerHTML = '';
+
+            teams.forEach((team, index) => {
+                const teamItem = document.createElement('div');
+                teamItem.className = `team-item ${index === currentTeamIndex ? 'active' : ''}`;
+                teamItem.textContent = team.name;
+                teamItem.onclick = () => {
+                    currentTeamIndex = index;
+                    loadTeam(index);
+                    updateTeamList();
+                };
+                teamList.appendChild(teamItem);
+            });
+        }
+
+        function updateCurrentTeamName() {
+            if (currentTeamIndex === -1) return;
+            const newName = document.getElementById('team-title').value || `Team ${currentTeamIndex + 1}`;
+            teams[currentTeamIndex].name = newName;
+            updateTeamList();
+        }
+
+        function updateCurrentTeamNotes() {
+            if (currentTeamIndex === -1) return;
+            teams[currentTeamIndex].notes = document.getElementById('team-notes').value;
+        }
+
+        function saveCurrentTeam() {
+            if (currentTeamIndex === -1) return;
+
+            const teamData = {
+                name: document.getElementById('team-title').value,
+                notes: document.getElementById('team-notes').value,
+                members: Array.from(document.querySelectorAll('.doodle-card')).map(card => {
+                    const moves = Array.from(card.querySelectorAll('.moves-container select')).map(s => s.value);
+                    const stats = Array.from(card.querySelectorAll('.stat-select')).map(s => s.value);
+                    
+                    return {
+                        doodle: card.querySelector('select').value,
+                        moves: moves,
+                        trait: card.querySelector('.trait-select')?.value || "",
+                        heldItem: card.querySelector('.held-item-select')?.value || "",
+                        stats: stats,
+                        equipment: {
+                            helmet: card.querySelector('.helmet-select')?.value || "None",
+                            amulet: card.querySelector('.amulet-select')?.value || "None",
+                            artifact: card.querySelector('.artifact-select')?.value || "None"
+                        }
+                    };
+                })
+            };
+
+            teams[currentTeamIndex] = teamData;
+        }
+
+        function loadTeam(index) {
+            if (index < 0 || index >= teams.length) return;
+
+            const team = teams[index];
+            const teamContainer = document.getElementById('team-container');
+            
+            
+            document.getElementById('team-title').value = team.name;
+            document.getElementById('team-notes').value = team.notes || "";
+            
+            
+            teamContainer.innerHTML = '';
+            
+            
+            team.members.forEach((member, i) => {
+                const card = createDoodleCard(i);
+                
+               
+                const doodleSelect = card.querySelector('select');
+                doodleSelect.value = member.doodle || "";
+                
+                if (doodleSelect.value) {
+                    const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
+                    const doodleImage = card.querySelector('.doodle-image');
+                    if (selectedOption.dataset.image) {
+                        doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
+                        doodleImage.textContent = "";
+                    }
+                }
+                
+                
+                const moveSelectors = card.querySelectorAll('.moves-container select');
+                member.moves.forEach((move, j) => {
+                    if (moveSelectors[j] && move) {
+                        moveSelectors[j].value = move;
+                        
+                        const option = moveSelectors[j].options[moveSelectors[j].selectedIndex];
+                        moveSelectors[j].classList.remove(
+                            'mythic-selected', 'fire-selected', 'water-selected',
+                            'plant-selected', 'electric-selected', 'beast-selected',
+                            'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                            'melee-selected', 'food-selected', 'light-selected',
+                            'crystal-selected', 'metal-selected', 'spirit-selected',
+                            'ice-selected', 'dark-selected', 'poison-selected'
+                        );
+                        
+                        if (option.classList.contains('mythic')) {
+                            moveSelectors[j].classList.add('mythic-selected');
+                        } else if (option.classList.contains('fire')) {
+                            moveSelectors[j].classList.add('fire-selected');
+                        } else if (option.classList.contains('water')) {
+                            moveSelectors[j].classList.add('water-selected');
+                        } else if (option.classList.contains('plant')) {
+                            moveSelectors[j].classList.add('plant-selected');
+                        } else if (option.classList.contains('electric')) {
+                            moveSelectors[j].classList.add('electric-selected');
+                        } else if (option.classList.contains('beast')) {
+                            moveSelectors[j].classList.add('beast-selected');
+                        } else if (option.classList.contains('air')) {
+                            moveSelectors[j].classList.add('air-selected');
+                        } else if (option.classList.contains('bug')) {
+                            moveSelectors[j].classList.add('bug-selected');
+                        } else if (option.classList.contains('earth')) {
+                            moveSelectors[j].classList.add('earth-selected');
+                        } else if (option.classList.contains('mind')) {
+                            moveSelectors[j].classList.add('mind-selected');
+                        } else if (option.classList.contains('melee')) {
+                            moveSelectors[j].classList.add('melee-selected');
+                        } else if (option.classList.contains('food')) {
+                            moveSelectors[j].classList.add('food-selected');
+                        } else if (option.classList.contains('light')) {
+                            moveSelectors[j].classList.add('light-selected');
+                        } else if (option.classList.contains('crystal')) {
+                            moveSelectors[j].classList.add('crystal-selected');
+                        } else if (option.classList.contains('metal')) {
+                            moveSelectors[j].classList.add('metal-selected');
+                        } else if (option.classList.contains('spirit')) {
+                            moveSelectors[j].classList.add('spirit-selected');
+                        } else if (option.classList.contains('ice')) {
+                            moveSelectors[j].classList.add('ice-selected');
+                        } else if (option.classList.contains('dark')) {
+                            moveSelectors[j].classList.add('dark-selected');
+                        } else if (option.classList.contains('poison')) {
+                            moveSelectors[j].classList.add('poison-selected');
+                        }
+                    }
+                });
+                
+                
+                const traitSelect = card.querySelector('.trait-select');
+                if (traitSelect && member.trait) traitSelect.value = member.trait;
+                
+                
+                const heldItemSelect = card.querySelector('.held-item-select');
+                if (heldItemSelect && member.heldItem) heldItemSelect.value = member.heldItem;
+                
+                
+                const statSelectors = card.querySelectorAll('.stat-select');
+                member.stats.forEach((stat, k) => {
+                    if (statSelectors[k] && stat) {
+                        statSelectors[k].value = stat;
+                    }
+                });
+                
+                
+                const helmetSelect = card.querySelector('.helmet-select');
+                const amuletSelect = card.querySelector('.amulet-select');
+                const artifactSelect = card.querySelector('.artifact-select');
+                
+                if (helmetSelect && member.equipment?.helmet) helmetSelect.value = member.equipment.helmet;
+                if (amuletSelect && member.equipment?.amulet) amuletSelect.value = member.equipment.amulet;
+                if (artifactSelect && member.equipment?.artifact) artifactSelect.value = member.equipment.artifact;
+                
+                teamContainer.appendChild(card);
+            });
+        }
+
         function createDoodleCard(index) {
             const card = document.createElement("div");
             card.classList.add("doodle-card");
@@ -1275,6 +1569,8 @@
                 card.querySelector(".helmet-select").value = "None";
                 card.querySelector(".amulet-select").value = "None";
                 card.querySelector(".artifact-select").value = "None";
+                
+                saveCurrentTeam();
             };
             card.appendChild(clearBtn);
 
@@ -1289,6 +1585,18 @@
             selectDoodle.innerHTML = '<option value="">Select Doodle</option>' + 
                 doodles.map(d => `<option value="${d.name}" data-image="${d.image}">${d.name}</option>`).join("");
             
+            selectDoodle.addEventListener("change", function() {
+                const selectedOption = selectDoodle.options[selectDoodle.selectedIndex];
+                if (selectedOption.dataset.image) {
+                    doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
+                    doodleImage.textContent = "";
+                } else {
+                    doodleImage.style.backgroundImage = "";
+                    doodleImage.textContent = "Doodle";
+                }
+                saveCurrentTeam();
+            });
+
             const doodleSearch = document.createElement("input");
             doodleSearch.classList.add("search-input");
             doodleSearch.setAttribute("placeholder", "Search doodles...");
@@ -1330,17 +1638,6 @@
             
             doodleContainer.appendChild(selectDoodle);
             doodleContainer.appendChild(doodleSearch);
-
-            selectDoodle.addEventListener("change", function() {
-                const selectedOption = selectDoodle.options[selectDoodle.selectedIndex];
-                if (selectedOption.dataset.image) {
-                    doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
-                    doodleImage.textContent = "";
-                } else {
-                    doodleImage.style.backgroundImage = "";
-                    doodleImage.textContent = "Doodle";
-                }
-            });
 
             const expandButton = document.createElement("button");
             expandButton.textContent = "Expand";
@@ -1430,6 +1727,8 @@
                     } else if (selectedOption.classList.contains('poison')) {
                         this.classList.add('poison-selected');
                     }
+                    
+                    saveCurrentTeam();
                 });
 
                 movesContainer.appendChild(moveSelect);
@@ -1442,6 +1741,7 @@
             traitSelect.classList.add("trait-select");
             traitSelect.innerHTML = '<option value="">Select Trait</option>' +
                 traits.map(t => `<option value="${t}">${t}</option>`).join("");
+            traitSelect.addEventListener('change', () => saveCurrentTeam());
             
             const traitSearch = document.createElement("input");
             traitSearch.classList.add("search-input");
@@ -1492,6 +1792,7 @@
             heldItemSelect.classList.add("held-item-select");
             heldItemSelect.innerHTML = '<option value="">Held Item</option>' +
                 heldItems.map(h => `<option value="${h}">${h}</option>`).join("");
+            heldItemSelect.addEventListener('change', () => saveCurrentTeam());
             
             const heldItemSearch = document.createElement("input");
             heldItemSearch.classList.add("search-input");
@@ -1539,11 +1840,13 @@
             statSelect1.classList.add("stat-select");
             statSelect1.innerHTML = '<option value="">Select Stat</option>' +
                 stats.map(s => `<option value="${s}">${s}</option>`).join("");
+            statSelect1.addEventListener('change', () => saveCurrentTeam());
 
             const statSelect2 = document.createElement("select");
             statSelect2.classList.add("stat-select");
             statSelect2.innerHTML = '<option value="">Select Stat</option>' +
                 stats.map(s => `<option value="${s}">${s}</option>`).join("");
+            statSelect2.addEventListener('change', () => saveCurrentTeam());
 
             const equipmentContainer = document.createElement("div");
             equipmentContainer.classList.add("equipment-container");
@@ -1552,16 +1855,19 @@
             helmetSelect.classList.add("helmet-select");
             helmetSelect.innerHTML = '<option value="None">Helmet</option>' +
                 helmets.map(h => `<option value="${h}">${h}</option>`).join("");
+            helmetSelect.addEventListener('change', () => saveCurrentTeam());
             
             const amuletSelect = document.createElement("select");
             amuletSelect.classList.add("amulet-select");
             amuletSelect.innerHTML = '<option value="None">Amulet</option>' +
                 amulets.map(a => `<option value="${a}">${a}</option>`).join("");
+            amuletSelect.addEventListener('change', () => saveCurrentTeam());
             
             const artifactSelect = document.createElement("select");
             artifactSelect.classList.add("artifact-select");
             artifactSelect.innerHTML = '<option value="None">Artifact</option>' +
                 artifacts.map(a => `<option value="${a}">${a}</option>`).join("");
+            artifactSelect.addEventListener('change', () => saveCurrentTeam());
             
             equipmentContainer.appendChild(helmetSelect);
             equipmentContainer.appendChild(amuletSelect);
@@ -1581,38 +1887,10 @@
             return card;
         }
 
-        function initializeTeam() {
-            const teamContainer = document.getElementById("team-container");
-            for (let i = 0; i < 6; i++) {
-                teamContainer.appendChild(createDoodleCard(i));
-            }
-        }
-
         function copyTeamCode() {
             try {
-                const teamData = {
-                    title: document.getElementById("team-title").value,
-                    notes: document.getElementById("team-notes").value,
-                    members: Array.from(document.querySelectorAll(".doodle-card")).map(card => {
-                        const moves = Array.from(card.querySelectorAll(".moves-container select")).map(s => s.value);
-                        const stats = Array.from(card.querySelectorAll(".stat-select")).map(s => s.value);
-                        
-                        return {
-                            doodle: card.querySelector("select").value,
-                            moves: moves,
-                            trait: card.querySelector(".trait-select")?.value || "",
-                            heldItem: card.querySelector(".held-item-select")?.value || "",
-                            stats: stats,
-                            equipment: {
-                                helmet: card.querySelector(".helmet-select")?.value || "None",
-                                amulet: card.querySelector(".amulet-select")?.value || "None",
-                                artifact: card.querySelector(".artifact-select")?.value || "None"
-                            }
-                        };
-                    })
-                };
-
-                const teamCode = btoa(JSON.stringify(teamData));
+                saveCurrentTeam();
+                const teamCode = btoa(JSON.stringify(teams[currentTeamIndex]));
                 
                 navigator.clipboard.writeText(teamCode)
                     .then(() => alert("Team code copied to clipboard!"))
@@ -1773,6 +2051,7 @@
                 if (amuletSelect) amuletSelect.value = equipment.amulet;
                 if (artifactSelect) artifactSelect.value = equipment.artifact;
                 
+                saveCurrentTeam();
                 alert("Doodle imported successfully!");
             } catch (error) {
                 console.error("Import failed:", error);
@@ -1786,135 +2065,30 @@
 
             try {
                 const teamData = JSON.parse(atob(teamCode));
-                const teamContainer = document.getElementById("team-container");
                 
-                // Set team title and notes if they exist
-                if (teamData.title) {
-                    document.getElementById("team-title").value = teamData.title;
-                }
                 
-                if (teamData.notes) {
-                    document.getElementById("team-notes").value = teamData.notes;
-                }
-                
-                teamContainer.innerHTML = "";
-                
-                teamData.members.forEach((member, index) => {
-                    if (member) {
-                        const card = createDoodleCard(index);
-                        
-                        const doodleSelect = card.querySelector("select");
-                        doodleSelect.value = member.doodle || "";
-                        
-                        if (doodleSelect.value) {
-                            const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
-                            const doodleImage = card.querySelector(".doodle-image");
-                            if (selectedOption.dataset.image) {
-                                doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
-                                doodleImage.textContent = "";
-                            }
-                        }
-                        
-                        const moveSelectors = card.querySelectorAll(".moves-container select");
-                        if (member.moves) {
-                            member.moves.forEach((move, i) => {
-                                if (moveSelectors[i] && move) {
-                                    moveSelectors[i].value = move;
-                                    
-                                    const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
-                                    moveSelectors[i].classList.remove(
-                                        'mythic-selected', 'fire-selected', 'water-selected',
-                                        'plant-selected', 'electric-selected', 'beast-selected',
-                                        'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
-                                        'melee-selected', 'food-selected', 'light-selected',
-                                        'crystal-selected', 'metal-selected', 'spirit-selected',
-                                        'ice-selected', 'dark-selected', 'poison-selected'
-                                    );
-                                    
-                                    if (option.classList.contains('mythic')) {
-                                        moveSelectors[i].classList.add('mythic-selected');
-                                    } else if (option.classList.contains('fire')) {
-                                        moveSelectors[i].classList.add('fire-selected');
-                                    } else if (option.classList.contains('water')) {
-                                        moveSelectors[i].classList.add('water-selected');
-                                    } else if (option.classList.contains('plant')) {
-                                        moveSelectors[i].classList.add('plant-selected');
-                                    } else if (option.classList.contains('electric')) {
-                                        moveSelectors[i].classList.add('electric-selected');
-                                    } else if (option.classList.contains('beast')) {
-                                        moveSelectors[i].classList.add('beast-selected');
-                                    } else if (option.classList.contains('air')) {
-                                        moveSelectors[i].classList.add('air-selected');
-                                    } else if (option.classList.contains('bug')) {
-                                        moveSelectors[i].classList.add('bug-selected');
-                                    } else if (option.classList.contains('earth')) {
-                                        moveSelectors[i].classList.add('earth-selected');
-                                    } else if (option.classList.contains('mind')) {
-                                        moveSelectors[i].classList.add('mind-selected');
-                                    } else if (option.classList.contains('melee')) {
-                                        moveSelectors[i].classList.add('melee-selected');
-                                    } else if (option.classList.contains('food')) {
-                                        moveSelectors[i].classList.add('food-selected');
-                                    } else if (option.classList.contains('light')) {
-                                        moveSelectors[i].classList.add('light-selected');
-                                    } else if (option.classList.contains('crystal')) {
-                                        moveSelectors[i].classList.add('crystal-selected');
-                                    } else if (option.classList.contains('metal')) {
-                                        moveSelectors[i].classList.add('metal-selected');
-                                    } else if (option.classList.contains('spirit')) {
-                                        moveSelectors[i].classList.add('spirit-selected');
-                                    } else if (option.classList.contains('ice')) {
-                                        moveSelectors[i].classList.add('ice-selected');
-                                    } else if (option.classList.contains('dark')) {
-                                        moveSelectors[i].classList.add('dark-selected');
-                                    } else if (option.classList.contains('poison')) {
-                                        moveSelectors[i].classList.add('poison-selected');
-                                    }
-                                }
-                            });
-                        }
-                        
-                        if (member.trait) {
-                            const traitSelect = card.querySelector(".trait-select");
-                            if (traitSelect) traitSelect.value = member.trait;
-                        }
-                        
-                        if (member.heldItem) {
-                            const heldItemSelect = card.querySelector(".held-item-select");
-                            if (heldItemSelect) heldItemSelect.value = member.heldItem;
-                        }
-                        
-                        if (member.stats) {
-                            const statSelectors = card.querySelectorAll(".stat-select");
-                            member.stats.forEach((stat, i) => {
-                                if (statSelectors[i] && stat) {
-                                    statSelectors[i].value = stat;
-                                }
-                            });
-                        }
-                        
-                        if (member.equipment) {
-                            const helmetSelect = card.querySelector(".helmet-select");
-                            const amuletSelect = card.querySelector(".amulet-select");
-                            const artifactSelect = card.querySelector(".artifact-select");
-                            
-                            if (helmetSelect && member.equipment.helmet) helmetSelect.value = member.equipment.helmet;
-                            if (amuletSelect && member.equipment.amulet) amuletSelect.value = member.equipment.amulet;
-                            if (artifactSelect && member.equipment.artifact) artifactSelect.value = member.equipment.artifact;
-                        }
-                        
-                        teamContainer.appendChild(card);
+                if (teams.length < MAX_TEAMS) {
+                    teams.push(teamData);
+                    currentTeamIndex = teams.length - 1;
+                    updateTeamList();
+                    loadTeam(currentTeamIndex);
+                    alert("Team imported successfully as a new team!");
+                } else {
+                    
+                    if (confirm("No space for new team. Replace current team?")) {
+                        teams[currentTeamIndex] = teamData;
+                        loadTeam(currentTeamIndex);
+                        alert("Team imported successfully (replaced current team)!");
                     }
-                });
-                
-                alert("Team imported successfully!");
+                }
             } catch (error) {
                 console.error("Import failed:", error);
                 alert("Invalid team code! Please check and try again.");
             }
         }
 
-        initializeTeam();
+        
+        initializeTeams();
     </script>
 </body>
 </html>
