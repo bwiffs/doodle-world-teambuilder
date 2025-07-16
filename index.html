@@ -5,13 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle World Teambuilder</title>
     <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #fff;
+            --card-bg: #222;
+            --card-border: #444;
+            --button-bg: #444;
+            --button-hover: #555;
+            --input-bg: #333;
+            --input-border: #444;
+            --sidebar-bg: #222;
+            --notes-bg: #252525;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        .light-mode {
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --card-bg: #fff;
+            --card-border: #ddd;
+            --button-bg: #e0e0e0;
+            --button-hover: #d0d0d0;
+            --input-bg: #f9f9f9;
+            --input-border: #ccc;
+            --sidebar-bg: #f0f0f0;
+            --notes-bg: #f8f8f8;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #121212;
-            color: #fff;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             padding: 20px;
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
         
         .header {
@@ -19,7 +48,7 @@
         }
         
         .header h1 {
-            color: #fff;
+            color: var(--text-color);
             margin-bottom: 10px;
         }
         
@@ -38,103 +67,104 @@
         }
         
         .main-container {
-    display: flex;
-    gap: 95px;
-    max-width: 1300px;
-    margin: 0 auto;
-    align-items: flex-start;
-}
+            display: flex;
+            gap: 95px;
+            max-width: 1300px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
 
-.team-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
-    flex: 2;
-    padding-right: 20px;
-}
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            flex: 2;
+            padding-right: 20px;
+        }
 
-.sidebar {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 90px;
-    position: sticky;
-    top: 20px;
-    padding: 15px;
-    background-color: #222;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    margin-left: 10px;
-    min-width: 280px;
-}
+        .sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 90px;
+            position: sticky;
+            top: 20px;
+            padding: 15px;
+            background-color: var(--sidebar-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px var(--shadow);
+            margin-left: 10px;
+            min-width: 280px;
+        }
         
-.doodle-card {
-    border: 2px solid #444;
-    padding: 20px;
-    background-color: #222;
-    text-align: left;
-    border-radius: 8px;
-    position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    min-width: 300px;
-}
+        .doodle-card {
+            border: 2px solid var(--card-border);
+            padding: 20px;
+            background-color: var(--card-bg);
+            text-align: left;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 4px 8px var(--shadow);
+            min-width: 300px;
+        }
 
-.doodle-image {
-    display: block;
-    width: 130px;
-    height: 130px;
-    margin: 15px auto;
-    background-color: #444;
-    text-align: center;
-    line-height: 130px;
-    font-weight: bold;
-    border-radius: 5px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    font-size: 16px;
-}
+        .doodle-image {
+            display: block;
+            width: 130px;
+            height: 130px;
+            margin: 15px auto;
+            background-color: var(--card-border);
+            text-align: center;
+            line-height: 130px;
+            font-weight: bold;
+            border-radius: 5px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            box-shadow: 0 2px 4px var(--shadow);
+            font-size: 16px;
+        }
 
-.moves-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 15px;
-}
+        .moves-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
 
-.moves-container select {
-    width: 48%;
-    font-size: 14px;
-    padding: 6px;
-}
+        .moves-container select {
+            width: 48%;
+            font-size: 14px;
+            padding: 6px;
+            margin: 3px 0;
+        }
 
-.expand-section {
-    display: none;
-    margin-top: 15px;
-    background-color: #333;
-    padding: 12px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    font-size: 14px;
-}
+        .expand-section {
+            display: none;
+            margin-top: 15px;
+            background-color: var(--input-bg);
+            padding: 12px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px var(--shadow);
+            font-size: 14px;
+        }
 
-.clear-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #555;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 4px 10px;
-    font-size: 13px;
-    cursor: pointer;
-}
+        .clear-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--button-bg);
+            color: var(--text-color);
+            border: none;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 13px;
+            cursor: pointer;
+        }
         
         .clear-btn:hover {
-            background: #666;
+            background: var(--button-hover);
         }
         
         .equipment-container {
@@ -154,30 +184,30 @@
         }
         
         button {
-            background-color: #444;
-            color: white;
+            background-color: var(--button-bg);
+            color: var(--text-color);
             border: none;
             padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
             margin: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px var(--shadow);
             transition: background-color 0.2s;
         }
         
         button:hover {
-            background-color: #555;
+            background-color: var(--button-hover);
         }
         
         select {
-            background-color: #333;
-            color: white;
-            border: 1px solid #444;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--input-border);
             padding: 5px;
             border-radius: 4px;
             margin: 3px 0;
             width: 100%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px var(--shadow);
         }
         
         .url-import-export {
@@ -186,37 +216,44 @@
             justify-content: center;
             margin-bottom: 20px;
             flex-wrap: wrap;
-            background-color: #222;
+            background-color: var(--sidebar-bg);
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px var(--shadow);
         }
         
         .url-import-export input {
             padding: 8px;
             border-radius: 4px;
-            border: 1px solid #444;
-            background-color: #333;
-            color: white;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
             min-width: 300px;
             flex-grow: 1;
         }
         
         .search-container { 
             position: relative; 
+            margin-bottom: 10px;
         }
         
         .search-input { 
             display: none; 
             position: absolute; 
-            bottom: -5%; 
+            bottom: -40px; 
             left: 0; 
             width: 100%; 
-            z-index: 100; 
+            z-index: 100;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
         
         option { 
-            color: white; 
+            color: var(--text-color); 
         }
         
         option.mythic, select.mythic-selected { 
@@ -313,56 +350,69 @@
             color: #da70d6;
             font-weight: bold;
         }
-        
+
         select option:checked { 
-            background-color: #333 !important; 
+            background-color: var(--input-bg) !important; 
         }
 
-
         .team-title-container {
-            background-color: #222;
+            background-color: var(--sidebar-bg);
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 8px var(--shadow);
         }
         
         .team-title-input {
             width: 100%;
             padding: 8px;
             border-radius: 4px;
-            border: 1px solid #444;
-            background-color: #333;
-            color: white;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
             font-size: 16px;
             box-sizing: border-box;
         }
         
-       .notes-box {
-    background-color: #252525;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
+        .notes-box {
+            background-color: var(--notes-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px var(--shadow);
+        }
         
         .notes-title {
             margin-top: 0;
             margin-bottom: 10px;
-            color: #fff;
+            color: var(--text-color);
         }
         
-.notes-textarea {
-    width: 85%;
-    min-height: 400px;
-    padding: 12px;
-    border-radius: 1px;
-    border: 1px solid #444;
-    background-color: #333;
-    color: white;
-    resize: vertical;
-    font-size: 14px;
-    line-height: 1.5;
-}
+        .notes-textarea {
+            width: 85%;
+            min-height: 400px;
+            padding: 12px;
+            border-radius: 1px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            resize: vertical;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 4px var(--shadow);
+        }
 
         @media (max-width: 800px) {
             .main-container {
@@ -380,6 +430,8 @@
     </style>
 </head>
 <body>
+    <button class="theme-toggle" id="themeToggle">Light Mode</button>
+    
     <div class="header">
         <h1>Doodle World Teambuilder</h1>
         <p>Check out the <a href="https://bwiffs.github.io/doodle-world-type-calculator/" target="_blank">Doodle World Type Calculator</a></p>
@@ -406,7 +458,18 @@
     </div>
 
     <script>
-const doodles = [
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            if (document.body.classList.contains('light-mode')) {
+                themeToggle.textContent = 'Dark Mode';
+            } else {
+                themeToggle.textContent = 'Light Mode';
+            }
+        });
+
+       const doodles = [
 
     { name: "Abyssent", image: "https://doodle-team-builder.vercel.app/_next/image?url=%2FdoodleImages%2FAbyssent.webp&w=128&q=75" },
     { name: "Aerystal", image: "https://doodle-team-builder.vercel.app/_next/image?url=%2FdoodleImages%2FAerystal.webp&w=128&q=75" },
@@ -1175,681 +1238,681 @@ const doodles = [
             "Reheat","Signal Jammer","Overgrowth Protocol","Paragon Skin","Flourish","Last Lament","Blightfrost","Jelly Sync","Mischievious","Hero Spark","Foul Welcome",
         ];
 
-function createDoodleCard(index) {
-    const card = document.createElement("div");
-    card.classList.add("doodle-card");
+        function createDoodleCard(index) {
+            const card = document.createElement("div");
+            card.classList.add("doodle-card");
 
-    const clearBtn = document.createElement("button");
-    clearBtn.classList.add("clear-btn");
-    clearBtn.textContent = "Clear";
-    clearBtn.onclick = () => {
-        card.querySelector("select").value = "";
-        const doodleImage = card.querySelector(".doodle-image");
-        doodleImage.style.backgroundImage = "";
-        doodleImage.textContent = "Doodle";
-        
-        card.querySelectorAll(".moves-container select").forEach(select => {
-            select.value = "";
-            select.classList.remove(
-                'mythic-selected', 'fire-selected', 'water-selected', 
-                'plant-selected', 'electric-selected', 'beast-selected',
-                'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
-                'melee-selected', 'food-selected', 'light-selected',
-                'crystal-selected', 'metal-selected', 'spirit-selected',
-                'ice-selected', 'dark-selected', 'poison-selected'
-            );
-        });
-        
-        card.querySelector(".trait-select").value = "";
-        card.querySelector(".held-item-select").value = "";
-        
-        card.querySelectorAll(".stat-select").forEach(select => {
-            select.value = "";
-        });
-        
-        card.querySelector(".helmet-select").value = "None";
-        card.querySelector(".amulet-select").value = "None";
-        card.querySelector(".artifact-select").value = "None";
-    };
-    card.appendChild(clearBtn);
+            const clearBtn = document.createElement("button");
+            clearBtn.classList.add("clear-btn");
+            clearBtn.textContent = "Clear";
+            clearBtn.onclick = () => {
+                card.querySelector("select").value = "";
+                const doodleImage = card.querySelector(".doodle-image");
+                doodleImage.style.backgroundImage = "";
+                doodleImage.textContent = "Doodle";
+                
+                card.querySelectorAll(".moves-container select").forEach(select => {
+                    select.value = "";
+                    select.classList.remove(
+                        'mythic-selected', 'fire-selected', 'water-selected', 
+                        'plant-selected', 'electric-selected', 'beast-selected',
+                        'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                        'melee-selected', 'food-selected', 'light-selected',
+                        'crystal-selected', 'metal-selected', 'spirit-selected',
+                        'ice-selected', 'dark-selected', 'poison-selected'
+                    );
+                });
+                
+                card.querySelector(".trait-select").value = "";
+                card.querySelector(".held-item-select").value = "";
+                
+                card.querySelectorAll(".stat-select").forEach(select => {
+                    select.value = "";
+                });
+                
+                card.querySelector(".helmet-select").value = "None";
+                card.querySelector(".amulet-select").value = "None";
+                card.querySelector(".artifact-select").value = "None";
+            };
+            card.appendChild(clearBtn);
 
-    const doodleImage = document.createElement("div");
-    doodleImage.classList.add("doodle-image");
-    doodleImage.textContent = "Doodle";
-
-    const doodleContainer = document.createElement("div");
-    doodleContainer.classList.add("search-container");
-    
-    const selectDoodle = document.createElement("select");
-    selectDoodle.innerHTML = '<option value="">Select Doodle</option>' + 
-        doodles.map(d => `<option value="${d.name}" data-image="${d.image}">${d.name}</option>`).join("");
-    
-    const doodleSearch = document.createElement("input");
-    doodleSearch.classList.add("search-input");
-    doodleSearch.setAttribute("placeholder", "Search doodles...");
-    
-    doodleSearch.addEventListener("input", function() {
-        const searchTerm = this.value.toLowerCase();
-        const options = selectDoodle.options;
-        
-        for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-            const text = option.text.toLowerCase();
-            option.style.display = text.includes(searchTerm) ? "" : "none";
-        }
-    });
-    
-    selectDoodle.addEventListener("focus", function() {
-        doodleSearch.style.display = "block";
-    });
-    
-    selectDoodle.addEventListener("blur", function() {
-        setTimeout(() => {
-            if (document.activeElement !== doodleSearch) {
-                doodleSearch.style.display = "none";
-            }
-        }, 200);
-    });
-    
-    doodleSearch.addEventListener("focus", function() {
-        this.style.display = "block";
-    });
-    
-    doodleSearch.addEventListener("blur", function() {
-        setTimeout(() => {
-            if (document.activeElement !== selectDoodle) {
-                this.style.display = "none";
-            }
-        }, 200);
-    });
-    
-    doodleContainer.appendChild(selectDoodle);
-    doodleContainer.appendChild(doodleSearch);
-
-    selectDoodle.addEventListener("change", function() {
-        const selectedOption = selectDoodle.options[selectDoodle.selectedIndex];
-        if (selectedOption.dataset.image) {
-            doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
-            doodleImage.textContent = "";
-        } else {
-            doodleImage.style.backgroundImage = "";
+            const doodleImage = document.createElement("div");
+            doodleImage.classList.add("doodle-image");
             doodleImage.textContent = "Doodle";
-        }
-    });
 
-    const expandButton = document.createElement("button");
-    expandButton.textContent = "Expand";
-    expandButton.onclick = () => {
-        expandSection.style.display = expandSection.style.display === "none" ? "block" : "none";
-    };
-
-    const expandSection = document.createElement("div");
-    expandSection.classList.add("expand-section");
-
-    const movesContainer = document.createElement("div");
-    movesContainer.classList.add("moves-container");
-
-    for (let i = 0; i < 4; i++) {
-        const moveSelect = document.createElement("select");
-        moveSelect.style.width = "48%"; 
-        moveSelect.innerHTML = 
-            '<option value="">Select Move</option>' +
-            basicMoves.map(m => `<option value="${m}">${m}</option>`).join("") +
-            mythicMoves.map(m => `<option value="${m}" class="mythic">${m}</option>`).join("") +
-            fireMoves.map(m => `<option value="${m}" class="fire">${m}</option>`).join("") +
-            waterMoves.map(m => `<option value="${m}" class="water">${m}</option>`).join("") +
-            plantMoves.map(m => `<option value="${m}" class="plant">${m}</option>`).join("") +
-            electricMoves.map(m => `<option value="${m}" class="electric">${m}</option>`).join("") +
-            beastMoves.map(m => `<option value="${m}" class="beast">${m}</option>`).join("") +
-            airMoves.map(m => `<option value="${m}" class="air">${m}</option>`).join("") +
-            bugMoves.map(m => `<option value="${m}" class="bug">${m}</option>`).join("") +
-            earthMoves.map(m => `<option value="${m}" class="earth">${m}</option>`).join("") +
-            mindMoves.map(m => `<option value="${m}" class="mind">${m}</option>`).join("") +
-            meleeMoves.map(m => `<option value="${m}" class="melee">${m}</option>`).join("") +
-            foodMoves.map(m => `<option value="${m}" class="food">${m}</option>`).join("") +
-            lightMoves.map(m => `<option value="${m}" class="light">${m}</option>`).join("") +
-            crystalMoves.map(m => `<option value="${m}" class="crystal">${m}</option>`).join("") +
-            metalMoves.map(m => `<option value="${m}" class="metal">${m}</option>`).join("") +
-            spiritMoves.map(m => `<option value="${m}" class="spirit">${m}</option>`).join("") +
-            iceMoves.map(m => `<option value="${m}" class="ice">${m}</option>`).join("") +
-            darkMoves.map(m => `<option value="${m}" class="dark">${m}</option>`).join("") +
-            poisonMoves.map(m => `<option value="${m}" class="poison">${m}</option>`).join("");
-
-        moveSelect.addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            this.classList.remove(
-                'mythic-selected', 'fire-selected', 'water-selected',
-                'plant-selected', 'electric-selected', 'beast-selected',
-                'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
-                'melee-selected', 'food-selected', 'light-selected',
-                'crystal-selected', 'metal-selected', 'spirit-selected',
-                'ice-selected', 'dark-selected', 'poison-selected'
-            );
+            const doodleContainer = document.createElement("div");
+            doodleContainer.classList.add("search-container");
             
-            if (selectedOption.classList.contains('mythic')) {
-                this.classList.add('mythic-selected');
-            } else if (selectedOption.classList.contains('fire')) {
-                this.classList.add('fire-selected');
-            } else if (selectedOption.classList.contains('water')) {
-                this.classList.add('water-selected');
-            } else if (selectedOption.classList.contains('plant')) {
-                this.classList.add('plant-selected');
-            } else if (selectedOption.classList.contains('electric')) {
-                this.classList.add('electric-selected');
-            } else if (selectedOption.classList.contains('beast')) {
-                this.classList.add('beast-selected');
-            } else if (selectedOption.classList.contains('air')) {
-                this.classList.add('air-selected');
-            } else if (selectedOption.classList.contains('bug')) {
-                this.classList.add('bug-selected');
-            } else if (selectedOption.classList.contains('earth')) {
-                this.classList.add('earth-selected');
-            } else if (selectedOption.classList.contains('mind')) {
-                this.classList.add('mind-selected');
-            } else if (selectedOption.classList.contains('melee')) {
-                this.classList.add('melee-selected');
-            } else if (selectedOption.classList.contains('food')) {
-                this.classList.add('food-selected');
-            } else if (selectedOption.classList.contains('light')) {
-                this.classList.add('light-selected');
-            } else if (selectedOption.classList.contains('crystal')) {
-                this.classList.add('crystal-selected');
-            } else if (selectedOption.classList.contains('metal')) {
-                this.classList.add('metal-selected');
-            } else if (selectedOption.classList.contains('spirit')) {
-                this.classList.add('spirit-selected');
-            } else if (selectedOption.classList.contains('ice')) {
-                this.classList.add('ice-selected');
-            } else if (selectedOption.classList.contains('dark')) {
-                this.classList.add('dark-selected');
-            } else if (selectedOption.classList.contains('poison')) {
-                this.classList.add('poison-selected');
-            }
-        });
-
-        movesContainer.appendChild(moveSelect);
-    }
-
-    const traitContainer = document.createElement("div");
-    traitContainer.classList.add("search-container");
-    
-    const traitSelect = document.createElement("select");
-    traitSelect.classList.add("trait-select");
-    traitSelect.innerHTML = '<option value="">Select Trait</option>' +
-        traits.map(t => `<option value="${t}">${t}</option>`).join("");
-    
-    const traitSearch = document.createElement("input");
-    traitSearch.classList.add("search-input");
-    traitSearch.setAttribute("placeholder", "Search traits...");
-    
-    traitSearch.addEventListener("input", function() {
-        const searchTerm = this.value.toLowerCase();
-        const options = traitSelect.options;
-        
-        for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-            const text = option.text.toLowerCase();
-            option.style.display = text.includes(searchTerm) ? "" : "none";
-        }
-    });
-    
-    traitSelect.addEventListener("focus", function() {
-        traitSearch.style.display = "block";
-    });
-    
-    traitSelect.addEventListener("blur", function() {
-        setTimeout(() => {
-            if (document.activeElement !== traitSearch) {
-                traitSearch.style.display = "none";
-            }
-        }, 200);
-    });
-    
-    traitSearch.addEventListener("focus", function() {
-        this.style.display = "block";
-    });
-    
-    traitSearch.addEventListener("blur", function() {
-        setTimeout(() => {
-            if (document.activeElement !== traitSelect) {
-                this.style.display = "none";
-            }
-        }, 200);
-    });
-    
-    traitContainer.appendChild(traitSelect);
-    traitContainer.appendChild(traitSearch);
-
-    const heldItemContainer = document.createElement("div");
-    heldItemContainer.classList.add("search-container");
-    
-    const heldItemSelect = document.createElement("select");
-    heldItemSelect.classList.add("held-item-select");
-    heldItemSelect.innerHTML = '<option value="">Held Item</option>' +
-        heldItems.map(h => `<option value="${h}">${h}</option>`).join("");
-    
-    const heldItemSearch = document.createElement("input");
-    heldItemSearch.classList.add("search-input");
-    heldItemSearch.setAttribute("placeholder", "Search items...");
-    
-    heldItemSearch.addEventListener("input", function() {
-        const searchTerm = this.value.toLowerCase();
-        const options = heldItemSelect.options;
-        
-        for (let i = 0; i < options.length; i++) {
-            const option = options[i];
-            const text = option.text.toLowerCase();
-            option.style.display = text.includes(searchTerm) ? "" : "none";
-        }
-    });
-    
-    heldItemSelect.addEventListener("focus", function() {
-        heldItemSearch.style.display = "block";
-    });
-    
-    heldItemSelect.addEventListener("blur", function() {
-        setTimeout(() => {
-            if (document.activeElement !== heldItemSearch) {
-                heldItemSearch.style.display = "none";
-            }
-        }, 200);
-    });
-    
-    heldItemSearch.addEventListener("focus", function() {
-        this.style.display = "block";
-    });
-    
-    heldItemSearch.addEventListener("blur", function() {
-        setTimeout(() => {
-            if (document.activeElement !== heldItemSelect) {
-                this.style.display = "none";
-            }
-        }, 200);
-    });
-    
-    heldItemContainer.appendChild(heldItemSelect);
-    heldItemContainer.appendChild(heldItemSearch);
-
-    const statSelect1 = document.createElement("select");
-    statSelect1.classList.add("stat-select");
-    statSelect1.innerHTML = '<option value="">Select Stat</option>' +
-        stats.map(s => `<option value="${s}">${s}</option>`).join("");
-
-    const statSelect2 = document.createElement("select");
-    statSelect2.classList.add("stat-select");
-    statSelect2.innerHTML = '<option value="">Select Stat</option>' +
-        stats.map(s => `<option value="${s}">${s}</option>`).join("");
-
-    const equipmentContainer = document.createElement("div");
-    equipmentContainer.classList.add("equipment-container");
-    
-    const helmetSelect = document.createElement("select");
-    helmetSelect.classList.add("helmet-select");
-    helmetSelect.innerHTML = '<option value="None">Helmet</option>' +
-        helmets.map(h => `<option value="${h}">${h}</option>`).join("");
-    
-    const amuletSelect = document.createElement("select");
-    amuletSelect.classList.add("amulet-select");
-    amuletSelect.innerHTML = '<option value="None">Amulet</option>' +
-        amulets.map(a => `<option value="${a}">${a}</option>`).join("");
-    
-    const artifactSelect = document.createElement("select");
-    artifactSelect.classList.add("artifact-select");
-    artifactSelect.innerHTML = '<option value="None">Artifact</option>' +
-        artifacts.map(a => `<option value="${a}">${a}</option>`).join("");
-    
-    equipmentContainer.appendChild(helmetSelect);
-    equipmentContainer.appendChild(amuletSelect);
-    equipmentContainer.appendChild(artifactSelect);
-
-    expandSection.appendChild(movesContainer);
-    expandSection.appendChild(traitContainer);
-    expandSection.appendChild(heldItemContainer);
-    expandSection.appendChild(statSelect1);
-    expandSection.appendChild(statSelect2);
-    expandSection.appendChild(equipmentContainer);
-
-    card.appendChild(doodleImage);
-    card.appendChild(doodleContainer);
-    card.appendChild(expandButton);
-    card.appendChild(expandSection);
-    return card;
-}
-
-function initializeTeam() {
-    const teamContainer = document.getElementById("team-container");
-    for (let i = 0; i < 6; i++) {
-        teamContainer.appendChild(createDoodleCard(i));
-    }
-}
-
-function copyTeamCode() {
-    try {
-        const teamData = {
-            title: document.getElementById("team-title").value,
-            notes: document.getElementById("team-notes").value,
-            members: Array.from(document.querySelectorAll(".doodle-card")).map(card => {
-                const moves = Array.from(card.querySelectorAll(".moves-container select")).map(s => s.value);
-                const stats = Array.from(card.querySelectorAll(".stat-select")).map(s => s.value);
+            const selectDoodle = document.createElement("select");
+            selectDoodle.innerHTML = '<option value="">Select Doodle</option>' + 
+                doodles.map(d => `<option value="${d.name}" data-image="${d.image}">${d.name}</option>`).join("");
+            
+            const doodleSearch = document.createElement("input");
+            doodleSearch.classList.add("search-input");
+            doodleSearch.setAttribute("placeholder", "Search doodles...");
+            
+            doodleSearch.addEventListener("input", function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = selectDoodle.options;
                 
-                return {
-                    doodle: card.querySelector("select").value,
-                    moves: moves,
-                    trait: card.querySelector(".trait-select")?.value || "",
-                    heldItem: card.querySelector(".held-item-select")?.value || "",
-                    stats: stats,
-                    equipment: {
-                        helmet: card.querySelector(".helmet-select")?.value || "None",
-                        amulet: card.querySelector(".amulet-select")?.value || "None",
-                        artifact: card.querySelector(".artifact-select")?.value || "None"
-                    }
-                };
-            })
-        };
-
-        const teamCode = btoa(JSON.stringify(teamData));
-        
-        navigator.clipboard.writeText(teamCode)
-            .then(() => alert("Team code copied to clipboard!"))
-            .catch(() => {
-                const textarea = document.createElement("textarea");
-                textarea.value = teamCode;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textarea);
-                alert("Team code copied!");
-            });
-    } catch (error) {
-        console.error("Copy failed:", error);
-        alert("Error generating team code. Check console for details.");
-    }
-}
-
-function importFromText() {
-    const text = prompt("Paste Doodle text (format: Doodle @ Held Item\nTrait\nMove 1 / Move 2 / Move 3 / Move 4\nStats: +Stat1, +Stat2\nEquipment: Helmet / Amulet / Artifact)");
-    if (!text) return;
-
-    try {
-        const lines = text.split('\n').map(line => line.trim());
-        
-        const firstLineParts = lines[0].split(' @ ');
-        const doodleName = firstLineParts[0].trim();
-        const heldItem = firstLineParts.length > 1 ? firstLineParts[1].trim() : "";
-        
-        const trait = lines[1] || "";
-        
-        const movesLine = lines[2] || "";
-        const moves = movesLine.split('/').map(move => move.trim()).filter(move => move);
-        
-        let stats = ["", ""];
-        if (lines.length > 3 && lines[3].startsWith("Stats:")) {
-            const statsLine = lines[3].replace("Stats:", "").trim();
-            stats = statsLine.split(',').map(stat => stat.trim()).filter(stat => stat);
-        }
-        
-        let equipment = { helmet: "None", amulet: "None", artifact: "None" };
-        if (lines.length > 4 && lines[4].startsWith("Equipment:")) {
-            const equipLine = lines[4].replace("Equipment:", "").trim();
-            const equipParts = equipLine.split('/').map(e => e.trim());
-            if (equipParts.length >= 1) equipment.helmet = equipParts[0] || "None";
-            if (equipParts.length >= 2) equipment.amulet = equipParts[1] || "None";
-            if (equipParts.length >= 3) equipment.artifact = equipParts[2] || "None";
-        }
-        
-        const cards = document.querySelectorAll(".doodle-card");
-        let emptyCard = null;
-        
-        for (let card of cards) {
-            if (!card.querySelector("select").value) {
-                emptyCard = card;
-                break;
-            }
-        }
-        
-        if (!emptyCard) {
-            const teamContainer = document.getElementById("team-container");
-            if (teamContainer.children.length < 6) {
-                emptyCard = createDoodleCard(teamContainer.children.length);
-                teamContainer.appendChild(emptyCard);
-            } else {
-                alert("Team is full! Clear a slot first.");
-                return;
-            }
-        }
-        
-        const doodleSelect = emptyCard.querySelector("select");
-        doodleSelect.value = doodleName;
-        
-        if (doodleSelect.value) {
-            const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
-            const doodleImage = emptyCard.querySelector(".doodle-image");
-            if (selectedOption.dataset.image) {
-                doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
-                doodleImage.textContent = "";
-            }
-        }
-        
-        const moveSelectors = emptyCard.querySelectorAll(".moves-container select");
-        moves.forEach((move, i) => {
-            if (moveSelectors[i] && move) {
-                moveSelectors[i].value = move;
-                
-                const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
-                moveSelectors[i].classList.remove(
-                    'mythic-selected', 'fire-selected', 'water-selected',
-                    'plant-selected', 'electric-selected', 'beast-selected',
-                    'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
-                    'melee-selected', 'food-selected', 'light-selected',
-                    'crystal-selected', 'metal-selected', 'spirit-selected',
-                    'ice-selected', 'dark-selected', 'poison-selected'
-                );
-                
-                if (option.classList.contains('mythic')) {
-                    moveSelectors[i].classList.add('mythic-selected');
-                } else if (option.classList.contains('fire')) {
-                    moveSelectors[i].classList.add('fire-selected');
-                } else if (option.classList.contains('water')) {
-                    moveSelectors[i].classList.add('water-selected');
-                } else if (option.classList.contains('plant')) {
-                    moveSelectors[i].classList.add('plant-selected');
-                } else if (option.classList.contains('electric')) {
-                    moveSelectors[i].classList.add('electric-selected');
-                } else if (option.classList.contains('beast')) {
-                    moveSelectors[i].classList.add('beast-selected');
-                } else if (option.classList.contains('air')) {
-                    moveSelectors[i].classList.add('air-selected');
-                } else if (option.classList.contains('bug')) {
-                    moveSelectors[i].classList.add('bug-selected');
-                } else if (option.classList.contains('earth')) {
-                    moveSelectors[i].classList.add('earth-selected');
-                } else if (option.classList.contains('mind')) {
-                    moveSelectors[i].classList.add('mind-selected');
-                } else if (option.classList.contains('melee')) {
-                    moveSelectors[i].classList.add('melee-selected');
-                } else if (option.classList.contains('food')) {
-                    moveSelectors[i].classList.add('food-selected');
-                } else if (option.classList.contains('light')) {
-                    moveSelectors[i].classList.add('light-selected');
-                } else if (option.classList.contains('crystal')) {
-                    moveSelectors[i].classList.add('crystal-selected');
-                } else if (option.classList.contains('metal')) {
-                    moveSelectors[i].classList.add('metal-selected');
-                } else if (option.classList.contains('spirit')) {
-                    moveSelectors[i].classList.add('spirit-selected');
-                } else if (option.classList.contains('ice')) {
-                    moveSelectors[i].classList.add('ice-selected');
-                } else if (option.classList.contains('dark')) {
-                    moveSelectors[i].classList.add('dark-selected');
-                } else if (option.classList.contains('poison')) {
-                    moveSelectors[i].classList.add('poison-selected');
+                for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                    const text = option.text.toLowerCase();
+                    option.style.display = text.includes(searchTerm) ? "" : "none";
                 }
-            }
-        });
-        
-        const traitSelect = emptyCard.querySelector(".trait-select");
-        if (traitSelect && trait) traitSelect.value = trait;
-        
-        const heldItemSelect = emptyCard.querySelector(".held-item-select");
-        if (heldItemSelect && heldItem) heldItemSelect.value = heldItem;
-        
-        const statSelectors = emptyCard.querySelectorAll(".stat-select");
-        stats.forEach((stat, i) => {
-            if (statSelectors[i] && stat) {
-                statSelectors[i].value = stat;
-            }
-        });
-        
-        const helmetSelect = emptyCard.querySelector(".helmet-select");
-        const amuletSelect = emptyCard.querySelector(".amulet-select");
-        const artifactSelect = emptyCard.querySelector(".artifact-select");
-        
-        if (helmetSelect) helmetSelect.value = equipment.helmet;
-        if (amuletSelect) amuletSelect.value = equipment.amulet;
-        if (artifactSelect) artifactSelect.value = equipment.artifact;
-        
-        alert("Doodle imported successfully!");
-    } catch (error) {
-        console.error("Import failed:", error);
-        alert("Error importing doodle. Please check the format and try again.");
-    }
-}
+            });
+            
+            selectDoodle.addEventListener("focus", function() {
+                doodleSearch.style.display = "block";
+            });
+            
+            selectDoodle.addEventListener("blur", function() {
+                setTimeout(() => {
+                    if (document.activeElement !== doodleSearch) {
+                        doodleSearch.style.display = "none";
+                    }
+                }, 200);
+            });
+            
+            doodleSearch.addEventListener("focus", function() {
+                this.style.display = "block";
+            });
+            
+            doodleSearch.addEventListener("blur", function() {
+                setTimeout(() => {
+                    if (document.activeElement !== selectDoodle) {
+                        this.style.display = "none";
+                    }
+                }, 200);
+            });
+            
+            doodleContainer.appendChild(selectDoodle);
+            doodleContainer.appendChild(doodleSearch);
 
-function importFromCode() {
-    const teamCode = prompt("Paste team code:");
-    if (!teamCode) return;
+            selectDoodle.addEventListener("change", function() {
+                const selectedOption = selectDoodle.options[selectDoodle.selectedIndex];
+                if (selectedOption.dataset.image) {
+                    doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
+                    doodleImage.textContent = "";
+                } else {
+                    doodleImage.style.backgroundImage = "";
+                    doodleImage.textContent = "Doodle";
+                }
+            });
 
-    try {
-        const teamData = JSON.parse(atob(teamCode));
-        const teamContainer = document.getElementById("team-container");
-        
-        // Set team title and notes if they exist
-        if (teamData.title) {
-            document.getElementById("team-title").value = teamData.title;
-        }
-        
-        if (teamData.notes) {
-            document.getElementById("team-notes").value = teamData.notes;
-        }
-        
-        teamContainer.innerHTML = "";
-        
-        teamData.members.forEach((member, index) => {
-            if (member) {
-                const card = createDoodleCard(index);
+            const expandButton = document.createElement("button");
+            expandButton.textContent = "Expand";
+            expandButton.onclick = () => {
+                expandSection.style.display = expandSection.style.display === "none" ? "block" : "none";
+            };
+
+            const expandSection = document.createElement("div");
+            expandSection.classList.add("expand-section");
+
+            const movesContainer = document.createElement("div");
+            movesContainer.classList.add("moves-container");
+
+            for (let i = 0; i < 4; i++) {
+                const moveSelect = document.createElement("select");
+                moveSelect.style.width = "48%"; 
+                moveSelect.innerHTML = 
+                    '<option value="">Select Move</option>' +
+                    basicMoves.map(m => `<option value="${m}">${m}</option>`).join("") +
+                    mythicMoves.map(m => `<option value="${m}" class="mythic">${m}</option>`).join("") +
+                    fireMoves.map(m => `<option value="${m}" class="fire">${m}</option>`).join("") +
+                    waterMoves.map(m => `<option value="${m}" class="water">${m}</option>`).join("") +
+                    plantMoves.map(m => `<option value="${m}" class="plant">${m}</option>`).join("") +
+                    electricMoves.map(m => `<option value="${m}" class="electric">${m}</option>`).join("") +
+                    beastMoves.map(m => `<option value="${m}" class="beast">${m}</option>`).join("") +
+                    airMoves.map(m => `<option value="${m}" class="air">${m}</option>`).join("") +
+                    bugMoves.map(m => `<option value="${m}" class="bug">${m}</option>`).join("") +
+                    earthMoves.map(m => `<option value="${m}" class="earth">${m}</option>`).join("") +
+                    mindMoves.map(m => `<option value="${m}" class="mind">${m}</option>`).join("") +
+                    meleeMoves.map(m => `<option value="${m}" class="melee">${m}</option>`).join("") +
+                    foodMoves.map(m => `<option value="${m}" class="food">${m}</option>`).join("") +
+                    lightMoves.map(m => `<option value="${m}" class="light">${m}</option>`).join("") +
+                    crystalMoves.map(m => `<option value="${m}" class="crystal">${m}</option>`).join("") +
+                    metalMoves.map(m => `<option value="${m}" class="metal">${m}</option>`).join("") +
+                    spiritMoves.map(m => `<option value="${m}" class="spirit">${m}</option>`).join("") +
+                    iceMoves.map(m => `<option value="${m}" class="ice">${m}</option>`).join("") +
+                    darkMoves.map(m => `<option value="${m}" class="dark">${m}</option>`).join("") +
+                    poisonMoves.map(m => `<option value="${m}" class="poison">${m}</option>`).join("");
+
+                moveSelect.addEventListener('change', function() {
+                    const selectedOption = this.options[this.selectedIndex];
+                    this.classList.remove(
+                        'mythic-selected', 'fire-selected', 'water-selected',
+                        'plant-selected', 'electric-selected', 'beast-selected',
+                        'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                        'melee-selected', 'food-selected', 'light-selected',
+                        'crystal-selected', 'metal-selected', 'spirit-selected',
+                        'ice-selected', 'dark-selected', 'poison-selected'
+                    );
+                    
+                    if (selectedOption.classList.contains('mythic')) {
+                        this.classList.add('mythic-selected');
+                    } else if (selectedOption.classList.contains('fire')) {
+                        this.classList.add('fire-selected');
+                    } else if (selectedOption.classList.contains('water')) {
+                        this.classList.add('water-selected');
+                    } else if (selectedOption.classList.contains('plant')) {
+                        this.classList.add('plant-selected');
+                    } else if (selectedOption.classList.contains('electric')) {
+                        this.classList.add('electric-selected');
+                    } else if (selectedOption.classList.contains('beast')) {
+                        this.classList.add('beast-selected');
+                    } else if (selectedOption.classList.contains('air')) {
+                        this.classList.add('air-selected');
+                    } else if (selectedOption.classList.contains('bug')) {
+                        this.classList.add('bug-selected');
+                    } else if (selectedOption.classList.contains('earth')) {
+                        this.classList.add('earth-selected');
+                    } else if (selectedOption.classList.contains('mind')) {
+                        this.classList.add('mind-selected');
+                    } else if (selectedOption.classList.contains('melee')) {
+                        this.classList.add('melee-selected');
+                    } else if (selectedOption.classList.contains('food')) {
+                        this.classList.add('food-selected');
+                    } else if (selectedOption.classList.contains('light')) {
+                        this.classList.add('light-selected');
+                    } else if (selectedOption.classList.contains('crystal')) {
+                        this.classList.add('crystal-selected');
+                    } else if (selectedOption.classList.contains('metal')) {
+                        this.classList.add('metal-selected');
+                    } else if (selectedOption.classList.contains('spirit')) {
+                        this.classList.add('spirit-selected');
+                    } else if (selectedOption.classList.contains('ice')) {
+                        this.classList.add('ice-selected');
+                    } else if (selectedOption.classList.contains('dark')) {
+                        this.classList.add('dark-selected');
+                    } else if (selectedOption.classList.contains('poison')) {
+                        this.classList.add('poison-selected');
+                    }
+                });
+
+                movesContainer.appendChild(moveSelect);
+            }
+
+            const traitContainer = document.createElement("div");
+            traitContainer.classList.add("search-container");
+            
+            const traitSelect = document.createElement("select");
+            traitSelect.classList.add("trait-select");
+            traitSelect.innerHTML = '<option value="">Select Trait</option>' +
+                traits.map(t => `<option value="${t}">${t}</option>`).join("");
+            
+            const traitSearch = document.createElement("input");
+            traitSearch.classList.add("search-input");
+            traitSearch.setAttribute("placeholder", "Search traits...");
+            
+            traitSearch.addEventListener("input", function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = traitSelect.options;
                 
-                const doodleSelect = card.querySelector("select");
-                doodleSelect.value = member.doodle || "";
+                for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                    const text = option.text.toLowerCase();
+                    option.style.display = text.includes(searchTerm) ? "" : "none";
+                }
+            });
+            
+            traitSelect.addEventListener("focus", function() {
+                traitSearch.style.display = "block";
+            });
+            
+            traitSelect.addEventListener("blur", function() {
+                setTimeout(() => {
+                    if (document.activeElement !== traitSearch) {
+                        traitSearch.style.display = "none";
+                    }
+                }, 200);
+            });
+            
+            traitSearch.addEventListener("focus", function() {
+                this.style.display = "block";
+            });
+            
+            traitSearch.addEventListener("blur", function() {
+                setTimeout(() => {
+                    if (document.activeElement !== traitSelect) {
+                        this.style.display = "none";
+                    }
+                }, 200);
+            });
+            
+            traitContainer.appendChild(traitSelect);
+            traitContainer.appendChild(traitSearch);
+
+            const heldItemContainer = document.createElement("div");
+            heldItemContainer.classList.add("search-container");
+            
+            const heldItemSelect = document.createElement("select");
+            heldItemSelect.classList.add("held-item-select");
+            heldItemSelect.innerHTML = '<option value="">Held Item</option>' +
+                heldItems.map(h => `<option value="${h}">${h}</option>`).join("");
+            
+            const heldItemSearch = document.createElement("input");
+            heldItemSearch.classList.add("search-input");
+            heldItemSearch.setAttribute("placeholder", "Search items...");
+            
+            heldItemSearch.addEventListener("input", function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = heldItemSelect.options;
+                
+                for (let i = 0; i < options.length; i++) {
+                    const option = options[i];
+                    const text = option.text.toLowerCase();
+                    option.style.display = text.includes(searchTerm) ? "" : "none";
+                }
+            });
+            
+            heldItemSelect.addEventListener("focus", function() {
+                heldItemSearch.style.display = "block";
+            });
+            
+            heldItemSelect.addEventListener("blur", function() {
+                setTimeout(() => {
+                    if (document.activeElement !== heldItemSearch) {
+                        heldItemSearch.style.display = "none";
+                    }
+                }, 200);
+            });
+            
+            heldItemSearch.addEventListener("focus", function() {
+                this.style.display = "block";
+            });
+            
+            heldItemSearch.addEventListener("blur", function() {
+                setTimeout(() => {
+                    if (document.activeElement !== heldItemSelect) {
+                        this.style.display = "none";
+                    }
+                }, 200);
+            });
+            
+            heldItemContainer.appendChild(heldItemSelect);
+            heldItemContainer.appendChild(heldItemSearch);
+
+            const statSelect1 = document.createElement("select");
+            statSelect1.classList.add("stat-select");
+            statSelect1.innerHTML = '<option value="">Select Stat</option>' +
+                stats.map(s => `<option value="${s}">${s}</option>`).join("");
+
+            const statSelect2 = document.createElement("select");
+            statSelect2.classList.add("stat-select");
+            statSelect2.innerHTML = '<option value="">Select Stat</option>' +
+                stats.map(s => `<option value="${s}">${s}</option>`).join("");
+
+            const equipmentContainer = document.createElement("div");
+            equipmentContainer.classList.add("equipment-container");
+            
+            const helmetSelect = document.createElement("select");
+            helmetSelect.classList.add("helmet-select");
+            helmetSelect.innerHTML = '<option value="None">Helmet</option>' +
+                helmets.map(h => `<option value="${h}">${h}</option>`).join("");
+            
+            const amuletSelect = document.createElement("select");
+            amuletSelect.classList.add("amulet-select");
+            amuletSelect.innerHTML = '<option value="None">Amulet</option>' +
+                amulets.map(a => `<option value="${a}">${a}</option>`).join("");
+            
+            const artifactSelect = document.createElement("select");
+            artifactSelect.classList.add("artifact-select");
+            artifactSelect.innerHTML = '<option value="None">Artifact</option>' +
+                artifacts.map(a => `<option value="${a}">${a}</option>`).join("");
+            
+            equipmentContainer.appendChild(helmetSelect);
+            equipmentContainer.appendChild(amuletSelect);
+            equipmentContainer.appendChild(artifactSelect);
+
+            expandSection.appendChild(movesContainer);
+            expandSection.appendChild(traitContainer);
+            expandSection.appendChild(heldItemContainer);
+            expandSection.appendChild(statSelect1);
+            expandSection.appendChild(statSelect2);
+            expandSection.appendChild(equipmentContainer);
+
+            card.appendChild(doodleImage);
+            card.appendChild(doodleContainer);
+            card.appendChild(expandButton);
+            card.appendChild(expandSection);
+            return card;
+        }
+
+        function initializeTeam() {
+            const teamContainer = document.getElementById("team-container");
+            for (let i = 0; i < 6; i++) {
+                teamContainer.appendChild(createDoodleCard(i));
+            }
+        }
+
+        function copyTeamCode() {
+            try {
+                const teamData = {
+                    title: document.getElementById("team-title").value,
+                    notes: document.getElementById("team-notes").value,
+                    members: Array.from(document.querySelectorAll(".doodle-card")).map(card => {
+                        const moves = Array.from(card.querySelectorAll(".moves-container select")).map(s => s.value);
+                        const stats = Array.from(card.querySelectorAll(".stat-select")).map(s => s.value);
+                        
+                        return {
+                            doodle: card.querySelector("select").value,
+                            moves: moves,
+                            trait: card.querySelector(".trait-select")?.value || "",
+                            heldItem: card.querySelector(".held-item-select")?.value || "",
+                            stats: stats,
+                            equipment: {
+                                helmet: card.querySelector(".helmet-select")?.value || "None",
+                                amulet: card.querySelector(".amulet-select")?.value || "None",
+                                artifact: card.querySelector(".artifact-select")?.value || "None"
+                            }
+                        };
+                    })
+                };
+
+                const teamCode = btoa(JSON.stringify(teamData));
+                
+                navigator.clipboard.writeText(teamCode)
+                    .then(() => alert("Team code copied to clipboard!"))
+                    .catch(() => {
+                        const textarea = document.createElement("textarea");
+                        textarea.value = teamCode;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(textarea);
+                        alert("Team code copied!");
+                    });
+            } catch (error) {
+                console.error("Copy failed:", error);
+                alert("Error generating team code. Check console for details.");
+            }
+        }
+
+        function importFromText() {
+            const text = prompt("Paste Doodle text (format: Doodle @ Held Item\nTrait\nMove 1 / Move 2 / Move 3 / Move 4\nStats: +Stat1, +Stat2\nEquipment: Helmet / Amulet / Artifact)");
+            if (!text) return;
+
+            try {
+                const lines = text.split('\n').map(line => line.trim());
+                
+                const firstLineParts = lines[0].split(' @ ');
+                const doodleName = firstLineParts[0].trim();
+                const heldItem = firstLineParts.length > 1 ? firstLineParts[1].trim() : "";
+                
+                const trait = lines[1] || "";
+                
+                const movesLine = lines[2] || "";
+                const moves = movesLine.split('/').map(move => move.trim()).filter(move => move);
+                
+                let stats = ["", ""];
+                if (lines.length > 3 && lines[3].startsWith("Stats:")) {
+                    const statsLine = lines[3].replace("Stats:", "").trim();
+                    stats = statsLine.split(',').map(stat => stat.trim()).filter(stat => stat);
+                }
+                
+                let equipment = { helmet: "None", amulet: "None", artifact: "None" };
+                if (lines.length > 4 && lines[4].startsWith("Equipment:")) {
+                    const equipLine = lines[4].replace("Equipment:", "").trim();
+                    const equipParts = equipLine.split('/').map(e => e.trim());
+                    if (equipParts.length >= 1) equipment.helmet = equipParts[0] || "None";
+                    if (equipParts.length >= 2) equipment.amulet = equipParts[1] || "None";
+                    if (equipParts.length >= 3) equipment.artifact = equipParts[2] || "None";
+                }
+                
+                const cards = document.querySelectorAll(".doodle-card");
+                let emptyCard = null;
+                
+                for (let card of cards) {
+                    if (!card.querySelector("select").value) {
+                        emptyCard = card;
+                        break;
+                    }
+                }
+                
+                if (!emptyCard) {
+                    const teamContainer = document.getElementById("team-container");
+                    if (teamContainer.children.length < 6) {
+                        emptyCard = createDoodleCard(teamContainer.children.length);
+                        teamContainer.appendChild(emptyCard);
+                    } else {
+                        alert("Team is full! Clear a slot first.");
+                        return;
+                    }
+                }
+                
+                const doodleSelect = emptyCard.querySelector("select");
+                doodleSelect.value = doodleName;
                 
                 if (doodleSelect.value) {
                     const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
-                    const doodleImage = card.querySelector(".doodle-image");
+                    const doodleImage = emptyCard.querySelector(".doodle-image");
                     if (selectedOption.dataset.image) {
                         doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
                         doodleImage.textContent = "";
                     }
                 }
                 
-                const moveSelectors = card.querySelectorAll(".moves-container select");
-                if (member.moves) {
-                    member.moves.forEach((move, i) => {
-                        if (moveSelectors[i] && move) {
-                            moveSelectors[i].value = move;
-                            
-                            const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
-                            moveSelectors[i].classList.remove(
-                                'mythic-selected', 'fire-selected', 'water-selected',
-                                'plant-selected', 'electric-selected', 'beast-selected',
-                                'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
-                                'melee-selected', 'food-selected', 'light-selected',
-                                'crystal-selected', 'metal-selected', 'spirit-selected',
-                                'ice-selected', 'dark-selected', 'poison-selected'
-                            );
-                            
-                            if (option.classList.contains('mythic')) {
-                                moveSelectors[i].classList.add('mythic-selected');
-                            } else if (option.classList.contains('fire')) {
-                                moveSelectors[i].classList.add('fire-selected');
-                            } else if (option.classList.contains('water')) {
-                                moveSelectors[i].classList.add('water-selected');
-                            } else if (option.classList.contains('plant')) {
-                                moveSelectors[i].classList.add('plant-selected');
-                            } else if (option.classList.contains('electric')) {
-                                moveSelectors[i].classList.add('electric-selected');
-                            } else if (option.classList.contains('beast')) {
-                                moveSelectors[i].classList.add('beast-selected');
-                            } else if (option.classList.contains('air')) {
-                                moveSelectors[i].classList.add('air-selected');
-                            } else if (option.classList.contains('bug')) {
-                                moveSelectors[i].classList.add('bug-selected');
-                            } else if (option.classList.contains('earth')) {
-                                moveSelectors[i].classList.add('earth-selected');
-                            } else if (option.classList.contains('mind')) {
-                                moveSelectors[i].classList.add('mind-selected');
-                            } else if (option.classList.contains('melee')) {
-                                moveSelectors[i].classList.add('melee-selected');
-                            } else if (option.classList.contains('food')) {
-                                moveSelectors[i].classList.add('food-selected');
-                            } else if (option.classList.contains('light')) {
-                                moveSelectors[i].classList.add('light-selected');
-                            } else if (option.classList.contains('crystal')) {
-                                moveSelectors[i].classList.add('crystal-selected');
-                            } else if (option.classList.contains('metal')) {
-                                moveSelectors[i].classList.add('metal-selected');
-                            } else if (option.classList.contains('spirit')) {
-                                moveSelectors[i].classList.add('spirit-selected');
-                            } else if (option.classList.contains('ice')) {
-                                moveSelectors[i].classList.add('ice-selected');
-                            } else if (option.classList.contains('dark')) {
-                                moveSelectors[i].classList.add('dark-selected');
-                            } else if (option.classList.contains('poison')) {
-                                moveSelectors[i].classList.add('poison-selected');
+                const moveSelectors = emptyCard.querySelectorAll(".moves-container select");
+                moves.forEach((move, i) => {
+                    if (moveSelectors[i] && move) {
+                        moveSelectors[i].value = move;
+                        
+                        const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
+                        moveSelectors[i].classList.remove(
+                            'mythic-selected', 'fire-selected', 'water-selected',
+                            'plant-selected', 'electric-selected', 'beast-selected',
+                            'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                            'melee-selected', 'food-selected', 'light-selected',
+                            'crystal-selected', 'metal-selected', 'spirit-selected',
+                            'ice-selected', 'dark-selected', 'poison-selected'
+                        );
+                        
+                        if (option.classList.contains('mythic')) {
+                            moveSelectors[i].classList.add('mythic-selected');
+                        } else if (option.classList.contains('fire')) {
+                            moveSelectors[i].classList.add('fire-selected');
+                        } else if (option.classList.contains('water')) {
+                            moveSelectors[i].classList.add('water-selected');
+                        } else if (option.classList.contains('plant')) {
+                            moveSelectors[i].classList.add('plant-selected');
+                        } else if (option.classList.contains('electric')) {
+                            moveSelectors[i].classList.add('electric-selected');
+                        } else if (option.classList.contains('beast')) {
+                            moveSelectors[i].classList.add('beast-selected');
+                        } else if (option.classList.contains('air')) {
+                            moveSelectors[i].classList.add('air-selected');
+                        } else if (option.classList.contains('bug')) {
+                            moveSelectors[i].classList.add('bug-selected');
+                        } else if (option.classList.contains('earth')) {
+                            moveSelectors[i].classList.add('earth-selected');
+                        } else if (option.classList.contains('mind')) {
+                            moveSelectors[i].classList.add('mind-selected');
+                        } else if (option.classList.contains('melee')) {
+                            moveSelectors[i].classList.add('melee-selected');
+                        } else if (option.classList.contains('food')) {
+                            moveSelectors[i].classList.add('food-selected');
+                        } else if (option.classList.contains('light')) {
+                            moveSelectors[i].classList.add('light-selected');
+                        } else if (option.classList.contains('crystal')) {
+                            moveSelectors[i].classList.add('crystal-selected');
+                        } else if (option.classList.contains('metal')) {
+                            moveSelectors[i].classList.add('metal-selected');
+                        } else if (option.classList.contains('spirit')) {
+                            moveSelectors[i].classList.add('spirit-selected');
+                        } else if (option.classList.contains('ice')) {
+                            moveSelectors[i].classList.add('ice-selected');
+                        } else if (option.classList.contains('dark')) {
+                            moveSelectors[i].classList.add('dark-selected');
+                        } else if (option.classList.contains('poison')) {
+                            moveSelectors[i].classList.add('poison-selected');
+                        }
+                    }
+                });
+                
+                const traitSelect = emptyCard.querySelector(".trait-select");
+                if (traitSelect && trait) traitSelect.value = trait;
+                
+                const heldItemSelect = emptyCard.querySelector(".held-item-select");
+                if (heldItemSelect && heldItem) heldItemSelect.value = heldItem;
+                
+                const statSelectors = emptyCard.querySelectorAll(".stat-select");
+                stats.forEach((stat, i) => {
+                    if (statSelectors[i] && stat) {
+                        statSelectors[i].value = stat;
+                    }
+                });
+                
+                const helmetSelect = emptyCard.querySelector(".helmet-select");
+                const amuletSelect = emptyCard.querySelector(".amulet-select");
+                const artifactSelect = emptyCard.querySelector(".artifact-select");
+                
+                if (helmetSelect) helmetSelect.value = equipment.helmet;
+                if (amuletSelect) amuletSelect.value = equipment.amulet;
+                if (artifactSelect) artifactSelect.value = equipment.artifact;
+                
+                alert("Doodle imported successfully!");
+            } catch (error) {
+                console.error("Import failed:", error);
+                alert("Error importing doodle. Please check the format and try again.");
+            }
+        }
+
+        function importFromCode() {
+            const teamCode = prompt("Paste team code:");
+            if (!teamCode) return;
+
+            try {
+                const teamData = JSON.parse(atob(teamCode));
+                const teamContainer = document.getElementById("team-container");
+                
+                // Set team title and notes if they exist
+                if (teamData.title) {
+                    document.getElementById("team-title").value = teamData.title;
+                }
+                
+                if (teamData.notes) {
+                    document.getElementById("team-notes").value = teamData.notes;
+                }
+                
+                teamContainer.innerHTML = "";
+                
+                teamData.members.forEach((member, index) => {
+                    if (member) {
+                        const card = createDoodleCard(index);
+                        
+                        const doodleSelect = card.querySelector("select");
+                        doodleSelect.value = member.doodle || "";
+                        
+                        if (doodleSelect.value) {
+                            const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
+                            const doodleImage = card.querySelector(".doodle-image");
+                            if (selectedOption.dataset.image) {
+                                doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
+                                doodleImage.textContent = "";
                             }
                         }
-                    });
-                }
-                
-                if (member.trait) {
-                    const traitSelect = card.querySelector(".trait-select");
-                    if (traitSelect) traitSelect.value = member.trait;
-                }
-                
-                if (member.heldItem) {
-                    const heldItemSelect = card.querySelector(".held-item-select");
-                    if (heldItemSelect) heldItemSelect.value = member.heldItem;
-                }
-                
-                if (member.stats) {
-                    const statSelectors = card.querySelectorAll(".stat-select");
-                    member.stats.forEach((stat, i) => {
-                        if (statSelectors[i] && stat) {
-                            statSelectors[i].value = stat;
+                        
+                        const moveSelectors = card.querySelectorAll(".moves-container select");
+                        if (member.moves) {
+                            member.moves.forEach((move, i) => {
+                                if (moveSelectors[i] && move) {
+                                    moveSelectors[i].value = move;
+                                    
+                                    const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
+                                    moveSelectors[i].classList.remove(
+                                        'mythic-selected', 'fire-selected', 'water-selected',
+                                        'plant-selected', 'electric-selected', 'beast-selected',
+                                        'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                                        'melee-selected', 'food-selected', 'light-selected',
+                                        'crystal-selected', 'metal-selected', 'spirit-selected',
+                                        'ice-selected', 'dark-selected', 'poison-selected'
+                                    );
+                                    
+                                    if (option.classList.contains('mythic')) {
+                                        moveSelectors[i].classList.add('mythic-selected');
+                                    } else if (option.classList.contains('fire')) {
+                                        moveSelectors[i].classList.add('fire-selected');
+                                    } else if (option.classList.contains('water')) {
+                                        moveSelectors[i].classList.add('water-selected');
+                                    } else if (option.classList.contains('plant')) {
+                                        moveSelectors[i].classList.add('plant-selected');
+                                    } else if (option.classList.contains('electric')) {
+                                        moveSelectors[i].classList.add('electric-selected');
+                                    } else if (option.classList.contains('beast')) {
+                                        moveSelectors[i].classList.add('beast-selected');
+                                    } else if (option.classList.contains('air')) {
+                                        moveSelectors[i].classList.add('air-selected');
+                                    } else if (option.classList.contains('bug')) {
+                                        moveSelectors[i].classList.add('bug-selected');
+                                    } else if (option.classList.contains('earth')) {
+                                        moveSelectors[i].classList.add('earth-selected');
+                                    } else if (option.classList.contains('mind')) {
+                                        moveSelectors[i].classList.add('mind-selected');
+                                    } else if (option.classList.contains('melee')) {
+                                        moveSelectors[i].classList.add('melee-selected');
+                                    } else if (option.classList.contains('food')) {
+                                        moveSelectors[i].classList.add('food-selected');
+                                    } else if (option.classList.contains('light')) {
+                                        moveSelectors[i].classList.add('light-selected');
+                                    } else if (option.classList.contains('crystal')) {
+                                        moveSelectors[i].classList.add('crystal-selected');
+                                    } else if (option.classList.contains('metal')) {
+                                        moveSelectors[i].classList.add('metal-selected');
+                                    } else if (option.classList.contains('spirit')) {
+                                        moveSelectors[i].classList.add('spirit-selected');
+                                    } else if (option.classList.contains('ice')) {
+                                        moveSelectors[i].classList.add('ice-selected');
+                                    } else if (option.classList.contains('dark')) {
+                                        moveSelectors[i].classList.add('dark-selected');
+                                    } else if (option.classList.contains('poison')) {
+                                        moveSelectors[i].classList.add('poison-selected');
+                                    }
+                                }
+                            });
                         }
-                    });
-                }
+                        
+                        if (member.trait) {
+                            const traitSelect = card.querySelector(".trait-select");
+                            if (traitSelect) traitSelect.value = member.trait;
+                        }
+                        
+                        if (member.heldItem) {
+                            const heldItemSelect = card.querySelector(".held-item-select");
+                            if (heldItemSelect) heldItemSelect.value = member.heldItem;
+                        }
+                        
+                        if (member.stats) {
+                            const statSelectors = card.querySelectorAll(".stat-select");
+                            member.stats.forEach((stat, i) => {
+                                if (statSelectors[i] && stat) {
+                                    statSelectors[i].value = stat;
+                                }
+                            });
+                        }
+                        
+                        if (member.equipment) {
+                            const helmetSelect = card.querySelector(".helmet-select");
+                            const amuletSelect = card.querySelector(".amulet-select");
+                            const artifactSelect = card.querySelector(".artifact-select");
+                            
+                            if (helmetSelect && member.equipment.helmet) helmetSelect.value = member.equipment.helmet;
+                            if (amuletSelect && member.equipment.amulet) amuletSelect.value = member.equipment.amulet;
+                            if (artifactSelect && member.equipment.artifact) artifactSelect.value = member.equipment.artifact;
+                        }
+                        
+                        teamContainer.appendChild(card);
+                    }
+                });
                 
-                if (member.equipment) {
-                    const helmetSelect = card.querySelector(".helmet-select");
-                    const amuletSelect = card.querySelector(".amulet-select");
-                    const artifactSelect = card.querySelector(".artifact-select");
-                    
-                    if (helmetSelect && member.equipment.helmet) helmetSelect.value = member.equipment.helmet;
-                    if (amuletSelect && member.equipment.amulet) amuletSelect.value = member.equipment.amulet;
-                    if (artifactSelect && member.equipment.artifact) artifactSelect.value = member.equipment.artifact;
-                }
-                
-                teamContainer.appendChild(card);
+                alert("Team imported successfully!");
+            } catch (error) {
+                console.error("Import failed:", error);
+                alert("Invalid team code! Please check and try again.");
             }
-        });
-        
-        alert("Team imported successfully!");
-    } catch (error) {
-        console.error("Import failed:", error);
-        alert("Invalid team code! Please check and try again.");
-    }
-}
+        }
 
-initializeTeam();
+        initializeTeam();
     </script>
 </body>
 </html>
