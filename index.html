@@ -1800,7 +1800,7 @@
             doodleContainer.appendChild(doodleSearch);
 
             const expandButton = document.createElement("button");
-            expandButton.textContent = "Show Details";
+            expandButton.textContent = "Expand";
             expandButton.classList.add("expand-btn");
             expandButton.onclick = () => {
                 const expandSection = card.querySelector(".expand-section");
@@ -2111,7 +2111,7 @@
             
             const expandSection = card.querySelector(".expand-section");
             expandSection.style.display = "none";
-            card.querySelector(".expand-btn").textContent = "Show Details";
+            card.querySelector(".expand-btn").textContent = "Expand";
             
             saveCurrentTeam();
         }
