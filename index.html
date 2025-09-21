@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doodle World Teambuilder (Carnival)</title>
+    <title>Doodle World Teambuilder</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -22,6 +22,27 @@
             --header-color: #4CAF50;
             --section-border: #444;
             --expand-bg: #2a2a2a;
+            
+            --mythic-color: #b19cd9;
+            --fire-color: #ff8c00;
+            --water-color: #1e90ff;
+            --plant-color: #4CAF50;
+            --electric-color: #FFEB3B;
+            --beast-color: #8B4513;
+            --air-color: #87CEFA;
+            --bug-color: #32CD32;
+            --earth-color: #CD853F;
+            --mind-color: #FFB6C1;
+            --melee-color: #ff6b6b;
+            --food-color: #f5deb3;
+            --light-color: #fffacd;
+            --crystal-color: #00ced1;
+            --metal-color: #a9a9a9;
+            --spirit-color: #9400d3;
+            --ice-color: #e0ffff;
+            --dark-color: #000000;
+            --poison-color: #da70d6;
+            --basic-color: #cccccc;
         }
 
         .light-mode {
@@ -40,6 +61,27 @@
             --header-color: #2E7D32;
             --section-border: #ddd;
             --expand-bg: #f0f0f0;
+            
+            --mythic-color: #7b5fb9;
+            --fire-color: #e67c00;
+            --water-color: #0d7bff;
+            --plant-color: #2E7D32;
+            --electric-color: #FBC02D;
+            --beast-color: #6D4C41;
+            --air-color: #29B6F6;
+            --bug-color: #228B22;
+            --earth-color: #A0522D;
+            --mind-color: #F48FB1;
+            --melee-color: #E53935;
+            --food-color: #D7CCC8;
+            --light-color: #FFF59D;
+            --crystal-color: #00ACC1;
+            --metal-color: #78909C;
+            --spirit-color: #7B1FA2;
+            --ice-color: #80DEEA;
+            --dark-color: #424242;
+            --poison-color: #AB47BC;
+            --basic-color: #757575;
         }
 
         * {
@@ -294,97 +336,102 @@
         }
         
         option.mythic, select.mythic-selected { 
-            color: #b19cd9;
+            color: var(--mythic-color);
             font-weight: bold;
         }
         
         option.fire, select.fire-selected {
-            color: #ff8c00;
+            color: var(--fire-color);
             font-weight: bold;
         }
         
         option.water, select.water-selected {
-            color: #1e90ff;
+            color: var(--water-color);
             font-weight: bold;
         }
         
         option.plant, select.plant-selected {
-            color: #4CAF50;
+            color: var(--plant-color);
             font-weight: bold;
         }
         
         option.electric, select.electric-selected {
-            color: #FFEB3B;
+            color: var(--electric-color);
             font-weight: bold;
         }
         
         option.beast, select.beast-selected {
-            color: #8B4513;
+            color: var(--beast-color);
             font-weight: bold;
         }
         
         option.air, select.air-selected {
-            color: #87CEFA;
+            color: var(--air-color);
             font-weight: bold;
         }
         
         option.bug, select.bug-selected {
-            color: #32CD32;
+            color: var(--bug-color);
             font-weight: bold;
         }
         
         option.earth, select.earth-selected {
-            color: #CD853F;
+            color: var(--earth-color);
             font-weight: bold;
         }
         
         option.mind, select.mind-selected {
-            color: #FFB6C1;
+            color: var(--mind-color);
             font-weight: bold;
         }
         
         option.melee, select.melee-selected {
-            color: #ff6b6b;
+            color: var(--melee-color);
             font-weight: bold;
         }
         
         option.food, select.food-selected {
-            color: #f5deb3;
+            color: var(--food-color);
             font-weight: bold;
         }
         
         option.light, select.light-selected {
-            color: #fffacd;
+            color: var(--light-color);
             font-weight: bold;
         }
         
         option.crystal, select.crystal-selected {
-            color: #00ced1;
+            color: var(--crystal-color);
             font-weight: bold;
         }
         
         option.metal, select.metal-selected {
-            color: #a9a9a9;
+            color: var(--metal-color);
             font-weight: bold;
         }
         
         option.spirit, select.spirit-selected {
-            color: #9400d3;
+            color: var(--spirit-color);
             font-weight: bold;
         }
         
         option.ice, select.ice-selected {
-            color: #e0ffff;
+            color: var(--ice-color);
             font-weight: bold;
         }
         
         option.dark, select.dark-selected {
-            color: #000000;
+            color: var(--dark-color);
             font-weight: bold;
         }
         
         option.poison, select.poison-selected {
-            color: #da70d6;
+            color: var(--poison-color);
+            font-weight: bold;
+        }
+        
+        option.basic, select.basic-selected {
+            color: var(--basic-color);
             font-weight: bold;
         }
 
@@ -538,6 +585,18 @@
             border-radius: 12px;
             font-size: 12px;
             background-color: var(--button-bg);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .type-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         
         .card-header {
@@ -585,7 +644,6 @@
             }
         }
         
-        /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -615,7 +673,6 @@
     
     <div class="main-container">
         <div class="team-container" id="team-container">
-            <!-- Doodle cards will be generated here -->
         </div>
         <div class="sidebar">
             <div class="team-folder">
@@ -647,274 +704,316 @@
     </div>
 
     <script>
- const doodles = [
- { name: "Abyssent", image: "https://doodle-team-builder.vercel.app/_next/image?url=%2FdoodleImages%2FAbyssent.webp&w=128&q=75" },
-    { name: "Aerystal", image: "https://doodle-team-builder.vercel.app/_next/image?url=%2FdoodleImages%2FAerystal.webp&w=128&q=75" },
-    { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp" },
-    { name: "Aluminja", image: "https://i.ibb.co/tpxnFrs0/Aluminja-1.webp" },
-    { name: "Antenaflight", image: "https://i.ibb.co/chg5DDHT/Antenaflight-1.webp" },
-    { name: "Anubeetle", image: "https://i.ibb.co/zHZWtGLG/Anubeetle-1.webp" },
-    { name: "Arachniak", image: "https://i.ibb.co/rGzxdc10/Arachniak-1.webp" },
-    { name: "Archopos", image: "https://i.ibb.co/cKvQgKqZ/Archopos-1.webp" },
-    { name: "Archopos-A", image: "https://i.ibb.co/tTZYP6LB/A-Archopos-1.webp" },
-    { name: "Armaratus", image: "https://i.ibb.co/jvMyhxRH/Armaratus-Unveiled-1.webp" },
-    { name: "Arthopex", image: "https://i.ibb.co/spyF5Yty/Arthopex-1.webp" },
-    { name: "Artifixie-Base", image: "https://i.ibb.co/NdjXHNsN/Artifixie-1.webp" },
-    { name: "Artifixie-Mech", image: "https://i.ibb.co/wNYbXdLb/Artifixie-MEKA-1.webp" },
-    { name: "Banautalis", image: "https://i.ibb.co/ZpfvDz69/Banautilus-1.webp" },
-    { name: "Bionotic", image: "https://i.ibb.co/rKwnMmQs/Bionotic-1.webp" },
-    { name: "Bionotic-A", image: "https://i.ibb.co/RdsYPBh/A-Bionotic-1.webp" },
-    { name: "Bronzoch", image: "https://i.ibb.co/7ty7w22C/Bronzoch-1.webp" },
-    { name: "Bubbull", image: "https://i.ibb.co/pBj6DYFJ/Bubbull-1.webp" },
-    { name: "Bubbull-A", image: "https://i.ibb.co/5W1hP8y6/A-Bubbull-1.webp" },
-    { name: "Bungo", image: "https://i.ibb.co/4RbPds64/Bungo-Family-1.webp" },
-    { name: "Bunswirl", image: "https://i.ibb.co/r2r7LLxH/Bunswirl-1.webp" },
-    { name: "Cacmeow", image: "https://i.ibb.co/Cs0PgZ1Q/Cacmeow-1.webp" },
-    { name: "Cacmeow-A", image: "https://i.ibb.co/hJnBK6jj/A-Cacmeow-1.webp" },
-    { name: "Calamander", image: "https://i.ibb.co/N6SrKydb/Calamander-1.webp" },
-    { name: "Calamander-A", image: "https://i.ibb.co/Xf2k8WL4/A-Calamander-1.webp" },
-    { name: "Candeigon", image: "https://i.ibb.co/0jcQhbJT/Candeigon-1.webp" },
-    { name: "Carnivower", image: "https://i.ibb.co/PZ4sk1sB/Carnivower-1.webp" },
-    { name: "Celestian", image: "https://i.ibb.co/LdxVfJN8/Celestian-1.webp" },
-    { name: "Cerebopod", image: "https://i.ibb.co/fYf7nDP9/Cerebopod-1.webp" },
-    { name: "Cerebopod-A", image: "https://i.ibb.co/RGJtFjLZ/A-Cerebopod-1.webp" },
-    { name: "Cherugard", image: "https://i.ibb.co/dJKrrF91/Cherugard-1.webp" },
-    { name: "Chimestive", image: "https://i.ibb.co/BH4tZFRj/Chimestive-1.webp" },
-    { name: "Clangutang", image: "https://i.ibb.co/6JgmLsNT/Clangutang-1.webp" },
-    { name: "Corrolizard", image: "https://i.ibb.co/HDYqQHJX/Corrolizard-1.webp" },
-    { name: "Corrolizard-A", image: "https://i.ibb.co/7tgnPM4B/A-Corrolizard-1.webp" },
-    { name: "Cragildae", image: "https://i.ibb.co/KT2Q7KS/Cragildae-1.webp" },
-    { name: "Cragildae-A", image: "https://i.ibb.co/zWTVy9dS/A-Cragildae-1.webp" },
-    { name: "Cryotera", image: "https://i.ibb.co/k2ZdKtrW/Cryotera-1.webp" },
-    { name: "Cryotera-A", image: "https://i.ibb.co/xKQy61rC/A-Cryotera-1.webp" },
-    { name: "Ctholos", image: "https://i.ibb.co/chVmY7PW/Ctholos-1.webp" },
-    { name: "Daeferno", image: "https://i.ibb.co/675zBZZW/Daeferno-1.webp" },
-    { name: "Dameseal", image: "https://i.ibb.co/4ZkjjRDS/Dameseal-1.webp" },
-    { name: "Desdog", image: "https://i.ibb.co/0RDzVQky/Desdog-1.webp" },
-    { name: "Djinneko", image: "https://i.ibb.co/YBpZJJSB/Djinneko-1.webp" },
-    { name: "Drakothread", image: "https://i.ibb.co/1G3mhY2w/Drakothread-1.webp" },
-    { name: "Elefortune", image: "https://i.ibb.co/7dmVRhbh/Elefortune-1.webp" },
-    { name: "Emperoflame", image: "https://i.ibb.co/pVV1mRj/Leoperor-1.webp" },
-    { name: "Endovul", image: "https://i.ibb.co/5g9shVvN/Endovul-1.webp" },
-    { name: "Exoskelis", image: "https://i.ibb.co/TMz19D9q/Exoskelis-1.webp" },
-    { name: "Exovul", image: "https://i.ibb.co/84fkbHxs/Exovul-1.webp" },
-    { name: "Fabulupin", image: "https://i.ibb.co/pjzhKxF5/Fabulupin-1.webp" },
-    { name: "Fancyoon", image: "https://i.ibb.co/gbCzN5LB/Fancyoon-1.webp" },
-    { name: "Feracoalt", image: "https://i.ibb.co/PsSsCrC7/Feracoatl-1.webp" },
-    { name: "Finwick", image: "https://i.ibb.co/bRz7S96Y/Finwick-1.webp" },
-    { name: "Flong", image: "https://i.ibb.co/LbN1vGV/Flong-1.webp" },
-    { name: "Fluppy", image: "https://i.ibb.co/LX4zCZHm/Fluppy-1.webp" },
-    { name: "Frigale", image: "https://i.ibb.co/8Dqqxd0K/Frigale-1.webp" },
-    { name: "Fruitoad", image: "https://i.ibb.co/9mn2YbsT/Fruitoad-1.webp" },
-    { name: "Fummasu", image: "https://i.ibb.co/KzpGzMbq/Fummasu-1.webp" },
-    { name: "Garghoul", image: "https://i.ibb.co/NnNnFjzh/Garghoul-1.webp" },
-    { name: "Gigarlic", image: "https://i.ibb.co/xqVBZFJQ/Gigarlic-1.webp" },
-    { name: "Girasera", image: "https://i.ibb.co/hxBQKwwf/Girasera-1.webp" },
-    { name: "Glacigash", image: "https://i.ibb.co/TdfFpHZ/Glacigash-1.webp" },
-    { name: "Glubbie", image: "https://i.ibb.co/dJbCHMZY/Glubbie-1.webp" },
-    { name: "Gobblegoo", image: "https://i.ibb.co/Q7NhSXRX/Gobblegoo-1.webp" },
-    { name: "Goliage", image: "https://i.ibb.co/q3Hdx1zM/Goliage-1.webp" },
-    { name: "Gomutt", image: "https://i.ibb.co/GLtGk4V/Gomutt-1.webp" },
-    { name: "Gourmesal", image: "https://i.ibb.co/mrZSmCXQ/Gourmesal-1.webp" },
-    { name: "Gowatt", image: "https://i.ibb.co/tw5MF1Gf/Gowatt-1.webp" },
-    { name: "Grimantle", image: "https://i.ibb.co/vvxWTdNr/Grimantle-Cloaked-1.webp" },
-    { name: "Grimantle-Air", image: "https://i.ibb.co/nN78jvh5/Grimantle-Uncloaked-1.webp" },
-    { name: "Groato", image: "https://i.ibb.co/JRMDMxdp/Groato-1.webp" },
-    { name: "Groato-A", image: "https://i.ibb.co/216TTLtC/A-Groato-1.webp" },
-    { name: "Grufflin", image: "https://i.ibb.co/8g9szqn6/Grufflin-1.webp" },
-    { name: "Grufflin-A", image: "https://i.ibb.co/DfC8vzkz/A-Grufflin-1.webp" },
-    { name: "Gyornaw", image: "https://i.ibb.co/KpMV9t2F/Gyornaw-1.webp" },
-    { name: "Hahayena", image: "https://i.ibb.co/8gCVYwt8/Hahayena-1.webp" },
-    { name: "Hangryphus", image: "https://i.ibb.co/fGvjtM8b/Hangryphus-1.webp" },
-    { name: "Hattrix", image: "https://i.ibb.co/Wv9q46v7/Hattrix-1.webp" },
-    { name: "Hattrix-A", image: "https://i.ibb.co/4gDtyB6s/A-Hattrix-1.webp" },
-    { name: "Henchum", image: "https://i.ibb.co/TnZxsTb/Henchum-1.webp" },
-    { name: "Hollihare", image: "https://i.ibb.co/Z67cYDpK/Hollihare-1.webp" },
-    { name: "Horbeast", image: "https://i.ibb.co/b5xXLMkJ/Horbeast-1.webp" },
-    { name: "Humbiscus", image: "https://i.ibb.co/S7ntyndk/Humbiscus-1.webp" },
-    { name: "Hypnotl", image: "https://i.ibb.co/tPc6RBR2/Hypnotl-1.webp" },
-    { name: "Hypnotl-A", image: "https://i.ibb.co/KctgdH1J/A-Hypnotl-1.webp" },
-    { name: "Incinelisk", image: "https://i.ibb.co/TqHKHDWd/Incinelisk-1.webp" },
-    { name: "Infurnius", image: "https://i.ibb.co/5x4hkzmm/Infurnius-1.webp" },
-    { name: "Irikil", image: "https://i.ibb.co/Z4RBv70/Irikil-1.webp" },
-    { name: "Jaelect", image: "https://i.ibb.co/vxwg4vMw/Jaelect-1.webp" },
-    { name: "Jelluminous", image: "https://i.ibb.co/qLt9t83c/Jelluminous-1.webp" },
-    { name: "Jellupy", image: "https://i.ibb.co/TxM2qcrx/Jellupy-1.webp" },
-    { name: "Jestwirl", image: "https://i.ibb.co/kgnrhxVX/Jestwirl-1.webp" },
-    { name: "Jinglark", image: "https://i.ibb.co/VWMBVJmp/Jinglark-1.webp" },
-    { name: "Jinglark-A", image: "https://i.ibb.co/LXV998HS/A-Jinglark-1.webp" },
-    { name: "Junipyro", image: "https://i.ibb.co/xqp2SBWh/Junipyro-1.webp" },
-    { name: "Kelpimer", image: "https://i.ibb.co/Y4W1Mjk6/Kelpimer-1.webp" },
-    { name: "Kibara", image: "https://i.ibb.co/fYt5R6QB/Kibara-1.webp" },
-    { name: "Kidere", image: "https://i.ibb.co/Z6vvwyHj/Kidere-1.webp" },
-    { name: "Klydaskunk", image: "https://i.ibb.co/Ld062NV5/Klydaskunk-1.webp" },
-    { name: "Koriyu", image: "https://i.ibb.co/wNBLqfxt/Koriyu-1.webp" },
-    { name: "Kreindus", image: "https://i.ibb.co/vvv6wcbL/Kreindus-1.webp" },
-    { name: "Lacergen-Base", image: "https://i.ibb.co/Mxs3gYqt/image.png" },
-    { name: "Lacergen-Earth", image: "https://i.ibb.co/rKT4Rmky/Lacergen-Earth-1.webp" },
-    { name: "Lacergen-Fire", image: "https://i.ibb.co/5h8D1FSP/Lacergen-Fire-1.webp" },
-    { name: "Lacergen-Ice", image: "https://i.ibb.co/Q7w3FzgN/Lacergen-Ice-1.webp" },
-    { name: "Lacergen-Spark", image: "https://i.ibb.co/w3HBhnZ/Lacergen-Spark-1.webp" },
-    { name: "Leazar", image: "https://i.ibb.co/nNhhcgdG/Leazar-1.webp" },
-    { name: "Libelagua", image: "https://i.ibb.co/zWft88KD/Libelagua-1.webp" },
-    { name: "Libelagua-A", image: "https://i.ibb.co/Rpx9gcMC/A-Libelagua-1.webp" },
-    { name: "Lilivian", image: "https://i.ibb.co/fV4Hr49K/Lilvian-1.webp" },
-    { name: "Louis", image: "https://i.ibb.co/wZzzG9C4/Louis-1.webp" },
-    { name: "Lumiline", image: "https://i.ibb.co/HT1X7rYZ/Lumiline-1.webp" },
-    { name: "Lumiline-A", image: "https://i.ibb.co/LXFXwBKP/A-Lumiline-1.webp" },
-    { name: "Lurkilid", image: "https://i.ibb.co/V0rRPwk3/Lurkelid-1.webp" },
-    { name: "Maelzuri", image: "https://i.ibb.co/8LdJTbdj/Maelzuri-1.webp" },
-    { name: "Magmotode", image: "https://i.ibb.co/ZzD7JKvq/Magmotode-1.webp" },
-    { name: "Mallemole", image: "https://i.ibb.co/hxSVBDbv/Mallemole-1.webp" },
-    { name: "Malotrick", image: "https://i.ibb.co/mr48hByp/Malotrick-1.webp" },
-    { name: "Malotrick-A", image: "https://i.ibb.co/kf25XV8/A-Malotrick-1.webp" },
-    { name: "Mammolten", image: "https://i.ibb.co/PGHnt9Qw/Mammolten-Erupt-1.webp" },
-    { name: "Mantiscald", image: "https://i.ibb.co/xSC4Lrd3/Mantiscald-1.webp" },
-    { name: "Marigrimm", image: "https://i.ibb.co/KxXS9sCN/Marigrimm-1.webp" },
-    { name: "Maskomedy", image: "https://i.ibb.co/4RD9GfDc/Maskomedy-1.webp" },
-    { name: "Maskomedy-A", image: "https://i.ibb.co/j9MjvpjW/A-Maskomedy-2.webp" },
-    { name: "Mawthra", image: "https://i.ibb.co/gFrVHRGP/Mawthra-1.webp" },
-    { name: "Mawthra-A", image: "https://i.ibb.co/tThbsss0/A-Mawthra-1.webp" },
-    { name: "Medikrow", image: "https://i.ibb.co/d0Fj8BLx/Medikrow-1.webp" },
-    { name: "Megortles", image: "https://i.ibb.co/7Nr2NJSs/Megortles-1.webp" },
-    { name: "Meiolicant", image: "https://i.ibb.co/s97prLxM/Meiolicant-1.webp" },
-    { name: "Meltimaw", image: "https://i.ibb.co/gbCfYmNj/Meltimaw-1.webp" },
-    { name: "Mercenous", image: "https://i.ibb.co/d0TY4gkB/Mercenous-1.webp" },
-    { name: "Mielursa", image: "https://i.ibb.co/wNsh6hbc/Mielursa-1.webp" },
-    { name: "Metalytra", image: "https://i.ibb.co/DH9PxW63/Metalytra-1.webp" },
-    { name: "Mold", image: "https://i.ibb.co/1fFnv8zb/Mold-1.webp" },
-    { name: "Monolugg", image: "https://i.ibb.co/5h5kK6bC/Monolugg-1.webp" },
-    { name: "Montor", image: "https://i.ibb.co/mVS8Z3wV/Montor-1.webp" },
-    { name: "Morphiu-C", image: "https://i.ibb.co/23B07SgR/Morphiu-C-1.webp" },
-    { name: "Morphiu-G", image: "https://i.ibb.co/21XvcBCR/Morphiu-G-1.webp" },
-    { name: "Morphiu-L", image: "https://i.ibb.co/cc0Hv4BY/Morphiu-L-1.webp" },
-    { name: "Morphiu-O", image: "https://i.ibb.co/G6gTChC/Morphiu-O-1.webp" },
-    { name: "Morphiu-T", image: "https://i.ibb.co/PqsS6dD/Morphiu-T-1.webp" },
-    { name: "Moss", image: "https://i.ibb.co/35rdfnLP/Moss-1.webp" },
-    { name: "Mourveil", image: "https://i.ibb.co/0jZfT5hV/Mourveil-1.webp" },
-    { name: "Mourveil-A", image: "https://i.ibb.co/kgVyyFBf/A-Mourveil-1.webp" },
-    { name: "Moyai", image: "https://i.ibb.co/pF0zg6G/Moyai-1.webp" },
-    { name: "Mystifaux", image: "https://i.ibb.co/mVTJBJZS/Mystifaux-1.webp" },
-    { name: "Nepteros", image: "https://i.ibb.co/4w0V7yw4/Nepteros-1.webp" },
-    { name: "Nimbell", image: "https://i.ibb.co/jZWDLDHJ/Nimbell-1.webp" },
-    { name: "Noctoryx", image: "https://i.ibb.co/yBsWFXhg/Noctoryx-1.webp" },
-    { name: "Noxvul", image: "https://i.ibb.co/4ZVgKq1W/Noxvul-1.webp" },
-    { name: "Nyanto", image: "https://i.ibb.co/spmdZfFR/Nyanto-1.webp" },
-    { name: "Nyanto-A", image: "https://i.ibb.co/J0CPgXL/A-Nyanto-1.webp" },
-    { name: "Octonut", image: "https://i.ibb.co/Kxmk598X/Octonut-1.webp" },
-    { name: "Ostigon", image: "https://i.ibb.co/s9ZrC8bN/Ostigon-1.webp" },
-    { name: "Ostigon-A", image: "https://i.ibb.co/HfdQXwfy/A-Ostigon-1.webp" },
-    { name: "Owol", image: "https://i.ibb.co/gLMHWgMR/Owol-1.webp" },
-    { name: "Partybug", image: "https://i.ibb.co/35B2tdn3/Partybug-1.webp" },
-    { name: "Partybug-A", image: "https://i.ibb.co/twhWrjW9/A-Partybug-1.webp" },
-    { name: "Polargeist", image: "https://i.ibb.co/0ptcTmV7/Polargeist-1.webp" },
-    { name: "Pompaboar", image: "https://i.ibb.co/Y48NhZp0/Pompaboar-1.webp" },
-    { name: "Potterfiend", image: "https://i.ibb.co/ymBB33mB/Potterfiend-1.webp" },
-    { name: "Prickles", image: "https://i.ibb.co/tPwVLrjm/Prickles-1.webp" },
-    { name: "Qilintel", image: "https://i.ibb.co/2Yq0Wxpq/Qilintel-1.webp" },
-    { name: "Reliconis", image: "https://i.ibb.co/d41nS4Kw/Reliconis-1.webp" },
-    { name: "Rhinostone", image: "https://i.ibb.co/SDDvcKkb/Rhinostone" },
-    { name: "Ribbotl", image: "https://i.ibb.co/ksc17JXq/Ribbotl-1.webp" },
-    { name: "Riptorvent", image: "https://i.ibb.co/PZ9YbcP6/Riptorvent-1.webp" },
-    { name: "Roadterra", image: "https://i.ibb.co/d0kjLRMQ/Roadterra-1.webp" },
-    { name: "Runewt", image: "https://i.ibb.co/wF702S6r/Runewt-1.webp" },
-    { name: "Scarfox", image: "https://i.ibb.co/WWV8Rkbc/Scarfox-1.webp" },
-    { name: "Scheemeesh", image: "https://i.ibb.co/vCRtgG4N/Schemeesh-1.webp" },
-    { name: "Scorsurge", image: "https://i.ibb.co/dsMvnjxh/Scorsurge-1.webp" },
-    { name: "Seacrion", image: "https://i.ibb.co/tTy8MDX3/Seacrion-1.webp" },
-    { name: "Seamknight", image: "https://i.ibb.co/wZXd9132/Seamknight-Guard-1.webp" },
-    { name: "Seamstress", image: "https://i.ibb.co/DHkMrS4L/Seamstress-Strike-1.webp" },
-    { name: "Serpentsheen", image: "https://i.ibb.co/RGJBrdL1/Serpentsheen-1.webp" },
-    { name: "Serrafin", image: "https://i.ibb.co/Qv2zsB5s/Serrafin-1.webp" },
-    { name: "Skadean", image: "https://i.ibb.co/gFjC44VZ/Skadean-1.webp" },
-    { name: "Skadean-A", image: "https://i.ibb.co/Kj5g4BDz/A-Skadean-1.webp" },
-    { name: "Skervidae", image: "https://i.ibb.co/20HnYgfk/Skervidae-1.webp" },
-    { name: "Skorpiruli", image: "https://i.ibb.co/xS5Dnv2P/Skorpirul-1.webp" },
-    { name: "Snorolla", image: "https://i.ibb.co/xSzcJjNL/Snorolla-1.webp" },
-    { name: "Snowclowne", image: "https://i.ibb.co/KcM8YpGL/Snowclone-1.webp" },
-    { name: "Somberock", image: "https://i.ibb.co/Ly7B8wX/Somberock-1.webp" },
-    { name: "Somberock-A", image: "https://i.ibb.co/6RVTdrLp/A-Somberock-1.webp" },
-    { name: "Spectatik", image: "https://i.ibb.co/svdj84TJ/Spectatik-1.webp" },
-    { name: "Spectatik-a", image: "https://i.ibb.co/Y7MLPzMv/A-Spectatik-1.webp" },
-    { name: "Springling", image: "https://i.ibb.co/zWHPBzc0/Springling-1.webp" },
-    { name: "Spunny", image: "https://i.ibb.co/393wQy0f/Spunny-1.webp" },
-    { name: "Squonk", image: "https://i.ibb.co/rR7PVkQy/Squonk-1.webp" },
-    { name: "Staligant-F", image: "https://i.ibb.co/zV7c8QDP/Staligant-F-1.webp" },
-    { name: "Staligant-M", image: "https://i.ibb.co/kV5Mhccw/Staligant-1.webp" },
-    { name: "Staligant-A", image: "https://i.ibb.co/Qxj5Gh3/A-Staligant-1.webp" },
-    { name: "Sukikogami", image: "https://i.ibb.co/1GWbyNBj/Sukikogami-1.webp" },
-    { name: "Suomous", image: "https://i.ibb.co/ddzbXt6/Suomous-1.webp" },
-    { name: "Suomous-A", image: "https://i.ibb.co/DfSmjHg2/A-Suomous-1.webp" },
-    { name: "Sursablit", image: "https://i.ibb.co/d0xP7yGJ/Sursablit-1.webp" },
-    { name: "Swoptar", image: "https://i.ibb.co/zhtHc4jn/Swoptar-1.webp" },
-    { name: "Taryonix", image: "https://i.ibb.co/nNSHph4p/Taryonix-1.webp" },
-    { name: "Tasmarauder", image: "https://i.ibb.co/sp8RcScC/Tasmarauder-1.webp" },
-    { name: "Terruma", image: "https://i.ibb.co/fGk0f43H/Terruma-1.webp" },
-    { name: "Theaterror", image: "https://i.ibb.co/mrY9NzBV/Theaterror-1.webp" },
-    { name: "Theaterror-A", image: "https://i.ibb.co/XrGnt0N0/A-Theaterror-1.webp" },
-    { name: "Thornet", image: "https://i.ibb.co/TDzcVMzg/Thornet-1.webp" },
-    { name: "Thornet-A", image: "https://i.ibb.co/1Y6HtYMX/A-Thornet-1.webp" },
-    { name: "Toxisui", image: "https://i.ibb.co/39MVcP9Z/Toxisui-1.webp" },
-    { name: "Tsumo", image: "https://i.ibb.co/JWW2cL87/Tsumo-1.webp" },
-    { name: "Tufflaze", image: "https://i.ibb.co/Zpkg0g7f/Tufflaze-1.webp" },
-    { name: "Tufflaze-A", image: "https://i.ibb.co/0VjQ28H1/A-Tufflaze-1.webp" },
-    { name: "Tulenna", image: "https://i.ibb.co/8LJxfypL/Tulenna-1.webp" },
-    { name: "Tulenna-A", image: "https://i.ibb.co/Xk2STDXs/A-Tulenna-1.webp" },
-    { name: "Umaisho", image: "https://i.ibb.co/zhVB1Fj8/Umaisho-1.webp" },
-    { name: "Umaisho-A", image: "https://i.ibb.co/60C56kcL/A-Umaisho-1.webp" },
-    { name: "Velodo", image: "https://i.ibb.co/6J87ZSW7/Velodo-1.webp" },
-    { name: "Vermorph", image: "https://i.ibb.co/PG72sXXd/Vermorph-1.webp" },
-    { name: "Vermorph-A", image: "https://i.ibb.co/QvMzMzjy/A-Vermorph-1.webp" },
-    { name: "Vigimante", image: "https://i.ibb.co/G4kr2d83/Vigimant-1.webp" },
-    { name: "Vigimante-A", image: "https://i.ibb.co/1Gj2nSNy/A-Vigimant-1.webp" },
-    { name: "Voltatoo", image: "https://i.ibb.co/TM549RHq/Voltatoo-1.webp" },
-    { name: "Voltenchant", image: "https://i.ibb.co/WWVCThdy/Voltenchant-1.webp" },
-    { name: "Voltenchant-A", image: "https://i.ibb.co/5XpHsNS2/A-Voltenchant-1.webp" },
-    { name: "Vuliable", image: "https://i.ibb.co/d05SQ4HX/Vuliable-1.webp" },
-    { name: "Werewool", image: "https://i.ibb.co/7tJwsrxH/Werewool-1.webp" },
-    { name: "Wolfreeze", image: "https://i.ibb.co/HDY1VCdg/Wolfreeze-1.webp" },
-    { name: "Wizvil", image: "https://i.ibb.co/Ps1fPMXL/Wizvil-1.webp" },
-    { name: "Wyvernal", image: "https://i.ibb.co/VWgxPsCR/Wyvernal-1.webp" },
-    { name: "Zapoeira", image: "https://i.ibb.co/pjjBsLmj/Zapoeira-1.webp" },
-    { name: "Zerzura", image: "https://i.ibb.co/x8YTpzGZ/Zerzura-1.webp" },
-    { name: "Caramellow", image: "https://i.ibb.co/mVqxRJkP/Caramellow-1.webp" },
-    { name: "Boblop", image: "https://i.ibb.co/gbZBZMpm/Boblop-1.webp" },
-    { name: "Hazination", image: "https://i.ibb.co/Pv1gvf4p/Hazination-1-1.webp" },
-    { name: "Taxideer", image: "https://i.ibb.co/bggNpkVc/Taxideer-1.webp" },
-    { name: "Daffodally", image: "https://i.ibb.co/zWvz7h57/Daffodally-1.webp" },
-    { name: "Incandesect", image: "https://i.ibb.co/fGkKjspV/Incandesect-1.webp" },
-    { name: "Ignisect", image: "https://i.ibb.co/rfF0Tphb/Ignisect-1.webp" },
-    {name: "Breezshy", image: "https://i.ibb.co/vx62848L/2025-04-06-0wn-Kleki-2.png" },
-    {name: "Majestegg", image: "https://i.ibb.co/bjpQ6FWj/Majestegg1.png" },
-    {name: "Omeletrot", image: "https://i.ibb.co/W4BZbzh1/Hornse-no-egg1.png" },
-    {name: "Majestegg-Steed", image: "https://i.ibb.co/tMY3zNtc/Hornse1.png" },
-    {name: "Emoticat", image: "https://i.ibb.co/vxRkzQ23/Emoticat-1.webp" },
-    {name: "Onirijyn", image: "https://i.ibb.co/wZdryY61/Onirijyn1.webp" },
-    {name: "Clavalier", image: "https://i.ibb.co/wrFGzd8m/Latest.png" },
-    {name: "Snowclowne-A", image: "https://i.ibb.co/v60TZCsS/SPOILER-theclowne.png" },
-    {name: "Osman-shi", image: "https://i.ibb.co/JWc6HX4J/Osman-shi-1.webp" },
-    {name: "Stagine", image: "https://i.ibb.co/9HygQwYv/Stagine-1.webp" },
-    {name: "Aurevalis", image: "https://i.ibb.co/Qv1sDy8k/Aurevalis-1.webp" },
-    {name: "Scarrion", image: "https://i.ibb.co/rGq2yNJw/Scarrion-1.webp" },
-    {name: "Jellupy-A", image: "https://i.ibb.co/m53ZNDRZ/Untitled324-20250629115504.png" },
-    {name: "Fancyoon-A", image: "https://i.ibb.co/8LYwtZ0Z/Raccounraccoun-1.png" },
-    {name: "Arcwatt", image: "https://i.ibb.co/PvxkXktZ/Arcwatt-1.webp" },
-    {name: "Lepidhonk", image: "https://i.ibb.co/kgsTxvx1/Image.png"},
-    {name: "Sauschund", image: "https://i.ibb.co/prsSQ3Vj/Image.png"},
-    {name: "Lobsugar", image: "https://i.ibb.co/tPvftWVW/Lobsugar-1.webp"},
-    {name: "Kaboomaroo", image: "https://i.ibb.co/bMnSztjX/Kaboomaroo-M-1.webp"},
-    {name: "Maskusi", image: "https://i.ibb.co/jZxNT71M/Maskusi-1.webp"},
-    {name: "Tiricket", image: "https://i.ibb.co/twrFVxrC/Tiricket11.png"},
-    {name: "Applicious", image: "https://i.ibb.co/MkB2QYKw/Applicious1.png"},
-    {name: "Snoaster", image: "https://i.ibb.co/zT97M75Z/Snoaster1.png"},
-    {name: "Tigrousel", image: "https://i.ibb.co/LXwN3vj1/Tigrousel1.png"},
-    {name: "Mantishrew", image: "https://i.ibb.co/tT8XF5GD/Mantishrew-1.webp"},
-    {name: "Yorus", image: "https://i.ibb.co/ynXRQvn4/Yorus-1.webp"},
-];
+        const typeColors = {
+            'Mythic': 'var(--mythic-color)',
+            'Fire': 'var(--fire-color)',
+            'Water': 'var(--water-color)',
+            'Plant': 'var(--plant-color)',
+            'Electric': 'var(--electric-color)',
+            'Beast': 'var(--beast-color)',
+            'Air': 'var(--air-color)',
+            'Bug': 'var(--bug-color)',
+            'Earth': 'var(--earth-color)',
+            'Mind': 'var(--mind-color)',
+            'Melee': 'var(--melee-color)',
+            'Food': 'var(--food-color)',
+            'Light': 'var(--light-color)',
+            'Crystal': 'var(--crystal-color)',
+            'Metal': 'var(--metal-color)',
+            'Spirit': 'var(--spirit-color)',
+            'Ice': 'var(--ice-color)',
+            'Dark': 'var(--dark-color)',
+            'Poison': 'var(--poison-color)',
+            'Basic': 'var(--basic-color)'
+        };
 
-        
-   
-        const basicMoves = [
+        const typeIcons = {
+            'Mythic': 'logos/mythic.png',
+            'Fire': 'logos/fire.png',
+            'Water': 'logos/water.png',
+            'Plant': 'logos/plant.png',
+            'Electric': 'logos/electric.png',
+            'Beast': 'logos/beast.png',
+            'Air': 'logos/air.png',
+            'Bug': 'logos/bug.png',
+            'Earth': 'logos/earth.png',
+            'Mind': 'logos/mind.png',
+            'Melee': 'logos/melee.png',
+            'Food': 'logos/food.png',
+            'Light': 'logos/light.png',
+            'Crystal': 'logos/crystal.png',
+            'Metal': 'logos/metal.png',
+            'Spirit': 'logos/spirit.png',
+            'Ice': 'logos/ice.png',
+            'Dark': 'logos/dark.png',
+            'Poison': 'logos/poison.png',
+            'Basic': 'logos/basic.png'
+        };
+
+        const doodles = [
+                       { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp", type: "Insect/Mind" },
+            { name: "Aluminja", image: "https://i.ibb.co/tpxnFrs0/Aluminja-1.webp", type: "Metal/Melee" },
+            { name: "Antenaflight", image: "https://i.ibb.co/chg5DDHT/Antenaflight-1.webp", type: "Insect/Air" },
+            { name: "Anubeetle", image: "https://i.ibb.co/zHZWtGLG/Anubeetle-1.webp", type: "Insect/Earth" },
+            { name: "Arachniak", image: "https://i.ibb.co/rGzxdc10/Arachniak-1.webp", type: "Spirit/Insect" },
+            { name: "Archopos", image: "https://i.ibb.co/cKvQgKqZ/Archopos-1.webp", type: "Spirit" },
+            { name: "Archopos-A", image: "https://i.ibb.co/tTZYP6LB/A-Archopos-1.webp", type: "Spirit/Metal" },
+            { name: "Armaratus", image: "https://i.ibb.co/jvMyhxRH/Armaratus-Unveiled-1.webp", type: "Spirit/Crystal" },
+            { name: "Arthopex", image: "https://i.ibb.co/spyF5Yty/Arthopex-1.webp", type: "Beast/Insect" },
+            { name: "Artifixie-Base", image: "https://i.ibb.co/NdjXHNsN/Artifixie-1.webp", type: "Ice/Mind" },
+            { name: "Artifixie-Mech", image: "https://i.ibb.co/wNYbXdLb/Artifixie-MEKA-1.webp", type: "Ice/Metal" },
+            { name: "Banautalis", image: "https://i.ibb.co/ZpfvDz69/Banautilus-1.webp", type: "Plant/Food" },
+            { name: "Bionotic", image: "https://i.ibb.co/rKwnMmQs/Bionotic-1.webp", type: "Water/Mind" },
+            { name: "Bionotic-A", image: "https://i.ibb.co/RdsYPBh/A-Bionotic-1.webp", type: "Water/Mind" },
+            { name: "Bronzoch", image: "https://i.ibb.co/7ty7w22C/Bronzoch-1.webp", type: "Fire/Metal" },
+            { name: "Bubbull", image: "https://i.ibb.co/pBj6DYFJ/Bubbull-1.webp", type: "Water/Earth" },
+            { name: "Bubbull-A", image: "https://i.ibb.co/5W1hP8y6/A-Bubbull-1.webp", type: "Water/Earth" },
+            { name: "Bungo", image: "https://i.ibb.co/4RbPds64/Bungo-Family-1.webp", type: "Poison" },
+            { name: "Bunswirl", image: "https://i.ibb.co/r2r7LLxH/Bunswirl-1.webp", type: "Food/Basic" },
+            { name: "Cacmeow", image: "https://i.ibb.co/Cs0PgZ1Q/Cacmeow-1.webp", type: "Plant/Earth" },
+            { name: "Cacmeow-A", image: "https://i.ibb.co/hJnBK6jj/A-Cacmeow-1.webp", type: "Plant/Earth" },
+            { name: "Calamander", image: "https://i.ibb.co/N6SrKydb/Calamander-1.webp", type: "Food" },
+            { name: "Calamander-A", image: "https://i.ibb.co/Xf2k8WL4/A-Calamander-1.webp", type: "Food/Beast" },
+            { name: "Candeigon", image: "https://i.ibb.co/0jcQhbJT/Candeigon-1.webp", type: "Food/Mind" },
+            { name: "Carnivower", image: "https://i.ibb.co/PZ4sk1sB/Carnivower-1.webp", type: "Plant/Beast" },
+            { name: "Celestian", image: "https://i.ibb.co/LdxVfJN8/Celestian-1.webp", type: "Mind/Metal" },
+            { name: "Cerebopod", image: "https://i.ibb.co/fYf7nDP9/Cerebopod-1.webp", type: "Mind/Poison" },
+            { name: "Cerebopod-A", image: "https://i.ibb.co/RGJtFjLZ/A-Cerebopod-1.webp", type: "Mind/Poison" },
+            { name: "Cherugard", image: "https://i.ibb.co/dJKrrF91/Cherugard-1.webp", type: "Light/Air" },
+            { name: "Chimestive", image: "https://i.ibb.co/BH4tZFRj/Chimestive-1.webp", type: "Plant/Air" },
+            { name: "Clangutang", image: "https://i.ibb.co/6JgmLsNT/Clangutang-1.webp", type: "Earth/Metal" },
+            { name: "Corrolizard", image: "https://i.ibb.co/HDYqQHJX/Corrolizard-1.webp", type: "Poison" },
+            { name: "Corrolizard-A", image: "https://i.ibb.co/7tgnPM4B/A-Corrolizard-1.webp", type: "Poison/Spirit" },
+            { name: "Cragildae", image: "https://i.ibb.co/KT2Q7KS/Cragildae-1.webp", type: "Earth/Melee" },
+            { name: "Cragildae-A", image: "https://i.ibb.co/zWTVy9dS/A-Cragildae-1.webp", type: "Earth/Melee" },
+            { name: "Cryotera", image: "https://i.ibb.co/k2ZdKtrW/Cryotera-1.webp", type: "Ice/Air" },
+            { name: "Cryotera-A", image: "https://i.ibb.co/xKQy61rC/A-Cryotera-1.webp", type: "Ice/Dark" },
+            { name: "Ctholos", image: "https://i.ibb.co/chVmY7PW/Ctholos-1.webp", type: "Water/Dark" },
+            { name: "Daeferno", image: "https://i.ibb.co/675zBZZW/Daeferno-1.webp", type: "Fire/Spirit" },
+            { name: "Dameseal", image: "https://i.ibb.co/4ZkjjRDS/Dameseal-1.webp", type: "Water/Basic" },
+            { name: "Desdog", image: "https://i.ibb.co/0RDzVQky/Desdog-1.webp", type: "Dark/Basic" },
+            { name: "Djinneko", image: "https://i.ibb.co/YBpZJJSB/Djinneko-1.webp", type: "Mind/Spirit" },
+            { name: "Drakothread", image: "https://i.ibb.co/1G3mhY2w/Drakothread-1.webp", type: "Air/Basic" },
+            { name: "Elefortune", image: "https://i.ibb.co/7dmVRhbh/Elefortune-1.webp", type: "Mind/Light" },
+            { name: "Emperoflame", image: "https://i.ibb.co/pVV1mRj/Leoperor-1.webp", type: "Fire" },
+            { name: "Endovul", image: "https://i.ibb.co/5g9shVvN/Endovul-1.webp", type: "Crystal/Ice" },
+            { name: "Exoskelis", image: "https://i.ibb.co/TMz19D9q/Exoskelis-1.webp", type: "Insect/Dark" },
+            { name: "Exovul", image: "https://i.ibb.co/84fkbHxs/Exovul-1.webp", type: "Crystal/Fire" },
+            { name: "Fabulupin", image: "https://i.ibb.co/pjzhKxF5/Fabulupin-1.webp", type: "Plant/Grass" },
+            { name: "Fancyoon", image: "https://i.ibb.co/gbCzN5LB/Fancyoon-1.webp", type: "Poison/Basic" },
+            { name: "Feracoalt", image: "https://i.ibb.co/PsSsCrC7/Feracoatl-1.webp", type: "Plant/Beast" },
+            { name: "Finwick", image: "https://i.ibb.co/bRz7S96Y/Finwick-1.webp", type: "Water" },
+            { name: "Flong", image: "https://i.ibb.co/LbN1vGV/Flong-1.webp", type: "Beast" },
+            { name: "Fluppy", image: "https://i.ibb.co/LX4zCZHm/Fluppy-1.webp", type: "Light/Plant" },
+            { name: "Frigale", image: "https://i.ibb.co/8Dqqxd0K/Frigale-1.webp", type: "Air/Basic" },
+            { name: "Fruitoad", image: "https://i.ibb.co/9mn2YbsT/Fruitoad-1.webp", type: "Food/Water" },
+            { name: "Fummasu", image: "https://i.ibb.co/KzpGzMbq/Fummasu-1.webp", type: "Mind/Air" },
+            { name: "Garghoul", image: "https://i.ibb.co/NnNnFjzh/Garghoul-1.webp", type: "Ghost/Air" },
+            { name: "Gigarlic", image: "https://i.ibb.co/xqVBZFJQ/Gigarlic-1.webp", type: "Fire/Food" },
+            { name: "Girasera", image: "https://i.ibb.co/hxBQKwwf/Girasera-1.webp", type: "Plant/Poison" },
+            { name: "Glacigash", image: "https://i.ibb.co/TdfFpHZ/Glacigash-1.webp", type: "Insect/Ice" },
+            { name: "Glubbie", image: "https://i.ibb.co/dJbCHMZY/Glubbie-1.webp", type: "Poison/Spirit" },
+            { name: "Gobblegoo", image: "https://i.ibb.co/Q7NhSXRX/Gobblegoo-1.webp", type: "Plant/Poison" },
+            { name: "Goliage", image: "https://i.ibb.co/q3Hdx1zM/Goliage-1.webp", type: "Plant/Earth" },
+            { name: "Gomutt", image: "https://i.ibb.co/GLtGk4V/Gomutt-1.webp", type: "Water/Beast" },
+            { name: "Gourmesal", image: "https://i.ibb.co/mrZSmCXQ/Gourmesal-1.webp", type: "Food/Crystal" },
+            { name: "Gowatt", image: "https://i.ibb.co/tw5MF1Gf/Gowatt-1.webp", type: "Spark" },
+            { name: "Grimantle", image: "https://i.ibb.co/vvxWTdNr/Grimantle-Cloaked-1.webp", type: "Dark/Poison" },
+            { name: "Grimantle-Air", image: "https://i.ibb.co/nN78jvh5/Grimantle-Uncloaked-1.webp", type: "Dark/Air" },
+            { name: "Groato", image: "https://i.ibb.co/JRMDMxdp/Groato-1.webp", type: "Basic" },
+            { name: "Groato-A", image: "https://i.ibb.co/216TTLtC/A-Groato-1.webp", type: "Basic/Water" },
+            { name: "Grufflin", image: "https://i.ibb.co/8g9szqn6/Grufflin-1.webp", type: "Food/Air" },
+            { name: "Grufflin-A", image: "https://i.ibb.co/DfC8vzkz/A-Grufflin-1.webp", type: "Food/Air" },
+            { name: "Gyornaw", image: "https://i.ibb.co/KpMV9t2F/Gyornaw-1.webp", type: "Water/Beast" },
+            { name: "Hahayena", image: "https://i.ibb.co/8gCVYwt8/Hahayena-1.webp", type: "Spark/Crystal" },
+            { name: "Hangryphus", image: "https://i.ibb.co/fGvjtM8b/Hangryphus-1.webp", type: "Food/Melee" },
+            { name: "Hattrix", image: "https://i.ibb.co/Wv9q46v7/Hattrix-1.webp", type: "Mind/Dark" },
+            { name: "Hattrix-A", image: "https://i.ibb.co/4gDtyB6s/A-Hattrix-1.webp", type: "Mind/Dark" },
+            { name: "Henchum", image: "https://i.ibb.co/TnZxsTb/Henchum-1.webp", type: "Melee/Dark" },
+            { name: "Hollihare", image: "https://i.ibb.co/Z67cYDpK/Hollihare-1.webp", type: "Plant/Ice" },
+            { name: "Horbeast", image: "https://i.ibb.co/b5xXLMkJ/Horbeast-1.webp", type: "Dark/Beast" },
+            { name: "Humbiscus", image: "https://i.ibb.co/S7ntyndk/Humbiscus-1.webp", type: "Plant/Air" },
+            { name: "Hypnotl", image: "https://i.ibb.co/tPc6RBR2/Hypnotl-1.webp", type: "Mind/Plant" },
+            { name: "Hypnotl-A", image: "https://i.ibb.co/KctgdH1J/A-Hypnotl-1.webp", type: "Mind/Plant" },
+            { name: "Incinelisk", image: "https://i.ibb.co/TqHKHDWd/Incinelisk-1.webp", type: "Fire/Dark" },
+            { name: "Infurnius", image: "https://i.ibb.co/5x4hkzmm/Infurnius-1.webp", type: "Fire/Light" },
+            { name: "Irikil", image: "https://i.ibb.co/Z4RBv70/Irikil-1.webp", type: "Dark" },
+            { name: "Jaelect", image: "https://i.ibb.co/vxwg4vMw/Jaelect-1.webp", type: "Crystal" },
+            { name: "Jelluminous", image: "https://i.ibb.co/qLt9t83c/Jelluminous-1.webp", type: "Light/Spark" },
+            { name: "Jellupy", image: "https://i.ibb.co/TxM2qcrx/Jellupy-1.webp", type: "Food/Metal" },
+            { name: "Jestwirl", image: "https://i.ibb.co/kgnrhxVX/Jestwirl-1.webp", type: "Mind/Basic" },
+            { name: "Jinglark", image: "https://i.ibb.co/VWMBVJmp/Jinglark-1.webp", type: "Plant/Air" },
+            { name: "Jinglark-A", image: "https://i.ibb.co/LXV998HS/A-Jinglark-1.webp", type: "Plant/Air" },
+            { name: "Junipyro", image: "https://i.ibb.co/xqp2SBWh/Junipyro-1.webp", type: "Fire/Plant" },
+            { name: "Kelpimer", image: "https://i.ibb.co/Y4W1Mjk6/Kelpimer-1.webp", type: "Water/Spirit" },
+            { name: "Kibara", image: "https://i.ibb.co/fYt5R6QB/Kibara-1.webp", type: "Ice/Crystal" },
+            { name: "Kidere", image: "https://i.ibb.co/Z6vvwyHj/Kidere-1.webp", type: "Ice/Light" },
+            { name: "Klydaskunk", image: "https://i.ibb.co/Ld062NV5/Klydaskunk-1.webp", type: "Poison/Light" },
+            { name: "Koriyu", image: "https://i.ibb.co/wNBLqfxt/Koriyu-1.webp", type: "Ice/Dark" },
+            { name: "Kreindus", image: "https://i.ibb.co/vvv6wcbL/Kreindus-1.webp", type: "Ice/Dark" },
+            { name: "Lacergen-Base", image: "https://i.ibb.co/Mxs3gYqt/image.png", type: "Basic/Metal" },
+            { name: "Lacergen-Earth", image: "https://i.ibb.co/rKT4Rmky/Lacergen-Earth-1.webp", type: "Earth/Metal" },
+            { name: "Lacergen-Fire", image: "https://i.ibb.co/5h8D1FSP/Lacergen-Fire-1.webp", type: "Fire/Metal" },
+            { name: "Lacergen-Ice", image: "https://i.ibb.co/Q7w3FzgN/Lacergen-Ice-1.webp", type: "Ice/Metal" },
+            { name: "Lacergen-Spark", image: "https://i.ibb.co/w3HBhnZ/Lacergen-Spark-1.webp", type: "Spark/Metal" },
+            { name: "Leazar", image: "https://i.ibb.co/nNhhcgdG/Leazar-1.webp", type: "Plant" },
+            { name: "Libelagua", image: "https://i.ibb.co/zWft88KD/Libelagua-1.webp", type: "Water/Insect" },
+            { name: "Libelagua-A", image: "https://i.ibb.co/Rpx9gcMC/A-Libelagua-1.webp", type: "Water/Insect" },
+            { name: "Lilivian", image: "https://i.ibb.co/fV4Hr49K/Lilvian-1.webp", type: "Plant/Mind" },
+            { name: "Louis", image: "https://i.ibb.co/wZzzG9C4/Louis-1.webp", type: "Basic" },
+            { name: "Lumiline", image: "https://i.ibb.co/HT1X7rYZ/Lumiline-1.webp", type: "Light/Crystal" },
+            { name: "Lumiline-A", image: "https://i.ibb.co/LXFXwBKP/A-Lumiline-1.webp", type: "Light/Crystal" },
+            { name: "Lurkilid", image: "https://i.ibb.co/V0rRPwk3/Lurkelid-1.webp", type: "Water/Dark" },
+            { name: "Maelzuri", image: "https://i.ibb.co/8LdJTbdj/Maelzuri-1.webp", type: "Water/Crystal" },
+            { name: "Magmotode", image: "https://i.ibb.co/ZzD7JKvq/Magmotode-1.webp", type: "Fire/Earth" },
+            { name: "Mallemole", image: "https://i.ibb.co/hxSVBDbv/Mallemole-1.webp", type: "Beast/Basic" },
+            { name: "Malotrick", image: "https://i.ibb.co/mr48hByp/Malotrick-1.webp", type: "Dark/Mind" },
+            { name: "Malotrick-A", image: "https://i.ibb.co/kf25XV8/A-Malotrick-1.webp", type: "Dark/Mind" },
+            { name: "Mammolten", image: "https://i.ibb.co/PGHnt9Qw/Mammolten-Erupt-1.webp", type: "Ice/Fire" },
+            { name: "Mantiscald", image: "https://i.ibb.co/xSC4Lrd3/Mantiscald-1.webp", type: "Water/Fire" },
+            { name: "Marigrimm", image: "https://i.ibb.co/KxXS9sCN/Marigrimm-1.webp", type: "Spirit" },
+            { name: "Maskomedy", image: "https://i.ibb.co/4RD9GfDc/Maskomedy-1.webp", type: "Light/Spirit" },
+            { name: "Maskomedy-A", image: "https://i.ibb.co/j9MjvpjW/A-Maskomedy-2.webp", type: "Light/Dark" },
+            { name: "Mawthra", image: "https://i.ibb.co/gFrVHRGP/Mawthra-1.webp", type: "Poison/Insect" },
+            { name: "Mawthra-A", image: "https://i.ibb.co/tThbsss0/A-Mawthra-1.webp", type: "Poison/Metal" },
+            { name: "Medikrow", image: "https://i.ibb.co/d0Fj8BLx/Medikrow-1.webp", type: "Dark/Poison" },
+            { name: "Megortles", image: "https://i.ibb.co/7Nr2NJSs/Megortles-1.webp", type: "Plant" },
+            { name: "Meiolicant", image: "https://i.ibb.co/s97prLxM/Meiolicant-1.webp", type: "Poison" },
+            { name: "Meltimaw", image: "https://i.ibb.co/gbCfYmNj/Meltimaw-1.webp", type: "Fire/Food" },
+            { name: "Mercenous", image: "https://i.ibb.co/d0TY4gkB/Mercenous-1.webp", type: "Water/Light" },
+            { name: "Mielursa", image: "https://i.ibb.co/wNsh6hbc/Mielursa-1.webp", type: "Food/Insect" },
+            { name: "Metalytra", image: "https://i.ibb.co/DH9PxW63/Metalytra-1.webp", type: "Insect/Metal" },
+            { name: "Mold", image: "https://i.ibb.co/1fFnv8zb/Mold-1.webp", type: "Water/Poison" },
+            { name: "Monolugg", image: "https://i.ibb.co/5h5kK6bC/Monolugg-1.webp", type: "Earth" },
+            { name: "Montor", image: "https://i.ibb.co/mVS8Z3wV/Montor-1.webp", type: "Spark/Metal" },
+            { name: "Morphiu-C", image: "https://i.ibb.co/23B07SgR/Morphiu-C-1.webp", type: "Mind/Water" },
+            { name: "Morphiu-G", image: "https://i.ibb.co/21XvcBCR/Morphiu-G-1.webp", type: "Mind/Air" },
+            { name: "Morphiu-L", image: "https://i.ibb.co/cc0Hv4BY/Morphiu-L-1.webp", type: "Mind/Fire" },
+            { name: "Morphiu-O", image: "https://i.ibb.co/G6gTChC/Morphiu-O-1.webp", type: "Mind/Basic" },
+            { name: "Morphiu-T", image: "https://i.ibb.co/PqsS6dD/Morphiu-T-1.webp", type: "Mind/Earth" },
+            { name: "Moss", image: "https://i.ibb.co/35rdfnLP/Moss-1.webp", type: "Water/Plant" },
+            { name: "Mourveil", image: "https://i.ibb.co/0jZfT5hV/Mourveil-1.webp", type: "Plant/Dark" },
+            { name: "Mourveil-A", image: "https://i.ibb.co/kgVyyFBf/A-Mourveil-1.webp", type: "Plant/Dark" },
+            { name: "Moyai", image: "https://i.ibb.co/pF0zg6G/Moyai-1.webp", type: "Earth" },
+            { name: "Mystifaux", image: "https://i.ibb.co/mVTJBJZS/Mystifaux-1.webp", type: "Dark/Mind" },
+            { name: "Nepteros", image: "https://i.ibb.co/4w0V7yw4/Nepteros-1.webp", type: "Water/Dark" },
+            { name: "Nimbell", image: "https://i.ibb.co/jZWDLDHJ/Nimbell-1.webp", type: "Light" },
+            { name: "Noctoryx", image: "https://i.ibb.co/yBsWFXhg/Noctoryx-1.webp", type: "Dark/Crystal" },
+            { name: "Noxvul", image: "https://i.ibb.co/4ZVgKq1W/Noxvul-1.webp", type: "Poison/Crystal" },
+            { name: "Nyanto", image: "https://i.ibb.co/spmdZfFR/Nyanto-1.webp", type: "Insect/Basic" },
+            { name: "Nyanto-A", image: "https://i.ibb.co/J0CPgXL/A-Nyanto-1.webp", type: "Insect/Air" },
+            { name: "Octonut", image: "https://i.ibb.co/Kxmk598X/Octonut-1.webp", type: "Water" },
+            { name: "Ostigon", image: "https://i.ibb.co/s9ZrC8bN/Ostigon-1.webp", type: "Beast/Poison" },
+            { name: "Ostigon-A", image: "https://i.ibb.co/HfdQXwfy/A-Ostigon-1.webp", type: "Dark/Poison" },
+            { name: "Owol", image: "https://i.ibb.co/gLMHWgMR/Owol-1.webp", type: "Air" },
+            { name: "Partybug", image: "https://i.ibb.co/35B2tdn3/Partybug-1.webp", type: "Insect/Mind" },
+            { name: "Partybug-A", image: "https://i.ibb.co/twhWrjW9/A-Partybug-1.webp", type: "Beast/Mind" },
+            { name: "Polargeist", image: "https://i.ibb.co/0ptcTmV7/Polargeist-1.webp", type: "Ice/Spirit" },
+            { name: "Pompaboar", image: "https://i.ibb.co/Y48NhZp0/Pompaboar-1.webp", type: "Basic" },
+            { name: "Potterfiend", image: "https://i.ibb.co/ymBB33mB/Potterfiend-1.webp", type: "Earth/Dark" },
+            { name: "Prickles", image: "https://i.ibb.co/tPwVLrjm/Prickles-1.webp", type: "Plant/Melee" },
+            { name: "Qilintel", image: "https://i.ibb.co/2Yq0Wxpq/Qilintel-1.webp", type: "Light/Metal" },
+            { name: "Reliconis", image: "https://i.ibb.co/d41nS4Kw/Reliconis-1.webp", type: "Spirit/Beast" },
+            { name: "Rhinostone", image: "https://i.ibb.co/SDDvcKkb/Rhinostone", type: "Earth/Crystal" },
+            { name: "Ribbotl", image: "https://i.ibb.co/ksc17JXq/Ribbotl-1.webp", type: "Mind" },
+            { name: "Riptorvent", image: "https://i.ibb.co/PZ9YbcP6/Riptorvent-1.webp", type: "Spark/Beast" },
+            { name: "Roadterra", image: "https://i.ibb.co/d0kjLRMQ/Roadterra-1.webp", type: "Earth/Air" },
+            { name: "Runewt", image: "https://i.ibb.co/wF702S6r/Runewt-1.webp", type: "Earth/Mind" },
+            { name: "Scarfox", image: "https://i.ibb.co/WWV8Rkbc/Scarfox-1.webp", type: "Ice" },
+            { name: "Scheemeesh", image: "https://i.ibb.co/vCRtgG4N/Schemeesh-1.webp", type: "Water/Basic" },
+            { name: "Scorsurge", image: "https://i.ibb.co/dsMvnjxh/Scorsurge-1.webp", type: "Spark/Poison" },
+            { name: "Seacrion", image: "https://i.ibb.co/tTy8MDX3/Seacrion-1.webp", type: "Water/Beast" },
+            { name: "Seamknight", image: "https://i.ibb.co/wZXd9132/Seamknight-Guard-1.webp", type: "Metal/Spirit" },
+            { name: "Seamstress", image: "https://i.ibb.co/DHkMrS4L/Seamstress-Strike-1.webp", type: "Metal/Spirit" },
+            { name: "Serpentsheen", image: "https://i.ibb.co/RGJBrdL1/Serpentsheen-1.webp", type: "Metal/Crystal" },
+            { name: "Serrafin", image: "https://i.ibb.co/Qv2zsB5s/Serrafin-1.webp", type: "Metal/Water" },
+            { name: "Skadean", image: "https://i.ibb.co/gFjC44VZ/Skadean-1.webp", type: "Ice/Water" },
+            { name: "Skadean-A", image: "https://i.ibb.co/Kj5g4BDz/A-Skadean-1.webp", type: "Ice/Water" },
+            { name: "Skervidae", image: "https://i.ibb.co/20HnYgfk/Skervidae-1.webp", type: "Spark/Fire" },
+            { name: "Skorpiruli", image: "https://i.ibb.co/xS5Dnv2P/Skorpirul-1.webp", type: "Food/Poison" },
+            { name: "Snorolla", image: "https://i.ibb.co/xSzcJjNL/Snorolla-1.webp", type: "Ice/Basic" },
+            { name: "Snowclowne", image: "https://i.ibb.co/KcM8YpGL/Snowclone-1.webp", type: "Food/Ice" },
+            { name: "Somberock", image: "https://i.ibb.co/Ly7B8wX/Somberock-1.webp", type: "Food/Dark" },
+            { name: "Somberock-A", image: "https://i.ibb.co/6RVTdrLp/A-Somberock-1.webp", type: "Food/Light" },
+            { name: "Spectatik", image: "https://i.ibb.co/svdj84TJ/Spectatik-1.webp", type: "Crystal/Insect" },
+            { name: "Spectatik-a", image: "https://i.ibb.co/Y7MLPzMv/A-Spectatik-1.webp", type: "Crystal/Insect" },
+            { name: "Springling", image: "https://i.ibb.co/zWHPBzc0/Springling-1.webp", type: "Plant/Basic" },
+            { name: "Spunny", image: "https://i.ibb.co/393wQy0f/Spunny-1.webp", type: "Basic/Spirit" },
+            { name: "Squonk", image: "https://i.ibb.co/rR7PVkQy/Squonk-1.webp", type: "Spirit/Plant" },
+            { name: "Staligant-F", image: "https://i.ibb.co/zV7c8QDP/Staligant-F-1.webp", type: "Crystal/Mind" },
+            { name: "Staligant-M", image: "https://i.ibb.co/kV5Mhccw/Staligant-1.webp", type: "Crystal/Mind" },
+            { name: "Staligant-A", image: "https://i.ibb.co/Qxj5Gh3/A-Staligant-1.webp", type: "Crystal/Mind" },
+            { name: "Sukikogami", image: "https://i.ibb.co/1GWbyNBj/Sukikogami-1.webp", type: "Dark/Air" },
+            { name: "Suomous", image: "https://i.ibb.co/ddzbXt6/Suomous-1.webp", type: "Melee" },
+            { name: "Suomous-A", image: "https://i.ibb.co/DfSmjHg2/A-Suomous-1.webp", type: "Melee" },
+            { name: "Sursablit", image: "https://i.ibb.co/d0xP7yGJ/Sursablit-1.webp", type: "Earth/Spark" },
+            { name: "Swoptar", image: "https://i.ibb.co/zhtHc4jn/Swoptar-1.webp", type: "Metal/Beast" },
+            { name: "Taryonix", image: "https://i.ibb.co/nNSHph4p/Taryonix-1.webp", type: "Beast/Earth" },
+            { name: "Tasmarauder", image: "https://i.ibb.co/sp8RcScC/Tasmarauder-1.webp", type: "Melee/Beast" },
+            { name: "Terruma", image: "https://i.ibb.co/fGk0f43H/Terruma-1.webp", type: "Earth/Basic" },
+            { name: "Theaterror", image: "https://i.ibb.co/mrY9NzBV/Theaterror-1.webp", type: "Dark/Spirit" },
+            { name: "Theaterror-A", image: "https://i.ibb.co/XrGnt0N0/A-Theaterror-1.webp", type: "Dark/Light" },
+            { name: "Thornet", image: "https://i.ibb.co/TDzcVMzg/Thornet-1.webp", type: "Plant/Insect" },
+            { name: "Thornet-A", image: "https://i.ibb.co/1Y6HtYMX/A-Thornet-1.webp", type: "Plant/Metal" },
+            { name: "Toxisui", image: "https://i.ibb.co/39MVcP9Z/Toxisui-1.webp", type: "Water/Poison" },
+            { name: "Tsumo", image: "https://i.ibb.co/JWW2cL87/Tsumo-1.webp", type: "Melee/Fire" },
+            { name: "Tufflaze", image: "https://i.ibb.co/Zpkg0g7f/Tufflaze-1.webp", type: "Fire/Beast" },
+            { name: "Tufflaze-A", image: "https://i.ibb.co/0VjQ28H1/A-Tufflaze-1.webp", type: "Fire/Beast" },
+            { name: "Tulenna", image: "https://i.ibb.co/8LJxfypL/Tulenna-1.webp", type: "Plant" },
+            { name: "Tulenna-A", image: "https://i.ibb.co/Xk2STDXs/A-Tulenna-1.webp", type: "Plant/Poison" },
+            { name: "Umaisho", image: "https://i.ibb.co/zhVB1Fj8/Umaisho-1.webp", type: "Food" },
+            { name: "Umaisho-A", image: "https://i.ibb.co/60C56kcL/A-Umaisho-1.webp", type: "Food" },
+            { name: "Velodo", image: "https://i.ibb.co/6J87ZSW7/Velodo-1.webp", type: "Beast/Air" },
+            { name: "Vermorph", image: "https://i.ibb.co/PG72sXXd/Vermorph-1.webp", type: "Spark/Insect" },
+            { name: "Vermorph-A", image: "https://i.ibb.co/QvMzMzjy/A-Vermorph-1.webp", type: "Spark/Insect" },
+            { name: "Vigimante", image: "https://i.ibb.co/G4kr2d83/Vigimant-1.webp", type: "Water/Melee" },
+            { name: "Vigimante-A", image: "https://i.ibb.co/1Gj2nSNy/A-Vigimant-1.webp", type: "Water/Melee" },
+            { name: "Voltatoo", image: "https://i.ibb.co/TM549RHq/Voltatoo-1.webp", type: "Spark/Air" },
+            { name: "Voltenchant", image: "https://i.ibb.co/WWVCThdy/Voltenchant-1.webp", type: "Spark" },
+            { name: "Voltenchant-A", image: "https://i.ibb.co/5XpHsNS2/A-Voltenchant-1.webp", type: "Spark/Water" },
+            { name: "Vuliable", image: "https://i.ibb.co/d05SQ4HX/Vuliable-1.webp", type: "Crystal/Basic" },
+            { name: "Werewool", image: "https://i.ibb.co/7tJwsrxH/Werewool-1.webp", type: "Beast/Basic" },
+            { name: "Wolfreeze", image: "https://i.ibb.co/HDY1VCdg/Wolfreeze-1.webp", type: "Ice/Beast" },
+            { name: "Wizvil", image: "https://i.ibb.co/Ps1fPMXL/Wizvil-1.webp", type: "Insect/Plant" },
+            { name: "Wyvernal", image: "https://i.ibb.co/VWgxPsCR/Wyvernal-1.webp", type: "Fire/Air" },
+            { name: "Zapoeira", image: "https://i.ibb.co/pjjBsLmj/Zapoeira-1.webp", type: "Spark/Melee" },
+            { name: "Zerzura", image: "https://i.ibb.co/x8YTpzGZ/Zerzura-1.webp", type: "Water/Air" },
+            { name: "Caramellow", image: "https://i.ibb.co/mVqxRJkP/Caramellow-1.webp", type: "Food/Beast" },
+            { name: "Boblop", image: "https://i.ibb.co/gbZBZMpm/Boblop-1.webp", type: "Fire/Basic" },
+            { name: "Hazination", image: "https://i.ibb.co/Pv1gvf4p/Hazination-1-1.webp", type: "Poison/Metal" },
+            { name: "Taxideer", image: "https://i.ibb.co/bggNpkVc/Taxideer-1.webp", type: "Spirit/Basic" },
+            { name: "Daffodally", image: "https://i.ibb.co/zWvz7h57/Daffodally-1.webp", type: "Plant/Basic" },
+            { name: "Incandesect", image: "https://i.ibb.co/fGkKjspV/Incandesect-1.webp", type: "Light/Insect" },
+            { name: "Ignisect", image: "https://i.ibb.co/rfF0Tphb/Ignisect-1.webp", type: "Fire/Insect" },
+            { name: "Breezshy", image: "https://i.ibb.co/vx62848L/2025-04-06-0wn-Kleki-2.png", type: "Plant/Air" },
+            { name: "Majestegg", image: "https://i.ibb.co/bjpQ6FWj/Majestegg1.png", type: "Food/Metal" },
+            { name: "Omeletrot", image: "https://i.ibb.co/W4BZbzh1/Hornse-no-egg1.png", type: "Melee/Metal" },
+            { name: "Majestegg-Steed", image: "https://i.ibb.co/tMY3zNtc/Hornse1.png", type: "Melee/Food" },
+            { name: "Emoticat", image: "https://i.ibb.co/vxRkzQ23/Emoticat-1.webp", type: "Basic" },
+            { name: "Onirijyn", image: "https://i.ibb.co/wZdryY61/Onirijyn1.webp", type: "Spark/Beast" },
+            { name: "Clavalier", image: "https://i.ibb.co/wrFGzd8m/Latest.png", type: "Water/Metal" },
+            { name: "Snowclowne-A", image: "https://i.ibb.co/v60TZCsS/SPOILER-theclowne.png", type: "Ice/Food" },
+            { name: "Osman-shi", image: "https://i.ibb.co/JWc6HX4J/Osman-shi-1.webp", type: "Food/Spirit" },
+            { name: "Stagine", image: "https://i.ibb.co/9HygQwYv/Stagine-1.webp", type: "Plant/Metal" },
+            { name: "Aurevalis", image: "https://i.ibb.co/Qv1sDy8k/Aurevalis-1.webp", type: "Light/Crystal" },
+            { name: "Scarrion", image: "https://i.ibb.co/rGq2yNJw/Scarrion-1.webp", type: "Spirit/Poison" },
+            { name: "Jellupy-A", image: "https://i.ibb.co/m53ZNDRZ/Untitled324-20250629115504.png", type: "Food/Metal" },
+            { name: "Fancyoon-A", image: "https://i.ibb.co/8LYwtZ0Z/Raccounraccoun-1.png", type: "Poison/Basic" },
+            { name: "Arcwatt", image: "https://i.ibb.co/PvxkXktZ/Arcwatt-1.webp", type: "Spark/Ice" },
+            { name: "Lepidhonk", image: "https://i.ibb.co/kgsTxvx1/Image.png", type: "Insect/Basic" },
+            { name: "Sauschund", image: "https://i.ibb.co/prsSQ3Vj/Image.png", type: "Food" },
+            { name: "Lobsugar", image: "https://i.ibb.co/tPvftWVW/Lobsugar-1.webp", type: "Food/Mind" },
+            { name: "Kaboomaroo", image: "https://i.ibb.co/bMnSztjX/Kaboomaroo-M-1.webp", type: "Light/Melee" },
+            { name: "Maskusi", image: "https://i.ibb.co/jZxNT71M/Maskusi-1.webp", type: "Mind/Air" },
+            { name: "Tiricket", image: "https://i.ibb.co/twrFVxrC/Tiricket11.png", type: "Food/Insect" },
+            { name: "Applicious", image: "https://i.ibb.co/MkB2QYKw/Applicious1.png", type: "Food/Plant" },
+            { name: "Snoaster", image: "https://i.ibb.co/zT97M75Z/Snoaster1.png", type: "Metal/Basic" },
+            { name: "Tigrousel", image: "https://i.ibb.co/LXwN3vj1/Tigrousel1.png", type: "Mind/Metal" },
+            { name: "Mantishrew", image: "https://i.ibb.co/tT8XF5GD/Mantishrew-1.webp", type: "Insect" },
+            { name: "Yorus", image: "https://i.ibb.co/ynXRQvn4/Yorus-1.webp", type: "Beast" }
+        ];
+
+               const basicMoves = [
             "Allure", "Armor Break", "Armor Up", "Bark", "Blowup Blast", 
             "Body Slam", "Boom Boom", "Boring Show", "Calming Melody", 
             "Careless Assault", "Cauterizing Smash", "Center of Attention", 
@@ -1436,7 +1535,6 @@
             "Reheat","Signal Jammer","Overgrowth Protocol","Paragon Skin","Flourish","Last Lament","Blightfrost","Jelly Sync","Mischievious","Hero Spark","Foul Welcome","Pop Reflexes","Spicehound","Meat Shield","Glucose Boost",
             "Impact Recoil","Glitter Trail","Curtain Call","Impervious","Rollercoaster","Steel Frame","Looper","Kernal Scatter","Grand Entrance","Proliferate","Assassin"
         ];
-        
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
@@ -1617,6 +1715,9 @@
                         doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
                         doodleImage.textContent = "";
                     }
+                    
+                    // Update type badges
+                    updateTypeBadges(card, doodleSelect.value);
                 }
                 
                 const moveSelectors = card.querySelectorAll('.moves-container select');
@@ -1745,7 +1846,7 @@
             
             const selectDoodle = document.createElement("select");
             selectDoodle.innerHTML = '<option value="">Select Doodle</option>' + 
-                doodles.map(d => `<option value="${d.name}" data-image="${d.image}">${d.name}</option>`).join("");
+                doodles.map(d => `<option value="${d.name}" data-image="${d.image}" data-type="${d.type}">${d.name}</option>`).join("");
             
             selectDoodle.addEventListener("change", function() {
                 const selectedOption = selectDoodle.options[selectDoodle.selectedIndex];
@@ -1756,6 +1857,9 @@
                     doodleImage.style.backgroundImage = "";
                     doodleImage.textContent = "Doodle";
                 }
+                
+                // Update type badges when doodle changes
+                updateTypeBadges(card, this.value);
                 saveCurrentTeam();
             });
 
@@ -1800,6 +1904,16 @@
             
             doodleContainer.appendChild(selectDoodle);
             doodleContainer.appendChild(doodleSearch);
+
+            // Type badges container
+            const typeBadgesContainer = document.createElement("div");
+            typeBadgesContainer.classList.add("type-badges");
+            typeBadgesContainer.id = `type-badges-${index}`;
+            
+            // Add type badges to card
+            card.appendChild(doodleImage);
+            card.appendChild(doodleContainer);
+            card.appendChild(typeBadgesContainer);
 
             const expandButton = document.createElement("button");
             expandButton.textContent = "Expand";
@@ -2075,11 +2189,43 @@
             equipmentContainer.appendChild(artifactSelect);
             expandSection.appendChild(equipmentContainer);
 
-            card.appendChild(doodleImage);
-            card.appendChild(doodleContainer);
             card.appendChild(expandButton);
             card.appendChild(expandSection);
             return card;
+        }
+
+        function updateTypeBadges(card, doodleName) {
+            const typeBadgesContainer = card.querySelector('.type-badges');
+            typeBadgesContainer.innerHTML = '';
+            
+            if (!doodleName) return;
+            
+            const doodle = doodles.find(d => d.name === doodleName);
+            if (!doodle || !doodle.type) return;
+            
+            const types = doodle.type.split('/');
+            
+            types.forEach(type => {
+                const typeBadge = document.createElement('div');
+                typeBadge.classList.add('type-badge');
+                
+                typeBadge.style.color = typeColors[type] || typeColors['Basic'];
+                
+                const typeIcon = document.createElement('span');
+                typeIcon.classList.add('type-icon');
+                typeIcon.style.backgroundImage = `url(${typeIcons[type] || typeIcons['Basic']})`;
+                
+                // Create text element
+                const typeText = document.createElement('span');
+                typeText.textContent = type;
+                
+                // Add icon and text to badge
+                typeBadge.appendChild(typeIcon);
+                typeBadge.appendChild(typeText);
+                
+                // Add badge to container
+                typeBadgesContainer.appendChild(typeBadge);
+            });
         }
 
         function clearDoodleCard(card) {
@@ -2087,6 +2233,10 @@
             const doodleImage = card.querySelector(".doodle-image");
             doodleImage.style.backgroundImage = "";
             doodleImage.textContent = "Doodle";
+            
+            // Clear type badges
+            const typeBadgesContainer = card.querySelector('.type-badges');
+            typeBadgesContainer.innerHTML = '';
             
             card.querySelectorAll(".moves-container select").forEach(select => {
                 select.value = "";
@@ -2250,6 +2400,9 @@
                         doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
                         doodleImage.textContent = "";
                     }
+                    
+                    // Update type badges
+                    updateTypeBadges(emptyCard, doodleName);
                 }
                 
                 const moveSelectors = emptyCard.querySelectorAll(".moves-container select");
