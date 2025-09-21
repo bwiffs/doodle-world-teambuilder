@@ -27,10 +27,10 @@
             --fire-color: #ff8c00;
             --water-color: #1e90ff;
             --plant-color: #4CAF50;
-            --electric-color: #FFEB3B;
+            --spark-color: #FFEB3B;
             --beast-color: #8B4513;
             --air-color: #87CEFA;
-            --bug-color: #32CD32;
+            --insect-color: #32CD32;
             --earth-color: #CD853F;
             --mind-color: #FFB6C1;
             --melee-color: #ff6b6b;
@@ -732,10 +732,10 @@
             'Fire': 'logos/fire.webp',
             'Water': 'logos/water.webp',
             'Plant': 'logos/plant.webp',
-            'Electric': 'logos/spark.webp',
+            'Spark': 'logos/spark.webp',
             'Beast': 'logos/beast.webp',
             'Air': 'logos/air.webp',
-            'Bug': 'logos/insect.webp',
+            'Insect': 'logos/insect.webp',
             'Earth': 'logos/earth.webp',
             'Mind': 'logos/mind.webp',
             'Melee': 'logos/melee.webp',
@@ -1729,7 +1729,7 @@
                         moveSelectors[j].classList.remove(
                             'mythic-selected', 'fire-selected', 'water-selected',
                             'plant-selected', 'electric-selected', 'beast-selected',
-                            'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                            'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
                             'melee-selected', 'food-selected', 'light-selected',
                             'crystal-selected', 'metal-selected', 'spirit-selected',
                             'ice-selected', 'dark-selected', 'poison-selected'
@@ -1749,8 +1749,8 @@
                             moveSelectors[j].classList.add('beast-selected');
                         } else if (option.classList.contains('air')) {
                             moveSelectors[j].classList.add('air-selected');
-                        } else if (option.classList.contains('bug')) {
-                            moveSelectors[j].classList.add('bug-selected');
+                        } else if (option.classList.contains('insect')) {
+                            moveSelectors[j].classList.add('insect-selected');
                         } else if (option.classList.contains('earth')) {
                             moveSelectors[j].classList.add('earth-selected');
                         } else if (option.classList.contains('mind')) {
@@ -1948,7 +1948,7 @@
                     electricMoves.map(m => `<option value="${m}" class="electric">${m}</option>`).join("") +
                     beastMoves.map(m => `<option value="${m}" class="beast">${m}</option>`).join("") +
                     airMoves.map(m => `<option value="${m}" class="air">${m}</option>`).join("") +
-                    bugMoves.map(m => `<option value="${m}" class="bug">${m}</option>`).join("") +
+                    insectMoves.map(m => `<option value="${m}" class="insect">${m}</option>`).join("") +
                     earthMoves.map(m => `<option value="${m}" class="earth">${m}</option>`).join("") +
                     mindMoves.map(m => `<option value="${m}" class="mind">${m}</option>`).join("") +
                     meleeMoves.map(m => `<option value="${m}" class="melee">${m}</option>`).join("") +
@@ -1966,7 +1966,7 @@
                     this.classList.remove(
                         'mythic-selected', 'fire-selected', 'water-selected',
                         'plant-selected', 'electric-selected', 'beast-selected',
-                        'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                        'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
                         'melee-selected', 'food-selected', 'light-selected',
                         'crystal-selected', 'metal-selected', 'spirit-selected',
                         'ice-selected', 'dark-selected', 'poison-selected'
@@ -1986,8 +1986,8 @@
                         this.classList.add('beast-selected');
                     } else if (selectedOption.classList.contains('air')) {
                         this.classList.add('air-selected');
-                    } else if (selectedOption.classList.contains('bug')) {
-                        this.classList.add('bug-selected');
+                    } else if (selectedOption.classList.contains('insect')) {
+                        this.classList.add('insect-selected');
                     } else if (selectedOption.classList.contains('earth')) {
                         this.classList.add('earth-selected');
                     } else if (selectedOption.classList.contains('mind')) {
@@ -2243,7 +2243,7 @@
                 select.classList.remove(
                     'mythic-selected', 'fire-selected', 'water-selected', 
                     'plant-selected', 'electric-selected', 'beast-selected',
-                    'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                    'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
                     'melee-selected', 'food-selected', 'light-selected',
                     'crystal-selected', 'metal-selected', 'spirit-selected',
                     'ice-selected', 'dark-selected', 'poison-selected'
