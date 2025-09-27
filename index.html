@@ -27,10 +27,10 @@
             --fire-color: #ff8c00;
             --water-color: #1e90ff;
             --plant-color: #4CAF50;
-            --electric-color: #FFEB3B;
+            --spark-color: #FFEB3B;
             --beast-color: #8B4513;
             --air-color: #87CEFA;
-            --bug-color: #32CD32;
+            --insect-color: #32CD32;
             --earth-color: #CD853F;
             --mind-color: #FFB6C1;
             --melee-color: #ff6b6b;
@@ -66,10 +66,10 @@
             --fire-color: #e67c00;
             --water-color: #0d7bff;
             --plant-color: #2E7D32;
-            --electric-color: #FBC02D;
+            --spark-color: #FBC02D;
             --beast-color: #6D4C41;
             --air-color: #29B6F6;
-            --bug-color: #228B22;
+            --insect-color: #228B22;
             --earth-color: #A0522D;
             --mind-color: #F48FB1;
             --melee-color: #E53935;
@@ -355,8 +355,8 @@
             font-weight: bold;
         }
         
-        option.electric, select.electric-selected {
-            color: var(--electric-color);
+        option.spark, select.spark-selected {
+            color: var(--spark-color);
             font-weight: bold;
         }
         
@@ -370,8 +370,8 @@
             font-weight: bold;
         }
         
-        option.bug, select.bug-selected {
-            color: var(--bug-color);
+        option.insect, select.insect-selected {
+            color: var(--insect-color);
             font-weight: bold;
         }
         
@@ -584,10 +584,12 @@
             padding: 3px 8px;
             border-radius: 12px;
             font-size: 12px;
-            background-color: var(--button-bg);
             display: flex;
             align-items: center;
             gap: 4px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         
         .type-icon {
@@ -709,10 +711,10 @@
             'Fire': 'var(--fire-color)',
             'Water': 'var(--water-color)',
             'Plant': 'var(--plant-color)',
-            'Electric': 'var(--electric-color)',
+            'Spark': 'var(--spark-color)',
             'Beast': 'var(--beast-color)',
             'Air': 'var(--air-color)',
-            'Bug': 'var(--bug-color)',
+            'Insect': 'var(--insect-color)',
             'Earth': 'var(--earth-color)',
             'Mind': 'var(--mind-color)',
             'Melee': 'var(--melee-color)',
@@ -728,30 +730,29 @@
         };
 
         const typeIcons = {
-    'Mythic': 'logos/mythic.webp',
-    'Fire': 'logos/fire.webp',
-    'Water': 'logos/water.webp',
-    'Plant': 'logos/plant.webp',
-    'Spark': 'logos/spark.webp', // fixed
-    'Beast': 'logos/beast.webp',
-    'Air': 'logos/air.webp',
-    'Insect': 'logos/bug.webp',  // fixed
-    'Earth': 'logos/earth.webp',
-    'Mind': 'logos/mind.webp',
-    'Melee': 'logos/melee.webp',
-    'Food': 'logos/food.webp',
-    'Light': 'logos/light.webp',
-    'Crystal': 'logos/crystal.webp',
-    'Metal': 'logos/metal.webp',
-    'Spirit': 'logos/spirit.webp',
-    'Ice': 'logos/ice.webp',
-    'Dark': 'logos/dark.webp',
-    'Poison': 'logos/poison.webp',
-    'Basic': 'logos/basic.webp'
-            
+            'Mythic': 'logos/mythic.webp',
+            'Fire': 'logos/fire.webp',
+            'Water': 'logos/water.webp',
+            'Plant': 'logos/plant.webp',
+            'Spark': 'logos/spark.webp',
+            'Beast': 'logos/beast.webp',
+            'Air': 'logos/air.webp',
+            'Insect': 'logos/bug.webp',
+            'Earth': 'logos/earth.webp',
+            'Mind': 'logos/mind.webp',
+            'Melee': 'logos/melee.webp',
+            'Food': 'logos/food.webp',
+            'Light': 'logos/light.webp',
+            'Crystal': 'logos/crystal.webp',
+            'Metal': 'logos/metal.webp',
+            'Spirit': 'logos/spirit.webp',
+            'Ice': 'logos/ice.webp',
+            'Dark': 'logos/dark.webp',
+            'Poison': 'logos/poison.webp',
+            'Basic': 'logos/basic.webp'
         };
 
-        const doodles = [
+         const doodles = [
                        { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp", type: "Insect/Mind" },
             { name: "Aluminja", image: "https://i.ibb.co/tpxnFrs0/Aluminja-1.webp", type: "Metal/Melee" },
             { name: "Antenaflight", image: "https://i.ibb.co/chg5DDHT/Antenaflight-1.webp", type: "Insect/Air" },
@@ -1537,6 +1538,7 @@
             "Reheat","Signal Jammer","Overgrowth Protocol","Paragon Skin","Flourish","Last Lament","Blightfrost","Jelly Sync","Mischievious","Hero Spark","Foul Welcome","Pop Reflexes","Spicehound","Meat Shield","Glucose Boost",
             "Impact Recoil","Glitter Trail","Curtain Call","Impervious","Rollercoaster","Steel Frame","Looper","Kernal Scatter","Grand Entrance","Proliferate","Assassin","Binary Guard","Firmware Update"
         ];
+
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
@@ -1718,7 +1720,7 @@
                         doodleImage.textContent = "";
                     }
                     
-                    // Update type badges
+                    // Update type badges when doodle changes
                     updateTypeBadges(card, doodleSelect.value);
                 }
                 
@@ -1730,8 +1732,8 @@
                         const option = moveSelectors[j].options[moveSelectors[j].selectedIndex];
                         moveSelectors[j].classList.remove(
                             'mythic-selected', 'fire-selected', 'water-selected',
-                            'plant-selected', 'electric-selected', 'beast-selected',
-                            'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                            'plant-selected', 'spark-selected', 'beast-selected',
+                            'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
                             'melee-selected', 'food-selected', 'light-selected',
                             'crystal-selected', 'metal-selected', 'spirit-selected',
                             'ice-selected', 'dark-selected', 'poison-selected'
@@ -1745,14 +1747,14 @@
                             moveSelectors[j].classList.add('water-selected');
                         } else if (option.classList.contains('plant')) {
                             moveSelectors[j].classList.add('plant-selected');
-                        } else if (option.classList.contains('electric')) {
-                            moveSelectors[j].classList.add('electric-selected');
+                        } else if (option.classList.contains('spark')) {
+                            moveSelectors[j].classList.add('spark-selected');
                         } else if (option.classList.contains('beast')) {
                             moveSelectors[j].classList.add('beast-selected');
                         } else if (option.classList.contains('air')) {
                             moveSelectors[j].classList.add('air-selected');
-                        } else if (option.classList.contains('bug')) {
-                            moveSelectors[j].classList.add('bug-selected');
+                        } else if (option.classList.contains('insect')) {
+                            moveSelectors[j].classList.add('insect-selected');
                         } else if (option.classList.contains('earth')) {
                             moveSelectors[j].classList.add('earth-selected');
                         } else if (option.classList.contains('mind')) {
@@ -1843,6 +1845,11 @@
             doodleImage.classList.add("doodle-image");
             doodleImage.textContent = "Doodle";
 
+            // Type badges container - moved above doodle name
+            const typeBadgesContainer = document.createElement("div");
+            typeBadgesContainer.classList.add("type-badges");
+            typeBadgesContainer.id = `type-badges-${index}`;
+            
             const doodleContainer = document.createElement("div");
             doodleContainer.classList.add("search-container");
             
@@ -1907,15 +1914,10 @@
             doodleContainer.appendChild(selectDoodle);
             doodleContainer.appendChild(doodleSearch);
 
-            // Type badges container
-            const typeBadgesContainer = document.createElement("div");
-            typeBadgesContainer.classList.add("type-badges");
-            typeBadgesContainer.id = `type-badges-${index}`;
-            
-            // Add type badges to card
+            // Add elements to card in correct order
             card.appendChild(doodleImage);
+            card.appendChild(typeBadgesContainer); // Type badges now between image and name
             card.appendChild(doodleContainer);
-            card.appendChild(typeBadgesContainer);
 
             const expandButton = document.createElement("button");
             expandButton.textContent = "Expand";
@@ -1940,6 +1942,7 @@
 
             for (let i = 0; i < 4; i++) {
                 const moveSelect = document.createElement("select");
+                // Fixed the move selection - using the correct array names
                 moveSelect.innerHTML = 
                     '<option value="">Select Move</option>' +
                     basicMoves.map(m => `<option value="${m}">${m}</option>`).join("") +
@@ -1947,10 +1950,10 @@
                     fireMoves.map(m => `<option value="${m}" class="fire">${m}</option>`).join("") +
                     waterMoves.map(m => `<option value="${m}" class="water">${m}</option>`).join("") +
                     plantMoves.map(m => `<option value="${m}" class="plant">${m}</option>`).join("") +
-                    electricMoves.map(m => `<option value="${m}" class="electric">${m}</option>`).join("") +
+                    electricMoves.map(m => `<option value="${m}" class="spark">${m}</option>`).join("") + // Fixed: electricMoves with spark class
                     beastMoves.map(m => `<option value="${m}" class="beast">${m}</option>`).join("") +
                     airMoves.map(m => `<option value="${m}" class="air">${m}</option>`).join("") +
-                    bugMoves.map(m => `<option value="${m}" class="bug">${m}</option>`).join("") +
+                    bugMoves.map(m => `<option value="${m}" class="insect">${m}</option>`).join("") + // Fixed: bugMoves with insect class
                     earthMoves.map(m => `<option value="${m}" class="earth">${m}</option>`).join("") +
                     mindMoves.map(m => `<option value="${m}" class="mind">${m}</option>`).join("") +
                     meleeMoves.map(m => `<option value="${m}" class="melee">${m}</option>`).join("") +
@@ -1967,8 +1970,8 @@
                     const selectedOption = this.options[this.selectedIndex];
                     this.classList.remove(
                         'mythic-selected', 'fire-selected', 'water-selected',
-                        'plant-selected', 'electric-selected', 'beast-selected',
-                        'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                        'plant-selected', 'spark-selected', 'beast-selected',
+                        'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
                         'melee-selected', 'food-selected', 'light-selected',
                         'crystal-selected', 'metal-selected', 'spirit-selected',
                         'ice-selected', 'dark-selected', 'poison-selected'
@@ -1982,14 +1985,14 @@
                         this.classList.add('water-selected');
                     } else if (selectedOption.classList.contains('plant')) {
                         this.classList.add('plant-selected');
-                    } else if (selectedOption.classList.contains('electric')) {
-                        this.classList.add('electric-selected');
+                    } else if (selectedOption.classList.contains('spark')) {
+                        this.classList.add('spark-selected');
                     } else if (selectedOption.classList.contains('beast')) {
                         this.classList.add('beast-selected');
                     } else if (selectedOption.classList.contains('air')) {
                         this.classList.add('air-selected');
-                    } else if (selectedOption.classList.contains('bug')) {
-                        this.classList.add('bug-selected');
+                    } else if (selectedOption.classList.contains('insect')) {
+                        this.classList.add('insect-selected');
                     } else if (selectedOption.classList.contains('earth')) {
                         this.classList.add('earth-selected');
                     } else if (selectedOption.classList.contains('mind')) {
@@ -2211,7 +2214,8 @@
                 const typeBadge = document.createElement('div');
                 typeBadge.classList.add('type-badge');
                 
-                typeBadge.style.color = typeColors[type] || typeColors['Basic'];
+                // Set background color to type color
+                typeBadge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
                 
                 const typeIcon = document.createElement('span');
                 typeIcon.classList.add('type-icon');
@@ -2244,8 +2248,8 @@
                 select.value = "";
                 select.classList.remove(
                     'mythic-selected', 'fire-selected', 'water-selected', 
-                    'plant-selected', 'electric-selected', 'beast-selected',
-                    'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                    'plant-selected', 'spark-selected', 'beast-selected',
+                    'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
                     'melee-selected', 'food-selected', 'light-selected',
                     'crystal-selected', 'metal-selected', 'spirit-selected',
                     'ice-selected', 'dark-selected', 'poison-selected'
@@ -2415,8 +2419,8 @@
                         const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
                         moveSelectors[i].classList.remove(
                             'mythic-selected', 'fire-selected', 'water-selected',
-                            'plant-selected', 'electric-selected', 'beast-selected',
-                            'air-selected', 'bug-selected', 'earth-selected', 'mind-selected',
+                            'plant-selected', 'spark-selected', 'beast-selected',
+                            'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
                             'melee-selected', 'food-selected', 'light-selected',
                             'crystal-selected', 'metal-selected', 'spirit-selected',
                             'ice-selected', 'dark-selected', 'poison-selected'
@@ -2430,14 +2434,14 @@
                             moveSelectors[i].classList.add('water-selected');
                         } else if (option.classList.contains('plant')) {
                             moveSelectors[i].classList.add('plant-selected');
-                        } else if (option.classList.contains('electric')) {
-                            moveSelectors[i].classList.add('electric-selected');
+                        } else if (option.classList.contains('spark')) {
+                            moveSelectors[i].classList.add('spark-selected');
                         } else if (option.classList.contains('beast')) {
                             moveSelectors[i].classList.add('beast-selected');
                         } else if (option.classList.contains('air')) {
                             moveSelectors[i].classList.add('air-selected');
-                        } else if (option.classList.contains('bug')) {
-                            moveSelectors[i].classList.add('bug-selected');
+                        } else if (option.classList.contains('insect')) {
+                            moveSelectors[i].classList.add('insect-selected');
                         } else if (option.classList.contains('earth')) {
                             moveSelectors[i].classList.add('earth-selected');
                         } else if (option.classList.contains('mind')) {
