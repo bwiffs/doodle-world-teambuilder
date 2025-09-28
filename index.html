@@ -4,22 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle World Teambuilder</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #121212;
-            --text-color: #fff;
-            --card-bg: #222;
-            --card-border: #444;
+            --bg-color: #121212; 
+            --text-color: #ffffff;
+            --main-bg: #1e1e1e;
+            --card-bg: #1e1e1e;
+            --card-border: none;
             --button-bg: #444;
             --button-hover: #555;
             --input-bg: #333;
             --input-border: #444;
-            --sidebar-bg: #222;
-            --notes-bg: #252525;
             --shadow: rgba(0, 0, 0, 0.3);
             --active-team: #4CAF50;
-            --header-color: #4CAF50;
+            --header-color: #ffffff; /* White title */
             --section-border: #444;
             --expand-bg: #2a2a2a;
             
@@ -30,7 +28,7 @@
             --spark-color: #FFEB3B;
             --beast-color: #8B4513;
             --air-color: #87CEFA;
-            --insect-color: #32CD32;
+            --insect-color: #6CC417;
             --earth-color: #CD853F;
             --mind-color: #FFB6C1;
             --melee-color: #ff6b6b;
@@ -48,14 +46,13 @@
         .light-mode {
             --bg-color: #f5f5f5;
             --text-color: #333;
-            --card-bg: #fff;
-            --card-border: #ddd;
+            --main-bg: #e0e0e0;
+            --card-bg: #121212;
+            --card-border: none;
             --button-bg: #e0e0e0;
             --button-hover: #d0d0d0;
             --input-bg: #f9f9f9;
             --input-border: #ccc;
-            --sidebar-bg: #f0f0f0;
-            --notes-bg: #f8f8f8;
             --shadow: rgba(0, 0, 0, 0.1);
             --active-team: #2E7D32;
             --header-color: #2E7D32;
@@ -86,115 +83,246 @@
 
         * {
             box-sizing: border-box;
-            font-family: 'Fredoka', Arial, sans-serif;
-            font-weight: 600;
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
         }
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 20px;
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
             margin: 0;
+            padding: 20px;
             min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
-        
-        .header {
-            margin-bottom: 30px;
-            text-align: center;
-            padding: 15px;
-            border-radius: 12px;
-            background-color: var(--sidebar-bg);
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--main-bg);
+            border-radius: 0;
+            padding: 20px;
             box-shadow: 0 4px 12px var(--shadow);
         }
-        
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .header h1 {
             color: var(--header-color);
-            margin-bottom: 10px;
+            margin: 0;
             font-size: 28px;
-        }
-        
-        .header p {
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        
-        .header a {
-            color: var(--header-color);
-            text-decoration: none;
             font-weight: bold;
-            transition: opacity 0.2s;
         }
-        
-        .header a:hover {
-            text-decoration: underline;
-            opacity: 0.9;
+
+        .theme-toggle {
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 0;
+            padding: 10px 16px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px var(--shadow);
+            font-weight: bold;
         }
-        
-        .main-container {
+
+        .team-management {
             display: flex;
-            gap: 25px;
-            max-width: 1600px;
-            margin: 0 auto;
-            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .team-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(3, auto);
-            gap: 20px;
-            flex: 2;
-        }
-
-        .sidebar {
+        .team-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
             flex: 1;
+        }
+
+        .team-selector select {
+            flex: 1;
+            padding: 10px;
+            border-radius: 0;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            min-width: 150px;
+        }
+
+        .team-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .team-action-btn {
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 0;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .team-name-input {
+            padding: 12px;
+            border-radius: 0;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            font-size: 16px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .doodle-creation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .doodle-selector {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .doodle-selector select {
+            flex: 1;
+            padding: 10px;
+            border-radius: 0;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            min-width: 200px;
+        }
+
+        .add-doodle-btn {
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 0;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .team-display {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            position: sticky;
-            top: 20px;
-            padding: 20px;
-            background-color: var(--sidebar-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px var(--shadow);
-            min-width: 300px;
-            max-width: 400px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
-        
+
         .doodle-card {
-            border: 2px solid var(--card-border);
-            padding: 20px;
             background-color: var(--card-bg);
-            text-align: left;
-            border-radius: 12px;
+            border: none;
+            border-radius: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
             position: relative;
-            box-shadow: 0 4px 12px var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .doodle-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px var(--shadow);
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .doodle-image {
-            display: block;
-            width: 140px;
-            height: 140px;
-            margin: 15px auto;
-            background-color: var(--card-border);
-            text-align: center;
-            line-height: 140px;
-            font-weight: bold;
-            border-radius: 8px;
+        .doodle-sprite-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .doodle-sprite {
+            width: 100px;
+            height: 100px;
+            background-color: var(--input-border);
+            border-radius: 0;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            box-shadow: 0 4px 8px var(--shadow);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .doodle-info {
+            flex: 1;
+        }
+
+        .doodle-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .type-badges {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+
+        .type-badge {
+            padding: 3px 8px;
+            border-radius: 0;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .type-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-btn {
+            background: var(--button-bg);
+            border: none;
+            border-radius: 0;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .card-btn:hover {
+            background: var(--button-hover);
+        }
+
+        .expand-section {
+            display: none;
+            margin-top: 15px;
+            background-color: var(--expand-bg);
+            padding: 15px;
+            border-radius: 0;
+            box-shadow: 0 2px 6px var(--shadow);
+            font-size: 14px;
+        }
+
+        .section-title {
             font-size: 16px;
-            border: 2px solid var(--card-border);
+            margin: 15px 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--section-border);
         }
 
         .moves-container {
@@ -209,499 +337,196 @@
             font-size: 14px;
             padding: 8px;
             margin: 3px 0;
-        }
-
-        .expand-section {
-            display: none;
-            margin-top: 15px;
-            background-color: var(--expand-bg);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px var(--shadow);
-            font-size: 14px;
-        }
-
-        .card-buttons {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            display: flex;
-            gap: 8px;
-        }
-        
-        .clear-btn, .text-btn {
-            background: var(--button-bg);
-            color: var(--text-color);
-            border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .clear-btn:hover, .text-btn:hover {
-            background: var(--button-hover);
-        }
-        
-        .equipment-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .equipment-tab {
-            min-width: 0;
-        }
-        
-        .equipment-tab select {
-            width: 100%;
-        }
-        
-        button {
-            background-color: var(--button-bg);
-            color: var(--text-color);
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 5px 0;
-            box-shadow: 0 2px 5px var(--shadow);
-            transition: background-color 0.2s;
-            font-weight: 600;
-        }
-        
-        button:hover {
-            background-color: var(--button-hover);
-        }
-        
-        select {
             background-color: var(--input-bg);
-            color: var(--text-color);
             border: 1px solid var(--input-border);
-            padding: 8px;
-            border-radius: 6px;
-            margin: 5px 0;
-            width: 100%;
-            box-shadow: 0 2px 4px var(--shadow);
-            font-family: 'Fredoka', Arial, sans-serif;
-            font-weight: 600;
-        }
-        
-        .url-import-export {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-            background-color: var(--sidebar-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-        
-        .url-import-export input {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--input-border);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            width: 100%;
-        }
-        
-        .search-container { 
-            position: relative; 
-            margin-bottom: 12px;
-        }
-        
-        .search-input { 
-            display: none; 
-            position: absolute; 
-            bottom: -45px; 
-            left: 0; 
-            width: 100%; 
-            z-index: 100;
-            padding: 10px;
-            font-size: 14px;
-            border-radius: 6px;
-            border: 1px solid var(--input-border);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            box-shadow: 0 3px 8px var(--shadow);
-        }
-        
-        option { 
-            color: var(--text-color); 
-            font-family: 'Fredoka', Arial, sans-serif;
-        }
-        
-        option.mythic, select.mythic-selected { 
-            color: var(--mythic-color);
-            font-weight: bold;
-        }
-        
-        option.fire, select.fire-selected {
-            color: var(--fire-color);
-            font-weight: bold;
-        }
-        
-        option.water, select.water-selected {
-            color: var(--water-color);
-            font-weight: bold;
-        }
-        
-        option.plant, select.plant-selected {
-            color: var(--plant-color);
-            font-weight: bold;
-        }
-        
-        option.spark, select.spark-selected {
-            color: var(--spark-color);
-            font-weight: bold;
-        }
-        
-        option.beast, select.beast-selected {
-            color: var(--beast-color);
-            font-weight: bold;
-        }
-        
-        option.air, select.air-selected {
-            color: var(--air-color);
-            font-weight: bold;
-        }
-        
-        option.insect, select.insect-selected {
-            color: var(--insect-color);
-            font-weight: bold;
-        }
-        
-        option.earth, select.earth-selected {
-            color: var(--earth-color);
-            font-weight: bold;
-        }
-        
-        option.mind, select.mind-selected {
-            color: var(--mind-color);
-            font-weight: bold;
-        }
-        
-        option.melee, select.melee-selected {
-            color: var(--melee-color);
-            font-weight: bold;
-        }
-        
-        option.food, select.food-selected {
-            color: var(--food-color);
-            font-weight: bold;
-        }
-        
-        option.light, select.light-selected {
-            color: var(--light-color);
-            font-weight: bold;
-        }
-        
-        option.crystal, select.crystal-selected {
-            color: var(--crystal-color);
-            font-weight: bold;
-        }
-        
-        option.metal, select.metal-selected {
-            color: var(--metal-color);
-            font-weight: bold;
-        }
-        
-        option.spirit, select.spirit-selected {
-            color: var(--spirit-color);
-            font-weight: bold;
-        }
-        
-        option.ice, select.ice-selected {
-            color: var(--ice-color);
-            font-weight: bold;
-        }
-        
-        option.dark, select.dark-selected {
-            color: var(--dark-color);
-            font-weight: bold;
-        }
-        
-        option.poison, select.poison-selected {
-            color: var(--poison-color);
-            font-weight: bold;
-        }
-        
-        option.basic, select.basic-selected {
-            color: var(--basic-color);
-            font-weight: bold;
+            border-radius: 0;
         }
 
-        select option:checked { 
-            background-color: var(--input-bg) !important; 
-        }
+        .move-mythic { color: var(--mythic-color); }
+        .move-fire { color: var(--fire-color); }
+        .move-water { color: var(--water-color); }
+        .move-plant { color: var(--plant-color); }
+        .move-spark { color: var(--spark-color); }
+        .move-beast { color: var(--beast-color); }
+        .move-air { color: var(--air-color); }
+        .move-insect { color: var(--insect-color); }
+        .move-earth { color: var(--earth-color); }
+        .move-mind { color: var(--mind-color); }
+        .move-melee { color: var(--melee-color); }
+        .move-food { color: var(--food-color); }
+        .move-light { color: var(--light-color); }
+        .move-crystal { color: var(--crystal-color); }
+        .move-metal { color: var(--metal-color); }
+        .move-spirit { color: var(--spirit-color); }
+        .move-ice { color: var(--ice-color); }
+        .move-dark { color: var(--dark-color); }
+        .move-poison { color: var(--poison-color); }
+        .move-basic { color: var(--basic-color); }
 
-        .team-title-container {
-            background-color: var(--sidebar-bg);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-        
-        .team-title-input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--input-border);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        
-        .notes-box {
-            background-color: var(--notes-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-        
-        .notes-title {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: var(--text-color);
-            font-size: 18px;
-        }
-        
-        .notes-textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px solid var(--input-border);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-            resize: vertical;
-            font-size: 14px;
-            line-height: 1.5;
-            font-family: Arial, sans-serif;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: var(--button-bg);
-            color: var(--text-color);
-            border: none;
-            border-radius: 6px;
-            padding: 10px 16px;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 3px 8px var(--shadow);
-            font-weight: 600;
-        }
-        
-        .team-folder {
-            background-color: var(--sidebar-bg);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .team-folder-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--section-border);
-        }
-
-        .team-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .team-item {
-            padding: 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            background-color: var(--input-bg);
-            transition: background-color 0.2s;
-        }
-
-        .team-item:hover {
-            background-color: var(--button-hover);
-        }
-
-        .team-item.active {
-            background-color: var(--active-team);
-            font-weight: bold;
-        }
-
-        .team-folder-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-        
         .stats-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin: 10px 0;
         }
-        
-        .section-title {
-            font-size: 16px;
-            margin: 15px 0 10px 0;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--section-border);
-        }
-        
-        .expand-btn {
+
+        .stats-container select {
             width: 100%;
-            margin-top: 10px;
-            text-align: center;
+            font-size: 14px;
+            padding: 8px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 0;
         }
-        
-        .doodle-select-container {
+
+        .equipment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .equipment-container select {
+            width: 100%;
+            font-size: 14px;
+            padding: 8px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 0;
+        }
+
+        .search-container {
             position: relative;
+            margin-bottom: 12px;
         }
-        
-        .type-badges {
+
+        .search-container select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 0;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            font-size: 14px;
+        }
+
+        .search-input {
+            display: none;
+            position: absolute;
+            bottom: -45px;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 0;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+
+        .controls {
             display: flex;
             justify-content: center;
-            gap: 5px;
+            gap: 10px;
             margin-top: 10px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
-        
-        .type-badge {
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: white;
+
+        .control-btn {
+            background-color: var(--button-bg);
+            border: none;
+            border-radius: 0;
+            padding: 10px 16px;
+            cursor: pointer;
             font-weight: bold;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
-        
-        .type-icon {
-            width: 16px;
-            height: 16px;
-            display: inline-block;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        
-        .card-header {
+
+        .footer {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--section-border);
+            flex-wrap: wrap;
         }
-        
-        .card-slot {
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--header-color);
+
+        .credits, .update-info {
+            font-size: 14px;
         }
-        
-        @media (max-width: 1200px) {
-            .main-container {
+
+        @media (max-width: 768px) {
+            .team-management, .doodle-creation {
                 flex-direction: column;
             }
             
-            .team-container {
-                grid-template-columns: 1fr;
+            .team-selector, .doodle-selector {
+                flex-direction: column;
             }
             
-            .sidebar {
-                position: relative;
-                top: 0;
-                max-width: 100%;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .equipment-container {
-                grid-template-columns: 1fr;
+            .doodle-sprite-container {
+                flex-direction: column;
+                text-align: center;
             }
             
-            .stats-container {
-                grid-template-columns: 1fr;
+            .controls {
+                flex-wrap: wrap;
             }
             
-            .theme-toggle {
-                top: 10px;
-                right: 10px;
-                padding: 8px 12px;
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
             }
-        }
-        
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--input-bg);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--button-bg);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--button-hover);
+            
+            .moves-container, .stats-container, .equipment-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" id="themeToggle">Light Mode</button>
-    
-    <div class="header">
-        <h1>Doodle World Teambuilder (Uwursa + BP items)</h1>
-        <p>Check out the <a href="https://bwiffs.github.io/doodle-world-type-calculator/" target="_blank">Doodle World Type Calculator</a></p>
-    </div>
-    
     <div class="main-container">
-        <div class="team-container" id="team-container">
+        <div class="header">
+            <h1>Doodle World Teambuilder</h1>
+            <button class="theme-toggle" id="themeToggle">Light Mode</button>
         </div>
-        <div class="sidebar">
-            <div class="team-folder">
-                <div class="team-folder-title">Team Folder</div>
-                <div class="team-list" id="team-list">
-                    <!-- Team list will be generated here -->
+        
+        <div class="team-management">
+            <div class="team-selector">
+                <select id="team-select">
+                    <option value="">Select a Team</option>
+                </select>
+                <div class="team-actions">
+                    <button class="team-action-btn" id="add-team">Add Team</button>
+                    <button class="team-action-btn" id="delete-team">Delete Team</button>
                 </div>
-                <div class="team-folder-actions">
-                    <button onclick="addTeam()">Add Team</button>
-                    <button onclick="deleteTeam()">Delete Team</button>
-                </div>
             </div>
-            
-            <div class="team-title-container">
-                <input type="text" class="team-title-input" id="team-title" placeholder="Enter team title..." onchange="updateCurrentTeamName()">
+            <input type="text" class="team-name-input" id="team-name" placeholder="Enter team name...">
+        </div>
+        
+        <div class="doodle-creation">
+            <div class="doodle-selector">
+                <select id="doodle-select">
+                    <option value="">Select a Doodle</option>
+                </select>
+                <button class="add-doodle-btn" id="add-doodle">Add Doodle</button>
             </div>
-            
-            <div class="url-import-export">
-                <button onclick="copyTeamCode()">Copy Team Code</button>
-                <button onclick="importFromCode()">Import Team Code</button>
-                <button onclick="importFromText()">Import Doodle from Text</button>
-            </div>
-
-            <div class="notes-box">
-                <h3 class="notes-title">Team Notes</h3>
-                <textarea class="notes-textarea" id="team-notes" placeholder="Enter team notes..." onchange="updateCurrentTeamNotes()"></textarea>
-            </div>
+        </div>
+        
+        <div class="team-display" id="team-display">
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="copy-code">Copy Team Code</button>
+            <button class="control-btn" id="import-code">Import Team Code</button>
+            <button class="control-btn" id="import-text">Import from Text</button>
+        </div>
+        
+        <div class="footer">
+            <div class="credits">Created by Bwiffs</div>
+            <div class="update-info">Updated: Uwursa + BP Items</div>
         </div>
     </div>
 
@@ -752,8 +577,8 @@
             'Basic': 'logos/basic.webp'
         };
 
-         const doodles = [
-                       { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp", type: "Insect/Mind" },
+        const doodles = [
+            { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp", type: "Insect/Mind" },
             { name: "Aluminja", image: "https://i.ibb.co/tpxnFrs0/Aluminja-1.webp", type: "Metal/Melee" },
             { name: "Antenaflight", image: "https://i.ibb.co/chg5DDHT/Antenaflight-1.webp", type: "Insect/Air" },
             { name: "Anubeetle", image: "https://i.ibb.co/zHZWtGLG/Anubeetle-1.webp", type: "Insect/Earth" },
@@ -1016,7 +841,7 @@
             { name: "Uwursa", image: "https://i.ibb.co/4ggVBSSW/Uwursa-1.webp", type: "Metal/Basic" }
         ];
 
-               const basicMoves = [
+        const basicMoves = [
             "Allure", "Armor Break", "Armor Up", "Bark", "Blowup Blast", 
             "Body Slam", "Boom Boom", "Boring Show", "Calming Melody", 
             "Careless Assault", "Cauterizing Smash", "Center of Attention", 
@@ -1222,368 +1047,69 @@
             "Venom Lacerate", "Venomous Sting", "Canister","Last Lament"
         ];
 
-        
-          const helmets = [
-            "None",
-            "Artificer's Beanie",
-            "Aviator Helmet",
-            "Bowlcut",
-            "Candy Headphones",
-            "Decorated Hairclip",
-            "Doodad",
-            "Drenched Sunhat",
-            "Eggshell Helmet",
-            "Epic Shades",
-            "Feathered Hat",
-            "Glummish Cap",
-            "Head Leaf",
-            "Horned Headband",
-            "Magnificent Tophat",
-            "Marshmellow Fedora",
-            "Pale Sunbonnet",
-            "Scuba Goggles",
-            "Smoldering Hood",
-            "Theatre Mask",
-            "Tinfoil Hat",
-            "Preformers Mask",
-            "Clown Hair",
-        ];
-        
-        const amulets = [
-            "None",
-            "Crystal Shard",
-            "DIY Pin",
-            "Dark Brooch",
-            "Dusty Bandana",
-            "Festive Bow",
-            "Geode Pendant",
-            "Helpful Lantern",
-            "Juniper Necklace",
-            "Mini Camera",
-            "Ornate Necklace",
-            "Rock Candy",
-            "Ruby Pendant",
-            "Sandstone Necklace",
-            "Sapphire Amulet",
-            "Scrap Paper",
-            "Sticky Pendant",
-            "Stone Necklace",
-            "Swag Juice",
-            "Toxic Vial",
-            "Vial of Tears",
-            "Whatchamacallit",
-            "Buggle Ball",
-            "Penant String",
-        ];
-        
-        const artifacts = [
-            "None",
-            "Amber Trapped Fly",
-            "Beach Ball",
-            "Broken Clay",
-            "Chewed Up Bone",
-            "Coal",
-            "Computer Mouse",
-            "Crumpled Water Bottle",
-            "Decorative Katana",
-            "Faunsprout Tail",
-            "Fluffy Feather",
-            "Golden Stick",
-            "Luminous Orb",
-            "Oakwood Staff",
-            "Pizza Slice",
-            "Potted Cactus",
-            "Pure Tear",
-            "Sad Pebblett",
-            "Scone",
-            "Scrapped Cardboard",
-            "Stick",
-            "Thingamajig",
-            "Tombstone",
-            "White Chocolate",
-            "Firework",
-            "Popcorn",
-        ];
-        
-        const stats = [
-            "+10% Health", "+10% Attack", "+10% Defense",
-            "+10% Magic Attack", "+10% Magic Defense", "+10% Speed"
-        ];
 
-        const heldItems = [
-            "None",
-            "Acid Storm in a Bottle",
-            "Air Candy Cube",
-            "Air Taffy",
-            "Arid Wand",
-            "Basic Candy Cube",
-            "Basic Taffy",
-            "Battery",
-            "Beast Candy Cube",
-            "Beast Taffy",
-            "Blueprint",
-            "Bubblegum",
-            "Bubble Wand",
-            "Champion Belt",
-            "Conductor's Baton",
-            "Confectioner's Wand",
-            "Corrosive Wand",
-            "Crooked Talon",
-            "Crystal Candy Cube",
-            "Crystal Taffy",
-            "Cure Jelly",
-            "Cursed Cloak",
-            "Dark Candy Cube",
-            "Dark Chocolate",
-            "Dark Taffy",
-            "Decorative Fan",
-            "Defensive Jelly",
-            "Delicate Wing",
-            "Determination Jelly",
-            "Determination Headband",
-            "Earth Candy Cube",
-            "Earth Data",
-            "Earth Taffy",
-            "Empowered Ring",
-            "Enchanted Emerald",
-            "Enchanted Ruby",
-            "Enchanted Sapphire",
-            "Fire Candy Cube",
-            "Fire Data",
-            "Fire Taffy",
-            "Food Candy Cube",
-            "Food Taffy",
-            "Friendship Ribbon",
-            "Frozen TV Dinner",
-            "Gauze Wrap",
-            "Glasses",
-            "Grease",
-            "Heal Jelly",
-            "Homemade Plush",
-            "Ice Candy Cube",
-            "Ice Data",
-            "Ice Pack",
-            "Ice Taffy",
-            "Imbued Relic",
-            "Insect Candy Cube",
-            "Insect Taffy",
-            "Jetpack",
-            "Laminate",
-            "Lethal Ornament",
-            "Lighter",
-            "Light Candy Cube",
-            "Light Taffy",
-            "Lucky Pebble",
-            "Magical Jelly",
-            "Magic Wand",
-            "Matchbox",
-            "Melee Candy Cube",
-            "Melee Taffy",
-            "Metal Candy Cube",
-            "Metal Taffy",
-            "Mind Candy Cube",
-            "Mind Taffy",
-            "Moon Charm",
-            "Mythic Candy Cube",
-            "Mythic Taffy",
-            "Perfect Alloy",
-            "Plant Candy Cube",
-            "Plant Taffy",
-            "Poison Candy Cube",
-            "Poison Taffy",
-            "Power Jelly",
-            "Pretty Seashell",
-            "Questionable Sludge",
-            "Refined Crystal",
-            "Refractive Prism",
-            "Riot Shield",
-            "Running Shoes",
-            "Sickly Doze",
-            "Sponge",
-            "Small Sprout",
-            "Sniper Scope",
-            "Spark Candy Cube",
-            "Spark Data",
-            "Spark Taffy",
-            "Speed Jelly",
-            "Spirit Candy Cube",
-            "Spirit Jar",
-            "Spirit Taffy",
-            "Starry Glasses",
-            "Stormy Wand",
-            "Strength Jelly",
-            "Studded Fang",
-            "Spiky Thorns",
-"Soothing Charm",
-            "Unwashed Plushie",
-            "Used Crayons",
-            "Used Timber",
-            "Wake-Up Jelly",
-            "Water Candy Cube",
-            "Water Taffy",
-            "Wierd Jelly",
-
-"Hypnotl's Antigen",
-"Calamander's Candy",
-"Umaisho Matcha",
-"Ostigon Collar",
-"Vermorph Goggles",
-"Jinglark Present",
-"Mawthra Rune",
-"Thornet Rune",
-"Tufflaze Rune",
-"Voltenchant Rune",
-"Theaterror Rune",
-"Maskomedy Rune",
-"Mourveil Rune",
-"Malotrick Rune",
-"Tulenna Rune",
-"Staligant Rune",
-"Corrolizard Rune",
-"Staligant Rune",
-"Grufflin Rune",
-"Skadean Rune",
-"Partybug Rune",
-"Somberock Rune",
-"Nyanto Rune",
-"Suomous Rune",
-"Daeferno Rune",
-"Vigimante Rune",
-"Groato Rune",
-"Lumiline Rune",
-"Cacmeow Rune",
-"Cryotera Rune",
-"Spectatik Rune",
-"Bionotic Rune",
-"Archopos Rune",
-"Cerebopod Rune",
-"Hattrix Rune",
-"Cragildae Rune",
-"Bubbul Rune",
-"Snowclowne Silly Cone",
-"Onion","Ruler","Doomflower","Potassium Conduit","Jellupy Whisk","Fancyoon Boa","Yo-yo", "Old Monitor", "Pinball String", "Prize Claw", "Arcade Joystick"
-
-
-        ];
+        const helmets = ["None", "Artificer's Beanie", "Aviator Helmet", "Bowlcut", "Candy Headphones", "Decorated Hairclip", "Doodad", "Drenched Sunhat", "Eggshell Helmet", "Epic Shades", "Feathered Hat", "Glummish Cap", "Head Leaf", "Horned Headband", "Magnificent Tophat", "Marshmellow Fedora", "Pale Sunbonnet", "Scuba Goggles", "Smoldering Hood", "Theatre Mask", "Tinfoil Hat", "Preformers Mask", "Clown Hair", ];
         
-
-        const traits = [
-            "Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose",
-            "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia",
-            "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis",
-            "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage",
-            "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel",
-            "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena",
-            "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown",
-            "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster",
-            "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass",
-            "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious",
-            "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion",
-            "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore",
-            "Combustion", "Composed", "Concentrated", "Conductor", "Confidence",
-            "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked",
-            "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization",
-            "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate",
-            "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted",
-            "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour",
-            "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat",
-            "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble",
-            "Entangle", "Entertainer", "Envy", "Eruption", "Escapist",
-            "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton",
-            "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor",
-            "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty",
-            "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat",
-            "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy",
-            "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian",
-            "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy",
-            "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms",
-            "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy",
-            "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream",
-            "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will",
-            "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Joltant",
-            "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate",
-            "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity",
-            "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion",
-            "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games",
-            "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver",
-            "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus",
-            "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill",
-            "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed",
-            "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb",
-            "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise",
-            "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer",
-            "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock",
-            "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed",
-            "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless",
-            "Retaliate", "Revenant", "Revival", "Robust", "Routine",
-            "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush",
-            "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage",
-            "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind",
-            "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes",
-            "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed",
-            "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield",
-            "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky",
-            "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky",
-            "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater",
-            "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted",
-            "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus",
-            "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket",
-            "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power",
-            "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable",
-            "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor",
-            "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward",
-            "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power",
-            "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance",
-            "Pollen Spread","Monarch","Sovereign","To Arms!","Kingly Aura","Unpredictable", "Last Laugh", "Impersonate","Static Purge","Thunder Gut","Overcharge","Hydro Coating","Iron Pincer","Frostillery", "Steeped Spirit",
-            "Reheat","Signal Jammer","Overgrowth Protocol","Paragon Skin","Flourish","Last Lament","Blightfrost","Jelly Sync","Mischievious","Hero Spark","Foul Welcome","Pop Reflexes","Spicehound","Meat Shield","Glucose Boost",
-            "Impact Recoil","Glitter Trail","Curtain Call","Impervious","Rollercoaster","Steel Frame","Looper","Kernal Scatter","Grand Entrance","Proliferate","Assassin","Binary Guard","Firmware Update"
-        ];
+        const amulets = ["None", "Crystal Shard", "DIY Pin", "Dark Brooch", "Dusty Bandana", "Festive Bow", "Geode Pendant", "Helpful Lantern", "Juniper Necklace", "Mini Camera", "Ornate Necklace", "Rock Candy", "Ruby Pendant", "Sandstone Necklace", "Sapphire Amulet", "Scrap Paper", "Sticky Pendant", "Stone Necklace", "Swag Juice", "Toxic Vial", "Vial of Tears", "Whatchamacallit", "Buggle Ball", "Penant String", ];
+        
+        const artifacts = ["None", "Amber Trapped Fly", "Beach Ball", "Broken Clay", "Chewed Up Bone", "Coal", "Computer Mouse", "Crumpled Water Bottle", "Decorative Katana", "Faunsprout Tail", "Fluffy Feather", "Golden Stick", "Luminous Orb", "Oakwood Staff", "Pizza Slice", "Potted Cactus", "Pure Tear", "Sad Pebblett", "Scone", "Scrapped Cardboard", "Stick", "Thingamajig", "Tombstone", "White Chocolate", "Firework", "Popcorn", ];
+        
+        const stats = ["+10% Health", "+10% Attack", "+10% Defense", "+10% Magic Attack", "+10% Magic Defense", "+10% Speed"];
+        
+        const heldItems = ["None", "Acid Storm in a Bottle", "Air Candy Cube", "Air Taffy", "Arid Wand", "Basic Candy Cube", "Basic Taffy", "Battery", "Beast Candy Cube", "Beast Taffy", "Blueprint", "Bubblegum", "Bubble Wand", "Champion Belt", "Conductor's Baton", "Confectioner's Wand", "Corrosive Wand", "Crooked Talon", "Crystal Candy Cube", "Crystal Taffy", "Cure Jelly", "Cursed Cloak", "Dark Candy Cube", "Dark Chocolate", "Dark Taffy", "Decorative Fan", "Defensive Jelly", "Delicate Wing", "Determination Jelly", "Determination Headband", "Earth Candy Cube", "Earth Data", "Earth Taffy", "Empowered Ring", "Enchanted Emerald", "Enchanted Ruby", "Enchanted Sapphire", "Fire Candy Cube", "Fire Data", "Fire Taffy", "Food Candy Cube", "Food Taffy", "Friendship Ribbon", "Frozen TV Dinner", "Gauze Wrap", "Glasses", "Grease", "Heal Jelly", "Homemade Plush", "Ice Candy Cube", "Ice Data", "Ice Pack", "Ice Taffy", "Imbued Relic", "Insect Candy Cube", "Insect Taffy", "Jetpack", "Laminate", "Lethal Ornament", "Lighter", "Light Candy Cube", "Light Taffy", "Lucky Pebble", "Magical Jelly", "Magic Wand", "Matchbox", "Melee Candy Cube", "Melee Taffy", "Metal Candy Cube", "Metal Taffy", "Mind Candy Cube", "Mind Taffy", "Moon Charm", "Mythic Candy Cube", "Mythic Taffy", "Perfect Alloy", "Plant Candy Cube", "Plant Taffy", "Poison Candy Cube", "Poison Taffy", "Power Jelly", "Pretty Seashell", "Questionable Sludge", "Refined Crystal", "Refractive Prism", "Riot Shield", "Running Shoes", "Sickly Doze", "Sponge", "Small Sprout", "Sniper Scope", "Spark Candy Cube", "Spark Data", "Spark Taffy", "Speed Jelly", "Spirit Candy Cube", "Spirit Jar", "Spirit Taffy", "Starry Glasses", "Stormy Wand", "Strength Jelly", "Studded Fang", "Spiky Thorns", "Soothing Charm", "Unwashed Plushie", "Used Crayons", "Used Timber", "Wake-Up Jelly", "Water Candy Cube", "Water Taffy", "Wierd Jelly", "Hypnotl's Antigen", "Calamander's Candy", "Umaisho Matcha", "Ostigon Collar", "Vermorph Goggles", "Jinglark Present", "Mawthra Rune", "Thornet Rune", "Tufflaze Rune", "Voltenchant Rune", "Theaterror Rune", "Maskomedy Rune", "Mourveil Rune", "Malotrick Rune", "Tulenna Rune", "Staligant Rune", "Corrolizard Rune", "Staligant Rune", "Grufflin Rune", "Skadean Rune", "Partybug Rune", "Somberock Rune", "Nyanto Rune", "Suomous Rune", "Daeferno Rune", "Vigimante Rune", "Groato Rune", "Lumiline Rune", "Cacmeow Rune", "Cryotera Rune", "Spectatik Rune", "Bionotic Rune", "Archopos Rune", "Cerebopod Rune", "Hattrix Rune", "Cragildae Rune", "Bubbul Rune", "Snowclowne Silly Cone", "Onion", "Ruler", "Doomflower", "Potassium Conduit", "Jellupy Whisk", "Fancyoon Boa", "Yo-yo", "Old Monitor", "Pinball String", "Prize Claw", "Arcade Joystick", ];
+        
+        const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Joltant", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", ];
 
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
 
-        function saveTeamsToStorage() {
-            localStorage.setItem('doodleTeams', JSON.stringify(teams));
-            localStorage.setItem('currentTeamIndex', currentTeamIndex);
-            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
-        }
-
-        function loadTeamsFromStorage() {
-            const savedTeams = localStorage.getItem('doodleTeams');
-            const savedIndex = localStorage.getItem('currentTeamIndex');
-            const savedTheme = localStorage.getItem('theme');
+        function initialize() {
+            populateDoodleSelect();
+            loadFromStorage();
+            setupEventListeners();
             
-            if (savedTeams) {
-                teams = JSON.parse(savedTeams);
-                currentTeamIndex = parseInt(savedIndex) || 0;
-                
-                if (savedTheme === 'light') {
-                    document.body.classList.add('light-mode');
-                    themeToggle.textContent = 'Dark Mode';
-                }
-                return true;
-            }
-            return false;
-        }
-
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            if (document.body.classList.contains('light-mode')) {
-                themeToggle.textContent = 'Dark Mode';
-            } else {
-                themeToggle.textContent = 'Light Mode';
-            }
-            saveTeamsToStorage();
-        });
-
-        function initializeTeams() {
             if (teams.length === 0) {
                 addTeam();
             } else {
+                updateTeamSelect();
                 loadTeam(currentTeamIndex);
             }
+        }
+
+        function populateDoodleSelect() {
+            const doodleSelect = document.getElementById('doodle-select');
+            doodleSelect.innerHTML = '<option value="">Select a Doodle</option>';
+            
+            doodles.forEach(doodle => {
+                const option = document.createElement('option');
+                option.value = doodle.name;
+                option.textContent = doodle.name;
+                option.dataset.image = doodle.image;
+                option.dataset.type = doodle.type;
+                doodleSelect.appendChild(option);
+            });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('add-team').addEventListener('click', addTeam);
+            document.getElementById('delete-team').addEventListener('click', deleteTeam);
+            document.getElementById('team-select').addEventListener('change', changeTeam);
+            document.getElementById('team-name').addEventListener('change', updateTeamName);
+            document.getElementById('add-doodle').addEventListener('click', addDoodleToTeam);
+            document.getElementById('copy-code').addEventListener('click', copyTeamCode);
+            document.getElementById('import-code').addEventListener('click', importTeamCode);
+            document.getElementById('import-text').addEventListener('click', importFromText);
+            
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                if (document.body.classList.contains('light-mode')) {
+                    document.getElementById('themeToggle').textContent = 'Dark Mode';
+                } else {
+                    document.getElementById('themeToggle').textContent = 'Light Mode';
+                }
+                saveToStorage();
+            });
         }
 
         function addTeam() {
@@ -1595,25 +1121,14 @@
             const newTeam = {
                 name: `Team ${teams.length + 1}`,
                 notes: "",
-                members: Array(6).fill().map(() => ({
-                    doodle: "",
-                    moves: ["", "", "", ""],
-                    trait: "",
-                    heldItem: "",
-                    stats: ["", ""],
-                    equipment: {
-                        helmet: "None",
-                        amulet: "None",
-                        artifact: "None"
-                    }
-                }))
+                doodles: []
             };
 
             teams.push(newTeam);
             currentTeamIndex = teams.length - 1;
-            updateTeamList();
+            updateTeamSelect();
             loadTeam(currentTeamIndex);
-            saveTeamsToStorage();
+            saveToStorage();
         }
 
         function deleteTeam() {
@@ -1630,683 +1145,400 @@
                 currentTeamIndex = teams.length - 1;
             }
 
-            updateTeamList();
+            updateTeamSelect();
             loadTeam(currentTeamIndex);
-            saveTeamsToStorage();
+            saveToStorage();
         }
 
-        function updateTeamList() {
-            const teamList = document.getElementById('team-list');
-            teamList.innerHTML = '';
-
-            teams.forEach((team, index) => {
-                const teamItem = document.createElement('div');
-                teamItem.className = `team-item ${index === currentTeamIndex ? 'active' : ''}`;
-                teamItem.textContent = team.name;
-                teamItem.onclick = () => {
-                    currentTeamIndex = index;
-                    loadTeam(index);
-                    updateTeamList();
-                };
-                teamList.appendChild(teamItem);
-            });
+        function changeTeam() {
+            const select = document.getElementById('team-select');
+            currentTeamIndex = parseInt(select.value);
+            if (currentTeamIndex >= 0) {
+                loadTeam(currentTeamIndex);
+            }
         }
 
-        function updateCurrentTeamName() {
+        function updateTeamName() {
             if (currentTeamIndex === -1) return;
-            const newName = document.getElementById('team-title').value || `Team ${currentTeamIndex + 1}`;
+            const newName = document.getElementById('team-name').value || `Team ${currentTeamIndex + 1}`;
             teams[currentTeamIndex].name = newName;
-            updateTeamList();
-            saveTeamsToStorage();
+            updateTeamSelect();
+            saveToStorage();
         }
 
-        function updateCurrentTeamNotes() {
-            if (currentTeamIndex === -1) return;
-            teams[currentTeamIndex].notes = document.getElementById('team-notes').value;
-            saveTeamsToStorage();
-        }
-
-        function saveCurrentTeam() {
-            if (currentTeamIndex === -1) return;
-
-            const teamData = {
-                name: document.getElementById('team-title').value,
-                notes: document.getElementById('team-notes').value,
-                members: Array.from(document.querySelectorAll('.doodle-card')).map(card => {
-                    const moves = Array.from(card.querySelectorAll('.moves-container select')).map(s => s.value);
-                    const stats = Array.from(card.querySelectorAll('.stat-select')).map(s => s.value);
-                    
-                    return {
-                        doodle: card.querySelector('select').value,
-                        moves: moves,
-                        trait: card.querySelector('.trait-select')?.value || "",
-                        heldItem: card.querySelector('.held-item-select')?.value || "",
-                        stats: stats,
-                        equipment: {
-                            helmet: card.querySelector('.helmet-select')?.value || "None",
-                            amulet: card.querySelector('.amulet-select')?.value || "None",
-                            artifact: card.querySelector('.artifact-select')?.value || "None"
-                        }
-                    };
-                })
-            };
-
-            teams[currentTeamIndex] = teamData;
-            saveTeamsToStorage();
-        }
-
-        function loadTeam(index) {
-            if (index < 0 || index >= teams.length) return;
-
-            const team = teams[index];
-            const teamContainer = document.getElementById('team-container');
+        function updateTeamSelect() {
+            const teamSelect = document.getElementById('team-select');
+            teamSelect.innerHTML = '';
             
-            document.getElementById('team-title').value = team.name;
-            document.getElementById('team-notes').value = team.notes || "";
-            
-            teamContainer.innerHTML = '';
-            
-            team.members.forEach((member, i) => {
-                const card = createDoodleCard(i);
-                
-                const doodleSelect = card.querySelector('select');
-                doodleSelect.value = member.doodle || "";
-                
-                if (doodleSelect.value) {
-                    const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
-                    const doodleImage = card.querySelector('.doodle-image');
-                    if (selectedOption.dataset.image) {
-                        doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
-                        doodleImage.textContent = "";
-                    }
-                    
-                    // Update type badges when doodle changes
-                    updateTypeBadges(card, doodleSelect.value);
+            teams.forEach((team, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = team.name;
+                if (index === currentTeamIndex) {
+                    option.selected = true;
                 }
-                
-                const moveSelectors = card.querySelectorAll('.moves-container select');
-                member.moves.forEach((move, j) => {
-                    if (moveSelectors[j] && move) {
-                        moveSelectors[j].value = move;
-                        
-                        const option = moveSelectors[j].options[moveSelectors[j].selectedIndex];
-                        moveSelectors[j].classList.remove(
-                            'mythic-selected', 'fire-selected', 'water-selected',
-                            'plant-selected', 'spark-selected', 'beast-selected',
-                            'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
-                            'melee-selected', 'food-selected', 'light-selected',
-                            'crystal-selected', 'metal-selected', 'spirit-selected',
-                            'ice-selected', 'dark-selected', 'poison-selected'
-                        );
-                        
-                        if (option.classList.contains('mythic')) {
-                            moveSelectors[j].classList.add('mythic-selected');
-                        } else if (option.classList.contains('fire')) {
-                            moveSelectors[j].classList.add('fire-selected');
-                        } else if (option.classList.contains('water')) {
-                            moveSelectors[j].classList.add('water-selected');
-                        } else if (option.classList.contains('plant')) {
-                            moveSelectors[j].classList.add('plant-selected');
-                        } else if (option.classList.contains('spark')) {
-                            moveSelectors[j].classList.add('spark-selected');
-                        } else if (option.classList.contains('beast')) {
-                            moveSelectors[j].classList.add('beast-selected');
-                        } else if (option.classList.contains('air')) {
-                            moveSelectors[j].classList.add('air-selected');
-                        } else if (option.classList.contains('insect')) {
-                            moveSelectors[j].classList.add('insect-selected');
-                        } else if (option.classList.contains('earth')) {
-                            moveSelectors[j].classList.add('earth-selected');
-                        } else if (option.classList.contains('mind')) {
-                            moveSelectors[j].classList.add('mind-selected');
-                        } else if (option.classList.contains('melee')) {
-                            moveSelectors[j].classList.add('melee-selected');
-                        } else if (option.classList.contains('food')) {
-                            moveSelectors[j].classList.add('food-selected');
-                        } else if (option.classList.contains('light')) {
-                            moveSelectors[j].classList.add('light-selected');
-                        } else if (option.classList.contains('crystal')) {
-                            moveSelectors[j].classList.add('crystal-selected');
-                        } else if (option.classList.contains('metal')) {
-                            moveSelectors[j].classList.add('metal-selected');
-                        } else if (option.classList.contains('spirit')) {
-                            moveSelectors[j].classList.add('spirit-selected');
-                        } else if (option.classList.contains('ice')) {
-                            moveSelectors[j].classList.add('ice-selected');
-                        } else if (option.classList.contains('dark')) {
-                            moveSelectors[j].classList.add('dark-selected');
-                        } else if (option.classList.contains('poison')) {
-                            moveSelectors[j].classList.add('poison-selected');
-                        }
+                teamSelect.appendChild(option);
+            });
+        }
+
+        function addDoodleToTeam() {
+            if (currentTeamIndex === -1) {
+                alert("Please select or create a team first!");
+                return;
+            }
+            
+            if (teams[currentTeamIndex].doodles.length >= 6) {
+                alert('Team is full! Maximum 6 doodles allowed.');
+                return;
+            }
+            
+            const selectedDoodleName = document.getElementById('doodle-select').value;
+            if (!selectedDoodleName) {
+                alert('Please select a doodle first!');
+                return;
+            }
+            
+            const doodle = doodles.find(d => d.name === selectedDoodleName);
+            if (doodle) {
+                teams[currentTeamIndex].doodles.push({
+                    name: doodle.name,
+                    image: doodle.image,
+                    type: doodle.type,
+                    moves: ["", "", "", ""],
+                    trait: "",
+                    heldItem: "",
+                    stats: ["", ""],
+                    equipment: {
+                        helmet: "None",
+                        amulet: "None",
+                        artifact: "None"
                     }
                 });
+                renderTeam();
+                saveToStorage();
                 
-                const traitSelect = card.querySelector('.trait-select');
-                if (traitSelect && member.trait) traitSelect.value = member.trait;
-                
-                const heldItemSelect = card.querySelector('.held-item-select');
-                if (heldItemSelect && member.heldItem) heldItemSelect.value = member.heldItem;
-                
-                const statSelectors = card.querySelectorAll('.stat-select');
-                member.stats.forEach((stat, k) => {
-                    if (statSelectors[k] && stat) {
-                        statSelectors[k].value = stat;
-                    }
-                });
-                
-                const helmetSelect = card.querySelector('.helmet-select');
-                const amuletSelect = card.querySelector('.amulet-select');
-                const artifactSelect = card.querySelector('.artifact-select');
-                
-                if (helmetSelect && member.equipment?.helmet) helmetSelect.value = member.equipment.helmet;
-                if (amuletSelect && member.equipment?.amulet) amuletSelect.value = member.equipment.amulet;
-                if (artifactSelect && member.equipment?.artifact) artifactSelect.value = member.equipment.artifact;
-                
-                teamContainer.appendChild(card);
-            });
+                document.getElementById('doodle-select').value = "";
+            }
         }
 
-        // ==== DOODLE CARD FUNCTIONS ====
-        function createDoodleCard(index) {
-            const card = document.createElement("div");
-            card.classList.add("doodle-card");
+        function removeDoodle(index) {
+            if (currentTeamIndex === -1) return;
+            teams[currentTeamIndex].doodles.splice(index, 1);
+            renderTeam();
+            saveToStorage();
+        }
 
-            // Card header with slot number
-            const cardHeader = document.createElement("div");
-            cardHeader.classList.add("card-header");
+        window.updateDoodleData = function(doodleIndex, field, value) {
+            if (currentTeamIndex === -1) return;
+            if (field.includes('.')) {
+                const parts = field.split('.');
+                teams[currentTeamIndex].doodles[doodleIndex][parts[0]][parts[1]] = value;
+            } else {
+                teams[currentTeamIndex].doodles[doodleIndex][field] = value;
+            }
+            saveToStorage();
             
-            const cardSlot = document.createElement("div");
-            cardSlot.classList.add("card-slot");
-            cardSlot.textContent = `Slot ${index + 1}`;
-            cardHeader.appendChild(cardSlot);
+            if (field.startsWith('moves.')) {
+                updateMoveColors(doodleIndex);
+            }
+        };
 
-            // Card buttons
-            const cardButtons = document.createElement("div");
-            cardButtons.classList.add("card-buttons");
+        function updateMoveColors(doodleIndex) {
+            const doodle = teams[currentTeamIndex].doodles[doodleIndex];
+            if (!doodle) return;
             
-            // Clear button
-            const clearBtn = document.createElement("button");
-            clearBtn.classList.add("clear-btn");
-            clearBtn.textContent = "Clear";
-            clearBtn.onclick = () => clearDoodleCard(card);
-            cardButtons.appendChild(clearBtn);
-
-            // Turn into Text button
-            const textBtn = document.createElement("button");
-            textBtn.classList.add("text-btn");
-            textBtn.textContent = "Export";
-            textBtn.onclick = () => exportDoodleToText(card);
-            cardButtons.appendChild(textBtn);
-            
-            cardHeader.appendChild(cardButtons);
-            card.appendChild(cardHeader);
-
-            const doodleImage = document.createElement("div");
-            doodleImage.classList.add("doodle-image");
-            doodleImage.textContent = "Doodle";
-
-            // Type badges container - moved above doodle name
-            const typeBadgesContainer = document.createElement("div");
-            typeBadgesContainer.classList.add("type-badges");
-            typeBadgesContainer.id = `type-badges-${index}`;
-            
-            const doodleContainer = document.createElement("div");
-            doodleContainer.classList.add("search-container");
-            
-            const selectDoodle = document.createElement("select");
-            selectDoodle.innerHTML = '<option value="">Select Doodle</option>' + 
-                doodles.map(d => `<option value="${d.name}" data-image="${d.image}" data-type="${d.type}">${d.name}</option>`).join("");
-            
-            selectDoodle.addEventListener("change", function() {
-                const selectedOption = selectDoodle.options[selectDoodle.selectedIndex];
-                if (selectedOption.dataset.image) {
-                    doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
-                    doodleImage.textContent = "";
-                } else {
-                    doodleImage.style.backgroundImage = "";
-                    doodleImage.textContent = "Doodle";
-                }
-                
-                // Update type badges when doodle changes
-                updateTypeBadges(card, this.value);
-                saveCurrentTeam();
-            });
-
-            const doodleSearch = document.createElement("input");
-            doodleSearch.classList.add("search-input");
-            doodleSearch.setAttribute("placeholder", "Search doodles...");
-            
-            doodleSearch.addEventListener("input", function() {
-                const searchTerm = this.value.toLowerCase();
-                const options = selectDoodle.options;
-                
-                for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
-                    const text = option.text.toLowerCase();
-                    option.style.display = text.includes(searchTerm) ? "" : "none";
-                }
-            });
-            
-            selectDoodle.addEventListener("focus", function() {
-                doodleSearch.style.display = "block";
-            });
-            
-            selectDoodle.addEventListener("blur", function() {
-                setTimeout(() => {
-                    if (document.activeElement !== doodleSearch) {
-                        doodleSearch.style.display = "none";
-                    }
-                }, 200);
-            });
-            
-            doodleSearch.addEventListener("focus", function() {
-                this.style.display = "block";
-            });
-            
-            doodleSearch.addEventListener("blur", function() {
-                setTimeout(() => {
-                    if (document.activeElement !== selectDoodle) {
-                        this.style.display = "none";
-                    }
-                }, 200);
-            });
-            
-            doodleContainer.appendChild(selectDoodle);
-            doodleContainer.appendChild(doodleSearch);
-
-            // Add elements to card in correct order
-            card.appendChild(doodleImage);
-            card.appendChild(typeBadgesContainer); // Type badges now between image and name
-            card.appendChild(doodleContainer);
-
-            const expandButton = document.createElement("button");
-            expandButton.textContent = "Expand";
-            expandButton.classList.add("expand-btn");
-            expandButton.onclick = () => {
-                const expandSection = card.querySelector(".expand-section");
-                expandSection.style.display = expandSection.style.display === "none" ? "block" : "none";
-                expandButton.textContent = expandSection.style.display === "none" ? "Expand" : "Hide";
-            };
-
-            const expandSection = document.createElement("div");
-            expandSection.classList.add("expand-section");
-            expandSection.style.display = "none";
-
-            const movesTitle = document.createElement("div");
-            movesTitle.classList.add("section-title");
-            movesTitle.textContent = "Moves";
-            expandSection.appendChild(movesTitle);
-
-            const movesContainer = document.createElement("div");
-            movesContainer.classList.add("moves-container");
-
             for (let i = 0; i < 4; i++) {
-                const moveSelect = document.createElement("select");
-                // Fixed the move selection - using the correct array names
-                moveSelect.innerHTML = 
-                    '<option value="">Select Move</option>' +
-                    basicMoves.map(m => `<option value="${m}">${m}</option>`).join("") +
-                    mythicMoves.map(m => `<option value="${m}" class="mythic">${m}</option>`).join("") +
-                    fireMoves.map(m => `<option value="${m}" class="fire">${m}</option>`).join("") +
-                    waterMoves.map(m => `<option value="${m}" class="water">${m}</option>`).join("") +
-                    plantMoves.map(m => `<option value="${m}" class="plant">${m}</option>`).join("") +
-                    electricMoves.map(m => `<option value="${m}" class="spark">${m}</option>`).join("") + // Fixed: electricMoves with spark class
-                    beastMoves.map(m => `<option value="${m}" class="beast">${m}</option>`).join("") +
-                    airMoves.map(m => `<option value="${m}" class="air">${m}</option>`).join("") +
-                    bugMoves.map(m => `<option value="${m}" class="insect">${m}</option>`).join("") + // Fixed: bugMoves with insect class
-                    earthMoves.map(m => `<option value="${m}" class="earth">${m}</option>`).join("") +
-                    mindMoves.map(m => `<option value="${m}" class="mind">${m}</option>`).join("") +
-                    meleeMoves.map(m => `<option value="${m}" class="melee">${m}</option>`).join("") +
-                    foodMoves.map(m => `<option value="${m}" class="food">${m}</option>`).join("") +
-                    lightMoves.map(m => `<option value="${m}" class="light">${m}</option>`).join("") +
-                    crystalMoves.map(m => `<option value="${m}" class="crystal">${m}</option>`).join("") +
-                    metalMoves.map(m => `<option value="${m}" class="metal">${m}</option>`).join("") +
-                    spiritMoves.map(m => `<option value="${m}" class="spirit">${m}</option>`).join("") +
-                    iceMoves.map(m => `<option value="${m}" class="ice">${m}</option>`).join("") +
-                    darkMoves.map(m => `<option value="${m}" class="dark">${m}</option>`).join("") +
-                    poisonMoves.map(m => `<option value="${m}" class="poison">${m}</option>`).join("");
-
-                moveSelect.addEventListener('change', function() {
-                    const selectedOption = this.options[this.selectedIndex];
-                    this.classList.remove(
-                        'mythic-selected', 'fire-selected', 'water-selected',
-                        'plant-selected', 'spark-selected', 'beast-selected',
-                        'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
-                        'melee-selected', 'food-selected', 'light-selected',
-                        'crystal-selected', 'metal-selected', 'spirit-selected',
-                        'ice-selected', 'dark-selected', 'poison-selected'
+                const moveSelect = document.querySelector(`#doodle-card-${doodleIndex} .moves-container select:nth-child(${i+1})`);
+                if (moveSelect) {
+                    const selectedOption = moveSelect.options[moveSelect.selectedIndex];
+                    
+                    moveSelect.classList.remove(
+                        'move-mythic', 'move-fire', 'move-water', 'move-plant', 
+                        'move-spark', 'move-beast', 'move-air', 'move-insect',
+                        'move-earth', 'move-mind', 'move-melee', 'move-food',
+                        'move-light', 'move-crystal', 'move-metal', 'move-spirit',
+                        'move-ice', 'move-dark', 'move-poison', 'move-basic'
                     );
                     
                     if (selectedOption.classList.contains('mythic')) {
-                        this.classList.add('mythic-selected');
+                        moveSelect.classList.add('move-mythic');
                     } else if (selectedOption.classList.contains('fire')) {
-                        this.classList.add('fire-selected');
+                        moveSelect.classList.add('move-fire');
                     } else if (selectedOption.classList.contains('water')) {
-                        this.classList.add('water-selected');
+                        moveSelect.classList.add('move-water');
                     } else if (selectedOption.classList.contains('plant')) {
-                        this.classList.add('plant-selected');
+                        moveSelect.classList.add('move-plant');
                     } else if (selectedOption.classList.contains('spark')) {
-                        this.classList.add('spark-selected');
+                        moveSelect.classList.add('move-spark');
                     } else if (selectedOption.classList.contains('beast')) {
-                        this.classList.add('beast-selected');
+                        moveSelect.classList.add('move-beast');
                     } else if (selectedOption.classList.contains('air')) {
-                        this.classList.add('air-selected');
+                        moveSelect.classList.add('move-air');
                     } else if (selectedOption.classList.contains('insect')) {
-                        this.classList.add('insect-selected');
+                        moveSelect.classList.add('move-insect');
                     } else if (selectedOption.classList.contains('earth')) {
-                        this.classList.add('earth-selected');
+                        moveSelect.classList.add('move-earth');
                     } else if (selectedOption.classList.contains('mind')) {
-                        this.classList.add('mind-selected');
+                        moveSelect.classList.add('move-mind');
                     } else if (selectedOption.classList.contains('melee')) {
-                        this.classList.add('melee-selected');
+                        moveSelect.classList.add('move-melee');
                     } else if (selectedOption.classList.contains('food')) {
-                        this.classList.add('food-selected');
+                        moveSelect.classList.add('move-food');
                     } else if (selectedOption.classList.contains('light')) {
-                        this.classList.add('light-selected');
+                        moveSelect.classList.add('move-light');
                     } else if (selectedOption.classList.contains('crystal')) {
-                        this.classList.add('crystal-selected');
+                        moveSelect.classList.add('move-crystal');
                     } else if (selectedOption.classList.contains('metal')) {
-                        this.classList.add('metal-selected');
+                        moveSelect.classList.add('move-metal');
                     } else if (selectedOption.classList.contains('spirit')) {
-                        this.classList.add('spirit-selected');
+                        moveSelect.classList.add('move-spirit');
                     } else if (selectedOption.classList.contains('ice')) {
-                        this.classList.add('ice-selected');
+                        moveSelect.classList.add('move-ice');
                     } else if (selectedOption.classList.contains('dark')) {
-                        this.classList.add('dark-selected');
+                        moveSelect.classList.add('move-dark');
                     } else if (selectedOption.classList.contains('poison')) {
-                        this.classList.add('poison-selected');
+                        moveSelect.classList.add('move-poison');
+                    } else {
+                        moveSelect.classList.add('move-basic');
                     }
-                    
-                    saveCurrentTeam();
-                });
-
-                movesContainer.appendChild(moveSelect);
+                }
             }
+        }
 
-            expandSection.appendChild(movesContainer);
+        function renderTeam() {
+            if (currentTeamIndex === -1) return;
+            
+            const teamDisplay = document.getElementById('team-display');
+            teamDisplay.innerHTML = '';
+            
+            teams[currentTeamIndex].doodles.forEach((doodle, index) => {
+                const card = createDoodleCard(doodle, index);
+                teamDisplay.appendChild(card);
+            });
+        }
 
-            const traitTitle = document.createElement("div");
-            traitTitle.classList.add("section-title");
-            traitTitle.textContent = "Trait";
-            expandSection.appendChild(traitTitle);
-
-            const traitContainer = document.createElement("div");
-            traitContainer.classList.add("search-container");
+        function createDoodleCard(doodle, index) {
+            const card = document.createElement('div');
+            card.className = 'doodle-card';
+            card.id = `doodle-card-${index}`;
             
-            const traitSelect = document.createElement("select");
-            traitSelect.classList.add("trait-select");
-            traitSelect.innerHTML = '<option value="">Select Trait</option>' +
-                traits.map(t => `<option value="${t}">${t}</option>`).join("");
-            traitSelect.addEventListener('change', () => saveCurrentTeam());
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
             
-            const traitSearch = document.createElement("input");
-            traitSearch.classList.add("search-input");
-            traitSearch.setAttribute("placeholder", "Search traits...");
+            const slotInfo = document.createElement('div');
+            slotInfo.textContent = `Slot ${index + 1}`;
+            slotInfo.style.fontWeight = 'bold';
+            slotInfo.style.color = 'var(--header-color)';
             
-            traitSearch.addEventListener("input", function() {
-                const searchTerm = this.value.toLowerCase();
-                const options = traitSelect.options;
+            const cardButtons = document.createElement('div');
+            cardButtons.className = 'card-buttons';
+            
+            const clearBtn = document.createElement('button');
+            clearBtn.className = 'card-btn';
+            clearBtn.textContent = 'Clear';
+            clearBtn.onclick = () => clearDoodleCard(index);
+            
+            const exportBtn = document.createElement('button');
+            exportBtn.className = 'card-btn';
+            exportBtn.textContent = 'Export';
+            exportBtn.onclick = () => exportDoodleToText(index);
+            
+            cardButtons.appendChild(clearBtn);
+            cardButtons.appendChild(exportBtn);
+            cardHeader.appendChild(slotInfo);
+            cardHeader.appendChild(cardButtons);
+            
+            const doodleInfo = document.createElement('div');
+            doodleInfo.className = 'doodle-sprite-container';
+            
+            const sprite = document.createElement('div');
+            sprite.className = 'doodle-sprite';
+            sprite.style.backgroundImage = `url(${doodle.image})`;
+            
+            const info = document.createElement('div');
+            info.className = 'doodle-info';
+            
+            const name = document.createElement('div');
+            name.className = 'doodle-name';
+            name.textContent = doodle.name;
+            
+            const typeBadges = document.createElement('div');
+            typeBadges.className = 'type-badges';
+            const types = doodle.type.split('/');
+            types.forEach(type => {
+                const badge = document.createElement('span');
+                badge.className = 'type-badge';
+                badge.textContent = type;
+                badge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
                 
-                for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
-                    const text = option.text.toLowerCase();
-                    option.style.display = text.includes(searchTerm) ? "" : "none";
-                }
-            });
-            
-            traitSelect.addEventListener("focus", function() {
-                traitSearch.style.display = "block";
-            });
-            
-            traitSelect.addEventListener("blur", function() {
-                setTimeout(() => {
-                    if (document.activeElement !== traitSearch) {
-                        traitSearch.style.display = "none";
-                    }
-                }, 200);
-            });
-            
-            traitSearch.addEventListener("focus", function() {
-                this.style.display = "block";
-            });
-            
-            traitSearch.addEventListener("blur", function() {
-                setTimeout(() => {
-                    if (document.activeElement !== traitSelect) {
-                        this.style.display = "none";
-                    }
-                }, 200);
-            });
-            
-            traitContainer.appendChild(traitSelect);
-            traitContainer.appendChild(traitSearch);
-            expandSection.appendChild(traitContainer);
-
-            const heldItemTitle = document.createElement("div");
-            heldItemTitle.classList.add("section-title");
-            heldItemTitle.textContent = "Held Item";
-            expandSection.appendChild(heldItemTitle);
-
-            const heldItemContainer = document.createElement("div");
-            heldItemContainer.classList.add("search-container");
-            
-            const heldItemSelect = document.createElement("select");
-            heldItemSelect.classList.add("held-item-select");
-            heldItemSelect.innerHTML = '<option value="">Held Item</option>' +
-                heldItems.map(h => `<option value="${h}">${h}</option>`).join("");
-            heldItemSelect.addEventListener('change', () => saveCurrentTeam());
-            
-            const heldItemSearch = document.createElement("input");
-            heldItemSearch.classList.add("search-input");
-            heldItemSearch.setAttribute("placeholder", "Search items...");
-            
-            heldItemSearch.addEventListener("input", function() {
-                const searchTerm = this.value.toLowerCase();
-                const options = heldItemSelect.options;
+                const icon = document.createElement('span');
+                icon.className = 'type-icon';
+                icon.style.backgroundImage = `url(${typeIcons[type] || typeIcons['Basic']})`;
+                badge.prepend(icon);
                 
-                for (let i = 0; i < options.length; i++) {
-                    const option = options[i];
-                    const text = option.text.toLowerCase();
-                    option.style.display = text.includes(searchTerm) ? "" : "none";
-                }
+                typeBadges.appendChild(badge);
             });
             
-            heldItemSelect.addEventListener("focus", function() {
-                heldItemSearch.style.display = "block";
-            });
+            info.appendChild(name);
+            info.appendChild(typeBadges);
             
-            heldItemSelect.addEventListener("blur", function() {
-                setTimeout(() => {
-                    if (document.activeElement !== heldItemSearch) {
-                        heldItemSearch.style.display = "none";
-                    }
-                }, 200);
-            });
+            doodleInfo.appendChild(sprite);
+            doodleInfo.appendChild(info);
             
-            heldItemSearch.addEventListener("focus", function() {
-                this.style.display = "block";
-            });
+            const expandBtn = document.createElement('button');
+            expandBtn.className = 'card-btn expand-btn';
+            expandBtn.textContent = 'Expand';
+            expandBtn.onclick = () => toggleExpandSection(index);
             
-            heldItemSearch.addEventListener("blur", function() {
-                setTimeout(() => {
-                    if (document.activeElement !== heldItemSelect) {
-                        this.style.display = "none";
-                    }
-                }, 200);
-            });
+            const expandSection = document.createElement('div');
+            expandSection.className = 'expand-section';
+            expandSection.id = `expand-section-${index}`;
+            expandSection.innerHTML = createExpandSectionContent(doodle, index);
             
-            heldItemContainer.appendChild(heldItemSelect);
-            heldItemContainer.appendChild(heldItemSearch);
-            expandSection.appendChild(heldItemContainer);
-
-            const statsTitle = document.createElement("div");
-            statsTitle.classList.add("section-title");
-            statsTitle.textContent = "Stats";
-            expandSection.appendChild(statsTitle);
-
-            const statsContainer = document.createElement("div");
-            statsContainer.classList.add("stats-container");
-            
-            const statSelect1 = document.createElement("select");
-            statSelect1.classList.add("stat-select");
-            statSelect1.innerHTML = '<option value="">Select Stat</option>' +
-                stats.map(s => `<option value="${s}">${s}</option>`).join("");
-            statSelect1.addEventListener('change', () => saveCurrentTeam());
-
-            const statSelect2 = document.createElement("select");
-            statSelect2.classList.add("stat-select");
-            statSelect2.innerHTML = '<option value="">Select Stat</option>' +
-                stats.map(s => `<option value="${s}">${s}</option>`).join("");
-            statSelect2.addEventListener('change', () => saveCurrentTeam());
-
-            statsContainer.appendChild(statSelect1);
-            statsContainer.appendChild(statSelect2);
-            expandSection.appendChild(statsContainer);
-
-            const equipmentTitle = document.createElement("div");
-            equipmentTitle.classList.add("section-title");
-            equipmentTitle.textContent = "Equipment";
-            expandSection.appendChild(equipmentTitle);
-
-            const equipmentContainer = document.createElement("div");
-            equipmentContainer.classList.add("equipment-container");
-            
-            const helmetSelect = document.createElement("select");
-            helmetSelect.classList.add("helmet-select");
-            helmetSelect.innerHTML = '<option value="None">Helmet</option>' +
-                helmets.map(h => `<option value="${h}">${h}</option>`).join("");
-            helmetSelect.addEventListener('change', () => saveCurrentTeam());
-            
-            const amuletSelect = document.createElement("select");
-            amuletSelect.classList.add("amulet-select");
-            amuletSelect.innerHTML = '<option value="None">Amulet</option>' +
-                amulets.map(a => `<option value="${a}">${a}</option>`).join("");
-            amuletSelect.addEventListener('change', () => saveCurrentTeam());
-            
-            const artifactSelect = document.createElement("select");
-            artifactSelect.classList.add("artifact-select");
-            artifactSelect.innerHTML = '<option value="None">Artifact</option>' +
-                artifacts.map(a => `<option value="${a}">${a}</option>`).join("");
-            artifactSelect.addEventListener('change', () => saveCurrentTeam());
-            
-            equipmentContainer.appendChild(helmetSelect);
-            equipmentContainer.appendChild(amuletSelect);
-            equipmentContainer.appendChild(artifactSelect);
-            expandSection.appendChild(equipmentContainer);
-
-            card.appendChild(expandButton);
+            card.appendChild(cardHeader);
+            card.appendChild(doodleInfo);
+            card.appendChild(expandBtn);
             card.appendChild(expandSection);
+            
             return card;
         }
 
-        function updateTypeBadges(card, doodleName) {
-            const typeBadgesContainer = card.querySelector('.type-badges');
-            typeBadgesContainer.innerHTML = '';
+        function createExpandSectionContent(doodle, index) {
+            const moveOptions = createMoveOptions();
             
-            if (!doodleName) return;
-            
-            const doodle = doodles.find(d => d.name === doodleName);
-            if (!doodle || !doodle.type) return;
-            
-            const types = doodle.type.split('/');
-            
-            types.forEach(type => {
-                const typeBadge = document.createElement('div');
-                typeBadge.classList.add('type-badge');
+            return `
+                <div class="section-title">Moves</div>
+                <div class="moves-container">
+                    ${Array(4).fill().map((_, i) => {
+                        const move = doodle.moves[i] || "";
+                        return `
+                            <select onchange="updateDoodleData(${index}, 'moves.${i}', this.value)">
+                                <option value="">Select Move</option>
+                                ${moveOptions}
+                            </select>
+                        `;
+                    }).join('')}
+                </div>
                 
-                // Set background color to type color
-                typeBadge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
+                <div class="section-title">Trait</div>
+                <div class="search-container">
+                    <select class="trait-select" onchange="updateDoodleData(${index}, 'trait', this.value)">
+                        <option value="">Select Trait</option>
+                        ${traits.map(t => `<option value="${t}" ${doodle.trait === t ? 'selected' : ''}>${t}</option>`).join('')}
+                    </select>
+                </div>
                 
-                const typeIcon = document.createElement('span');
-                typeIcon.classList.add('type-icon');
-                typeIcon.style.backgroundImage = `url(${typeIcons[type] || typeIcons['Basic']})`;
+                <div class="section-title">Held Item</div>
+                <div class="search-container">
+                    <select class="held-item-select" onchange="updateDoodleData(${index}, 'heldItem', this.value)">
+                        <option value="">Held Item</option>
+                        ${heldItems.map(h => `<option value="${h}" ${doodle.heldItem === h ? 'selected' : ''}>${h}</option>`).join('')}
+                    </select>
+                </div>
                 
-                // Create text element
-                const typeText = document.createElement('span');
-                typeText.textContent = type;
+                <div class="section-title">Stats</div>
+                <div class="stats-container">
+                    <select class="stat-select" onchange="updateDoodleData(${index}, 'stats.0', this.value)">
+                        <option value="">Select Stat</option>
+                        ${stats.map(s => `<option value="${s}" ${doodle.stats[0] === s ? 'selected' : ''}>${s}</option>`).join('')}
+                    </select>
+                    <select class="stat-select" onchange="updateDoodleData(${index}, 'stats.1', this.value)">
+                        <option value="">Select Stat</option>
+                        ${stats.map(s => `<option value="${s}" ${doodle.stats[1] === s ? 'selected' : ''}>${s}</option>`).join('')}
+                    </select>
+                </div>
                 
-                // Add icon and text to badge
-                typeBadge.appendChild(typeIcon);
-                typeBadge.appendChild(typeText);
-                
-                // Add badge to container
-                typeBadgesContainer.appendChild(typeBadge);
-            });
+                <div class="section-title">Equipment</div>
+                <div class="equipment-container">
+                    <select class="helmet-select" onchange="updateDoodleData(${index}, 'equipment.helmet', this.value)">
+                        <option value="None">Helmet</option>
+                        ${helmets.map(h => `<option value="${h}" ${doodle.equipment.helmet === h ? 'selected' : ''}>${h}</option>`).join('')}
+                    </select>
+                    <select class="amulet-select" onchange="updateDoodleData(${index}, 'equipment.amulet', this.value)">
+                        <option value="None">Amulet</option>
+                        ${amulets.map(a => `<option value="${a}" ${doodle.equipment.amulet === a ? 'selected' : ''}>${a}</option>`).join('')}
+                    </select>
+                    <select class="artifact-select" onchange="updateDoodleData(${index}, 'equipment.artifact', this.value)">
+                        <option value="None">Artifact</option>
+                        ${artifacts.map(a => `<option value="${a}" ${doodle.equipment.artifact === a ? 'selected' : ''}>${a}</option>`).join('')}
+                    </select>
+                </div>
+            `;
         }
 
-        function clearDoodleCard(card) {
-            card.querySelector("select").value = "";
-            const doodleImage = card.querySelector(".doodle-image");
-            doodleImage.style.backgroundImage = "";
-            doodleImage.textContent = "Doodle";
+        function createMoveOptions() {
+            const moveGroups = [
+                { moves: basicMoves, className: 'basic' },
+                { moves: mythicMoves, className: 'mythic' },
+                { moves: fireMoves, className: 'fire' },
+                { moves: waterMoves, className: 'water' },
+                { moves: plantMoves, className: 'plant' },
+                { moves: electricMoves, className: 'spark' },
+                { moves: beastMoves, className: 'beast' },
+                { moves: airMoves, className: 'air' },
+                { moves: bugMoves, className: 'insect' },
+                { moves: earthMoves, className: 'earth' },
+                { moves: mindMoves, className: 'mind' },
+                { moves: meleeMoves, className: 'melee' },
+                { moves: foodMoves, className: 'food' },
+                { moves: lightMoves, className: 'light' },
+                { moves: crystalMoves, className: 'crystal' },
+                { moves: metalMoves, className: 'metal' },
+                { moves: spiritMoves, className: 'spirit' },
+                { moves: iceMoves, className: 'ice' },
+                { moves: darkMoves, className: 'dark' },
+                { moves: poisonMoves, className: 'poison' }
+            ];
             
-            // Clear type badges
-            const typeBadgesContainer = card.querySelector('.type-badges');
-            typeBadgesContainer.innerHTML = '';
-            
-            card.querySelectorAll(".moves-container select").forEach(select => {
-                select.value = "";
-                select.classList.remove(
-                    'mythic-selected', 'fire-selected', 'water-selected', 
-                    'plant-selected', 'spark-selected', 'beast-selected',
-                    'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
-                    'melee-selected', 'food-selected', 'light-selected',
-                    'crystal-selected', 'metal-selected', 'spirit-selected',
-                    'ice-selected', 'dark-selected', 'poison-selected'
-                );
+            let options = '';
+            moveGroups.forEach(group => {
+                group.moves.forEach(move => {
+                    options += `<option value="${move}" class="${group.className}">${move}</option>`;
+                });
             });
             
-            card.querySelector(".trait-select").value = "";
-            card.querySelector(".held-item-select").value = "";
-            
-            card.querySelectorAll(".stat-select").forEach(select => {
-                select.value = "";
-            });
-            
-            card.querySelector(".helmet-select").value = "None";
-            card.querySelector(".amulet-select").value = "None";
-            card.querySelector(".artifact-select").value = "None";
-            
-            const expandSection = card.querySelector(".expand-section");
-            expandSection.style.display = "none";
-            card.querySelector(".expand-btn").textContent = "Expand";
-            
-            saveCurrentTeam();
+            return options;
         }
 
-        function exportDoodleToText(card) {
-            const doodleName = card.querySelector("select").value;
-            if (!doodleName) {
-                alert("Please select a Doodle first!");
-                return;
+        function toggleExpandSection(index) {
+            const expandSection = document.getElementById(`expand-section-${index}`);
+            const expandBtn = document.querySelector(`#doodle-card-${index} .expand-btn`);
+            
+            if (expandSection.style.display === 'block') {
+                expandSection.style.display = 'none';
+                expandBtn.textContent = 'Expand';
+            } else {
+                expandSection.style.display = 'block';
+                expandBtn.textContent = 'Hide';
+                
+                setTimeout(() => updateMoveColors(index), 10);
             }
+        }
 
-            const heldItem = card.querySelector(".held-item-select").value || "None";
-            const trait = card.querySelector(".trait-select").value || "";
+        function clearDoodleCard(index) {
+            if (currentTeamIndex === -1) return;
+            teams[currentTeamIndex].doodles.splice(index, 1);
+            renderTeam();
+            saveToStorage();
+        }
+
+        function exportDoodleToText(index) {
+            if (currentTeamIndex === -1) return;
             
-            const moves = Array.from(card.querySelectorAll(".moves-container select"))
-                .map(select => select.value)
-                .filter(move => move)
-                .join(" / ");
+            const doodle = teams[currentTeamIndex].doodles[index];
+            if (!doodle) return;
             
-            const stats = Array.from(card.querySelectorAll(".stat-select"))
-                .map(select => select.value)
-                .filter(stat => stat)
-                .join(", ");
+            let text = `${doodle.name} @ ${doodle.heldItem || "None"}\n`;
+            if (doodle.trait) text += `${doodle.trait}\n`;
             
-            const helmet = card.querySelector(".helmet-select").value || "None";
-            const amulet = card.querySelector(".amulet-select").value || "None";
-            const artifact = card.querySelector(".artifact-select").value || "None";
-            
-            let text = `${doodleName} @ ${heldItem}\n`;
-            if (trait) text += `${trait}\n`;
+            const moves = doodle.moves.filter(m => m).join(" / ");
             text += `${moves}\n`;
             
-            if (stats) {
-                text += `Stats: ${stats}\n`;
+            if (doodle.stats.filter(s => s).length > 0) {
+                text += `Stats: ${doodle.stats.filter(s => s).join(", ")}\n`;
             }
             
-            text += `Equipment: ${helmet} / ${amulet} / ${artifact}`;
+            text += `Equipment: ${doodle.equipment.helmet} / ${doodle.equipment.amulet} / ${doodle.equipment.artifact}`;
             
             navigator.clipboard.writeText(text)
                 .then(() => alert("Doodle text copied to clipboard!"))
@@ -2321,10 +1553,10 @@
                 });
         }
 
-        // ==== IMPORT/EXPORT FUNCTIONS ====
         function copyTeamCode() {
+            if (currentTeamIndex === -1) return;
+            
             try {
-                saveCurrentTeam();
                 const teamCode = btoa(JSON.stringify(teams[currentTeamIndex]));
                 
                 navigator.clipboard.writeText(teamCode)
@@ -2341,6 +1573,34 @@
             } catch (error) {
                 console.error("Copy failed:", error);
                 alert("Error generating team code. Check console for details.");
+            }
+        }
+
+        function importTeamCode() {
+            const teamCode = prompt("Paste team code:");
+            if (!teamCode) return;
+
+            try {
+                const teamData = JSON.parse(atob(teamCode));
+                
+                if (teams.length < MAX_TEAMS) {
+                    teams.push(teamData);
+                    currentTeamIndex = teams.length - 1;
+                    updateTeamSelect();
+                    loadTeam(currentTeamIndex);
+                    saveToStorage();
+                    alert("Team imported successfully as a new team!");
+                } else {
+                    if (confirm("No space for new team. Replace current team?")) {
+                        teams[currentTeamIndex] = teamData;
+                        loadTeam(currentTeamIndex);
+                        saveToStorage();
+                        alert("Team imported successfully (replaced current team)!");
+                    }
+                }
+            } catch (error) {
+                console.error("Import failed:", error);
+                alert("Invalid team code! Please check and try again.");
             }
         }
 
@@ -2375,121 +1635,30 @@
                     if (equipParts.length >= 3) equipment.artifact = equipParts[2] || "None";
                 }
                 
-                const cards = document.querySelectorAll(".doodle-card");
-                let emptyCard = null;
-                
-                for (let card of cards) {
-                    if (!card.querySelector("select").value) {
-                        emptyCard = card;
-                        break;
-                    }
+                if (currentTeamIndex === -1 || teams[currentTeamIndex].doodles.length >= 6) {
+                    alert("Team is full! Clear a slot first.");
+                    return;
                 }
                 
-                if (!emptyCard) {
-                    const teamContainer = document.getElementById("team-container");
-                    if (teamContainer.children.length < 6) {
-                        emptyCard = createDoodleCard(teamContainer.children.length);
-                        teamContainer.appendChild(emptyCard);
-                    } else {
-                        alert("Team is full! Clear a slot first.");
-                        return;
-                    }
+                const doodle = doodles.find(d => d.name === doodleName);
+                if (!doodle) {
+                    alert("Doodle not found in database!");
+                    return;
                 }
                 
-                const doodleSelect = emptyCard.querySelector("select");
-                doodleSelect.value = doodleName;
-                
-                if (doodleSelect.value) {
-                    const selectedOption = doodleSelect.options[doodleSelect.selectedIndex];
-                    const doodleImage = emptyCard.querySelector(".doodle-image");
-                    if (selectedOption.dataset.image) {
-                        doodleImage.style.backgroundImage = `url(${selectedOption.dataset.image})`;
-                        doodleImage.textContent = "";
-                    }
-                    
-                    // Update type badges
-                    updateTypeBadges(emptyCard, doodleName);
-                }
-                
-                const moveSelectors = emptyCard.querySelectorAll(".moves-container select");
-                moves.forEach((move, i) => {
-                    if (moveSelectors[i] && move) {
-                        moveSelectors[i].value = move;
-                        
-                        const option = moveSelectors[i].options[moveSelectors[i].selectedIndex];
-                        moveSelectors[i].classList.remove(
-                            'mythic-selected', 'fire-selected', 'water-selected',
-                            'plant-selected', 'spark-selected', 'beast-selected',
-                            'air-selected', 'insect-selected', 'earth-selected', 'mind-selected',
-                            'melee-selected', 'food-selected', 'light-selected',
-                            'crystal-selected', 'metal-selected', 'spirit-selected',
-                            'ice-selected', 'dark-selected', 'poison-selected'
-                        );
-                        
-                        if (option.classList.contains('mythic')) {
-                            moveSelectors[i].classList.add('mythic-selected');
-                        } else if (option.classList.contains('fire')) {
-                            moveSelectors[i].classList.add('fire-selected');
-                        } else if (option.classList.contains('water')) {
-                            moveSelectors[i].classList.add('water-selected');
-                        } else if (option.classList.contains('plant')) {
-                            moveSelectors[i].classList.add('plant-selected');
-                        } else if (option.classList.contains('spark')) {
-                            moveSelectors[i].classList.add('spark-selected');
-                        } else if (option.classList.contains('beast')) {
-                            moveSelectors[i].classList.add('beast-selected');
-                        } else if (option.classList.contains('air')) {
-                            moveSelectors[i].classList.add('air-selected');
-                        } else if (option.classList.contains('insect')) {
-                            moveSelectors[i].classList.add('insect-selected');
-                        } else if (option.classList.contains('earth')) {
-                            moveSelectors[i].classList.add('earth-selected');
-                        } else if (option.classList.contains('mind')) {
-                            moveSelectors[i].classList.add('mind-selected');
-                        } else if (option.classList.contains('melee')) {
-                            moveSelectors[i].classList.add('melee-selected');
-                        } else if (option.classList.contains('food')) {
-                            moveSelectors[i].classList.add('food-selected');
-                        } else if (option.classList.contains('light')) {
-                            moveSelectors[i].classList.add('light-selected');
-                        } else if (option.classList.contains('crystal')) {
-                            moveSelectors[i].classList.add('crystal-selected');
-                        } else if (option.classList.contains('metal')) {
-                            moveSelectors[i].classList.add('metal-selected');
-                        } else if (option.classList.contains('spirit')) {
-                            moveSelectors[i].classList.add('spirit-selected');
-                        } else if (option.classList.contains('ice')) {
-                            moveSelectors[i].classList.add('ice-selected');
-                        } else if (option.classList.contains('dark')) {
-                            moveSelectors[i].classList.add('dark-selected');
-                        } else if (option.classList.contains('poison')) {
-                            moveSelectors[i].classList.add('poison-selected');
-                        }
-                    }
+                teams[currentTeamIndex].doodles.push({
+                    name: doodle.name,
+                    image: doodle.image,
+                    type: doodle.type,
+                    moves: [...moves, "", "", ""].slice(0, 4),
+                    trait: trait,
+                    heldItem: heldItem,
+                    stats: [...stats, "", ""].slice(0, 2),
+                    equipment: equipment
                 });
                 
-                const traitSelect = emptyCard.querySelector(".trait-select");
-                if (traitSelect && trait) traitSelect.value = trait;
-                
-                const heldItemSelect = emptyCard.querySelector(".held-item-select");
-                if (heldItemSelect && heldItem) heldItemSelect.value = heldItem;
-                
-                const statSelectors = emptyCard.querySelectorAll(".stat-select");
-                stats.forEach((stat, i) => {
-                    if (statSelectors[i] && stat) {
-                        statSelectors[i].value = stat;
-                    }
-                });
-                
-                const helmetSelect = emptyCard.querySelector(".helmet-select");
-                const amuletSelect = emptyCard.querySelector(".amulet-select");
-                const artifactSelect = emptyCard.querySelector(".artifact-select");
-                
-                if (helmetSelect) helmetSelect.value = equipment.helmet;
-                if (amuletSelect) amuletSelect.value = equipment.amulet;
-                if (artifactSelect) artifactSelect.value = equipment.artifact;
-                
-                saveCurrentTeam();
+                renderTeam();
+                saveToStorage();
                 alert("Doodle imported successfully!");
             } catch (error) {
                 console.error("Import failed:", error);
@@ -2497,41 +1666,39 @@
             }
         }
 
-        function importFromCode() {
-            const teamCode = prompt("Paste team code:");
-            if (!teamCode) return;
+        function loadTeam(index) {
+            if (index < 0 || index >= teams.length) return;
+            
+            const team = teams[index];
+            document.getElementById('team-name').value = team.name;
+            renderTeam();
+        }
 
-            try {
-                const teamData = JSON.parse(atob(teamCode));
+        function loadFromStorage() {
+            const savedTeams = localStorage.getItem('doodleTeams');
+            const savedIndex = localStorage.getItem('currentTeamIndex');
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTeams) {
+                teams = JSON.parse(savedTeams);
+                currentTeamIndex = parseInt(savedIndex) || 0;
                 
-                if (teams.length < MAX_TEAMS) {
-                    teams.push(teamData);
-                    currentTeamIndex = teams.length - 1;
-                    updateTeamList();
-                    loadTeam(currentTeamIndex);
-                    saveTeamsToStorage();
-                    alert("Team imported successfully as a new team!");
-                } else {
-                    if (confirm("No space for new team. Replace current team?")) {
-                        teams[currentTeamIndex] = teamData;
-                        loadTeam(currentTeamIndex);
-                        saveTeamsToStorage();
-                        alert("Team imported successfully (replaced current team)!");
-                    }
+                if (savedTheme === 'light') {
+                    document.body.classList.add('light-mode');
+                    document.getElementById('themeToggle').textContent = 'Dark Mode';
                 }
-            } catch (error) {
-                console.error("Import failed:", error);
-                alert("Invalid team code! Please check and try again.");
+                return true;
             }
+            return false;
         }
 
-        // Initialize the application
-        if (!loadTeamsFromStorage()) {
-            initializeTeams();
-        } else {
-            updateTeamList();
-            loadTeam(currentTeamIndex);
+        function saveToStorage() {
+            localStorage.setItem('doodleTeams', JSON.stringify(teams));
+            localStorage.setItem('currentTeamIndex', currentTeamIndex);
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
         }
+
+        window.onload = initialize;
     </script>
 </body>
 </html>
