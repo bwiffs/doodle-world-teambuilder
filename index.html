@@ -344,6 +344,24 @@
             background-color: var(--input-bg);
             border: 1px solid var(--input-border);
             border-radius: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .move-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 0;
+        }
+
+        .move-icon {
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
         }
 
         .move-mythic { color: var(--mythic-color); }
@@ -535,6 +553,7 @@
     </div>
 
     <script>
+        // Type colors and icons
         const typeColors = {
             'Mythic': 'var(--mythic-color)',
             'Fire': 'var(--fire-color)',
@@ -581,7 +600,7 @@
             'Basic': 'logos/basic.webp'
         };
 
-               const doodles = [
+                      const doodles = [
             { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp", type: "Insect/Mind" },
             { name: "Aluminja", image: "https://i.ibb.co/tpxnFrs0/Aluminja-1.webp", type: "Metal/Melee" },
             { name: "Antenaflight", image: "https://i.ibb.co/chg5DDHT/Antenaflight-1.webp", type: "Insect/Air" },
@@ -1063,7 +1082,6 @@
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Joltant", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", ];
 
-
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
@@ -1256,7 +1274,6 @@
                 if (moveSelect) {
                     const selectedOption = moveSelect.options[moveSelect.selectedIndex];
                     
-                    // Remove all color classes
                     moveSelect.classList.remove(
                         'move-mythic', 'move-fire', 'move-water', 'move-plant', 
                         'move-spark', 'move-beast', 'move-air', 'move-insect',
@@ -1265,50 +1282,38 @@
                         'move-ice', 'move-dark', 'move-poison', 'move-basic'
                     );
                     
-                    // Add appropriate color class
-                    if (selectedOption.classList.contains('mythic')) {
-                        moveSelect.classList.add('move-mythic');
-                    } else if (selectedOption.classList.contains('fire')) {
-                        moveSelect.classList.add('move-fire');
-                    } else if (selectedOption.classList.contains('water')) {
-                        moveSelect.classList.add('move-water');
-                    } else if (selectedOption.classList.contains('plant')) {
-                        moveSelect.classList.add('move-plant');
-                    } else if (selectedOption.classList.contains('spark')) {
-                        moveSelect.classList.add('move-spark');
-                    } else if (selectedOption.classList.contains('beast')) {
-                        moveSelect.classList.add('move-beast');
-                    } else if (selectedOption.classList.contains('air')) {
-                        moveSelect.classList.add('move-air');
-                    } else if (selectedOption.classList.contains('insect')) {
-                        moveSelect.classList.add('move-insect');
-                    } else if (selectedOption.classList.contains('earth')) {
-                        moveSelect.classList.add('move-earth');
-                    } else if (selectedOption.classList.contains('mind')) {
-                        moveSelect.classList.add('move-mind');
-                    } else if (selectedOption.classList.contains('melee')) {
-                        moveSelect.classList.add('move-melee');
-                    } else if (selectedOption.classList.contains('food')) {
-                        moveSelect.classList.add('move-food');
-                    } else if (selectedOption.classList.contains('light')) {
-                        moveSelect.classList.add('move-light');
-                    } else if (selectedOption.classList.contains('crystal')) {
-                        moveSelect.classList.add('move-crystal');
-                    } else if (selectedOption.classList.contains('metal')) {
-                        moveSelect.classList.add('move-metal');
-                    } else if (selectedOption.classList.contains('spirit')) {
-                        moveSelect.classList.add('move-spirit');
-                    } else if (selectedOption.classList.contains('ice')) {
-                        moveSelect.classList.add('move-ice');
-                    } else if (selectedOption.classList.contains('dark')) {
-                        moveSelect.classList.add('move-dark');
-                    } else if (selectedOption.classList.contains('poison')) {
-                        moveSelect.classList.add('move-poison');
-                    } else {
-                        moveSelect.classList.add('move-basic');
+                    const moveType = getMoveType(selectedOption.value);
+                    if (moveType) {
+                        moveSelect.classList.add(`move-${moveType.toLowerCase()}`);
                     }
                 }
             }
+        }
+
+        function getMoveType(moveName) {
+            if (!moveName) return null;
+            
+            if (mythicMoves.includes(moveName)) return 'Mythic';
+            if (fireMoves.includes(moveName)) return 'Fire';
+            if (waterMoves.includes(moveName)) return 'Water';
+            if (plantMoves.includes(moveName)) return 'Plant';
+            if (electricMoves.includes(moveName)) return 'Spark';
+            if (beastMoves.includes(moveName)) return 'Beast';
+            if (airMoves.includes(moveName)) return 'Air';
+            if (bugMoves.includes(moveName)) return 'Insect';
+            if (earthMoves.includes(moveName)) return 'Earth';
+            if (mindMoves.includes(moveName)) return 'Mind';
+            if (meleeMoves.includes(moveName)) return 'Melee';
+            if (foodMoves.includes(moveName)) return 'Food';
+            if (lightMoves.includes(moveName)) return 'Light';
+            if (crystalMoves.includes(moveName)) return 'Crystal';
+            if (metalMoves.includes(moveName)) return 'Metal';
+            if (spiritMoves.includes(moveName)) return 'Spirit';
+            if (iceMoves.includes(moveName)) return 'Ice';
+            if (darkMoves.includes(moveName)) return 'Dark';
+            if (poisonMoves.includes(moveName)) return 'Poison';
+            
+            return 'Basic';
         }
 
         function renderTeam() {
@@ -1474,32 +1479,32 @@
 
         function createMoveOptions() {
             const moveGroups = [
-                { moves: basicMoves, className: 'basic' },
-                { moves: mythicMoves, className: 'mythic' },
-                { moves: fireMoves, className: 'fire' },
-                { moves: waterMoves, className: 'water' },
-                { moves: plantMoves, className: 'plant' },
-                { moves: electricMoves, className: 'spark' },
-                { moves: beastMoves, className: 'beast' },
-                { moves: airMoves, className: 'air' },
-                { moves: bugMoves, className: 'insect' },
-                { moves: earthMoves, className: 'earth' },
-                { moves: mindMoves, className: 'mind' },
-                { moves: meleeMoves, className: 'melee' },
-                { moves: foodMoves, className: 'food' },
-                { moves: lightMoves, className: 'light' },
-                { moves: crystalMoves, className: 'crystal' },
-                { moves: metalMoves, className: 'metal' },
-                { moves: spiritMoves, className: 'spirit' },
-                { moves: iceMoves, className: 'ice' },
-                { moves: darkMoves, className: 'dark' },
-                { moves: poisonMoves, className: 'poison' }
+                { moves: basicMoves, className: 'basic', type: 'Basic' },
+                { moves: mythicMoves, className: 'mythic', type: 'Mythic' },
+                { moves: fireMoves, className: 'fire', type: 'Fire' },
+                { moves: waterMoves, className: 'water', type: 'Water' },
+                { moves: plantMoves, className: 'plant', type: 'Plant' },
+                { moves: electricMoves, className: 'spark', type: 'Spark' },
+                { moves: beastMoves, className: 'beast', type: 'Beast' },
+                { moves: airMoves, className: 'air', type: 'Air' },
+                { moves: bugMoves, className: 'insect', type: 'Insect' },
+                { moves: earthMoves, className: 'earth', type: 'Earth' },
+                { moves: mindMoves, className: 'mind', type: 'Mind' },
+                { moves: meleeMoves, className: 'melee', type: 'Melee' },
+                { moves: foodMoves, className: 'food', type: 'Food' },
+                { moves: lightMoves, className: 'light', type: 'Light' },
+                { moves: crystalMoves, className: 'crystal', type: 'Crystal' },
+                { moves: metalMoves, className: 'metal', type: 'Metal' },
+                { moves: spiritMoves, className: 'spirit', type: 'Spirit' },
+                { moves: iceMoves, className: 'ice', type: 'Ice' },
+                { moves: darkMoves, className: 'dark', type: 'Dark' },
+                { moves: poisonMoves, className: 'poison', type: 'Poison' }
             ];
             
             let options = '';
             moveGroups.forEach(group => {
                 group.moves.forEach(move => {
-                    options += `<option value="${move}" class="${group.className}">${move}</option>`;
+                    options += `<option value="${move}" class="${group.className}" data-type="${group.type}">${move}</option>`;
                 });
             });
             
@@ -1517,7 +1522,38 @@
                 expandSection.classList.add('active');
                 expandBtn.textContent = 'Hide';
                 
-                setTimeout(() => updateMoveColors(index), 10);
+                setTimeout(() => {
+                    updateMoveColors(index);
+                    updateMoveIcons(index);
+                }, 10);
+            }
+        }
+
+        function updateMoveIcons(doodleIndex) {
+            const doodle = teams[currentTeamIndex].doodles[doodleIndex];
+            if (!doodle) return;
+            
+            for (let i = 0; i < 4; i++) {
+                const moveSelect = document.querySelector(`#doodle-card-${doodleIndex} .moves-container select:nth-child(${i+1})`);
+                if (moveSelect) {
+                    const selectedOption = moveSelect.options[moveSelect.selectedIndex];
+                    
+                    let icon = moveSelect.querySelector('.move-icon');
+                    if (!icon) {
+                        icon = document.createElement('span');
+                        icon.className = 'move-icon';
+                        moveSelect.insertBefore(icon, moveSelect.firstChild);
+                    }
+                    
+                    // Set icon based on move type
+                    const moveType = getMoveType(selectedOption.value);
+                    if (moveType && typeIcons[moveType]) {
+                        icon.style.backgroundImage = `url(${typeIcons[moveType]})`;
+                        icon.style.display = 'inline-block';
+                    } else {
+                        icon.style.display = 'none';
+                    }
+                }
             }
         }
 
