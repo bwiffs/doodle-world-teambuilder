@@ -553,6 +553,7 @@
     </div>
 
     <script>
+        // Type colors and icons
         const typeColors = {
             'Mythic': 'var(--mythic-color)',
             'Fire': 'var(--fire-color)',
@@ -599,7 +600,7 @@
             'Basic': 'logos/basic.webp'
         };
 
-                              const doodles = [
+                                      const doodles = [
             { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp", type: "Insect/Mind" },
             { name: "Aluminja", image: "https://i.ibb.co/tpxnFrs0/Aluminja-1.webp", type: "Metal/Melee" },
             { name: "Antenaflight", image: "https://i.ibb.co/chg5DDHT/Antenaflight-1.webp", type: "Insect/Air" },
@@ -1416,21 +1417,21 @@
         function createExpandSectionContent(doodle, index) {
             const moveOptions = createMoveOptions();
             
-            let moveSelects = '';
-            for (let i = 0; i < 4; i++) {
-                const move = doodle.moves[i] || "";
-                moveSelects += `
-                    <select onchange="updateDoodleData(${index}, 'moves.${i}', this.value)">
-                        <option value="">Select Move</option>
-                        ${moveOptions}
-                    </select>
-                `;
-            }
-            
             return `
                 <div class="section-title">Moves</div>
                 <div class="moves-container">
-                    ${moveSelects}
+                    ${Array(4).fill().map((_, i) => {
+                        const move = doodle.moves[i] || "";
+                        const moveType = getMoveType(move);
+                        const moveClass = moveType ? `move-${moveType.toLowerCase()}` : '';
+                        
+                        return `
+                            <select class="${moveClass}" onchange="updateDoodleData(${index}, 'moves.${i}', this.value)">
+                                <option value="">Select Move</option>
+                                ${moveOptions}
+                            </select>
+                        `;
+                    }).join('')}
                 </div>
                 
                 <div class="section-title">Trait</div>
@@ -1524,14 +1525,6 @@
                 expandSection.classList.add('active');
                 expandBtn.textContent = 'Hide';
                 
-                const doodle = teams[currentTeamIndex].doodles[index];
-                for (let i = 0; i < 4; i++) {
-                    const moveSelect = document.querySelector(`#doodle-card-${index} .moves-container select:nth-child(${i+1})`);
-                    if (moveSelect && doodle.moves[i]) {
-                        moveSelect.value = doodle.moves[i];
-                    }
-                }
-                
                 setTimeout(() => {
                     updateMoveColors(index);
                     updateMoveIcons(index);
@@ -1555,6 +1548,7 @@
                         moveSelect.insertBefore(icon, moveSelect.firstChild);
                     }
                     
+                    // Set icon based on move type
                     const moveType = getMoveType(selectedOption.value);
                     if (moveType && typeIcons[moveType]) {
                         icon.style.backgroundImage = `url(${typeIcons[moveType]})`;
@@ -1608,9 +1602,11 @@
             if (currentTeamIndex === -1) return;
             
             try {
-                let teamText = "";
-                teams[currentTeamIndex].doodles.forEach((doodle, index) => {
-                    if (index > 0) teamText += "\n\n";
+                const team = teams[currentTeamIndex];
+                let teamText = `Team: ${team.name}\n\n`;
+                
+                team.doodles.forEach((doodle, index) => {
+                    teamText += `Slot ${index + 1}:\n`;
                     teamText += `${doodle.name} @ ${doodle.heldItem || "None"}\n`;
                     if (doodle.trait) teamText += `${doodle.trait}\n`;
                     
@@ -1621,11 +1617,11 @@
                         teamText += `Stats: ${doodle.stats.filter(s => s).join(", ")}\n`;
                     }
                     
-                    teamText += `Equipment: ${doodle.equipment.helmet} / ${doodle.equipment.amulet} / ${doodle.equipment.artifact}`;
+                    teamText += `Equipment: ${doodle.equipment.helmet} / ${doodle.equipment.amulet} / ${doodle.equipment.artifact}\n\n`;
                 });
                 
                 navigator.clipboard.writeText(teamText)
-                    .then(() => alert("Team text copied to clipboard!"))
+                    .then(() => alert("Team code copied to clipboard!"))
                     .catch(() => {
                         const textarea = document.createElement("textarea");
                         textarea.value = teamText;
@@ -1633,78 +1629,105 @@
                         textarea.select();
                         document.execCommand("copy");
                         document.body.removeChild(textarea);
-                        alert("Team text copied!");
+                        alert("Team code copied!");
                     });
             } catch (error) {
                 console.error("Copy failed:", error);
-                alert("Error generating team text. Check console for details.");
+                alert("Error generating team code. Check console for details.");
             }
         }
 
         function importTeamCode() {
-            const teamText = prompt("Paste team text:");
-            if (!teamText) return;
+            const teamCode = prompt("Paste team code:");
+            if (!teamCode) return;
 
             try {
-                const doodleTexts = teamText.split('\n\n');
-                const newDoodles = [];
+                const lines = teamCode.split('\n');
+                const teamNameMatch = lines[0].match(/Team: (.+)/);
+                const teamName = teamNameMatch ? teamNameMatch[1] : "Imported Team";
                 
-                for (const doodleText of doodleTexts) {
-                    const lines = doodleText.split('\n').map(line => line.trim());
+                const doodles = [];
+                let currentDoodle = null;
+                
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
                     
-                    const firstLineParts = lines[0].split(' @ ');
-                    const doodleName = firstLineParts[0].trim();
-                    const heldItem = firstLineParts.length > 1 ? firstLineParts[1].trim() : "";
-                    
-                    const trait = lines[1] || "";
-                    
-                    const movesLine = lines[2] || "";
-                    const moves = movesLine.split('/').map(move => move.trim()).filter(move => move);
-                    
-                    let stats = ["", ""];
-                    if (lines.length > 3 && lines[3].startsWith("Stats:")) {
-                        const statsLine = lines[3].replace("Stats:", "").trim();
-                        stats = statsLine.split(',').map(stat => stat.trim()).filter(stat => stat);
+                    if (line.startsWith('Slot')) {
+                        if (currentDoodle) {
+                            doodles.push(currentDoodle);
+                        }
+                        currentDoodle = {
+                            name: "",
+                            image: "",
+                            type: "",
+                            moves: ["", "", "", ""],
+                            trait: "",
+                            heldItem: "",
+                            stats: ["", ""],
+                            equipment: {
+                                helmet: "None",
+                                amulet: "None",
+                                artifact: "None"
+                            }
+                        };
+                    } else if (line.includes(' @ ')) {
+                        if (currentDoodle) {
+                            const parts = line.split(' @ ');
+                            currentDoodle.name = parts[0].trim();
+                            currentDoodle.heldItem = parts[1].trim();
+                            
+                            // Find the doodle in the database to get image and type
+                            const doodleData = doodles.find(d => d.name === currentDoodle.name);
+                            if (doodleData) {
+                                currentDoodle.image = doodleData.image;
+                                currentDoodle.type = doodleData.type;
+                            }
+                        }
+                    } else if (line && !line.startsWith('Stats:') && !line.startsWith('Equipment:') && !line.startsWith('Slot')) {
+                        if (currentDoodle) {
+                            // Check if this is a trait (not a move line)
+                            if (!line.includes('/') && !currentDoodle.trait) {
+                                currentDoodle.trait = line;
+                            } else if (line.includes('/')) {
+                                // This is a moves line
+                                const moves = line.split('/').map(m => m.trim());
+                                for (let j = 0; j < Math.min(moves.length, 4); j++) {
+                                    currentDoodle.moves[j] = moves[j];
+                                }
+                            }
+                        }
+                    } else if (line.startsWith('Stats:')) {
+                        if (currentDoodle) {
+                            const statsLine = line.replace('Stats:', '').trim();
+                            const stats = statsLine.split(',').map(s => s.trim());
+                            for (let j = 0; j < Math.min(stats.length, 2); j++) {
+                                currentDoodle.stats[j] = stats[j];
+                            }
+                        }
+                    } else if (line.startsWith('Equipment:')) {
+                        if (currentDoodle) {
+                            const equipLine = line.replace('Equipment:', '').trim();
+                            const equipParts = equipLine.split('/').map(e => e.trim());
+                            if (equipParts.length >= 1) currentDoodle.equipment.helmet = equipParts[0] || "None";
+                            if (equipParts.length >= 2) currentDoodle.equipment.amulet = equipParts[1] || "None";
+                            if (equipParts.length >= 3) currentDoodle.equipment.artifact = equipParts[2] || "None";
+                        }
                     }
-                    
-                    let equipment = { helmet: "None", amulet: "None", artifact: "None" };
-                    if (lines.length > 4 && lines[4].startsWith("Equipment:")) {
-                        const equipLine = lines[4].replace("Equipment:", "").trim();
-                        const equipParts = equipLine.split('/').map(e => e.trim());
-                        if (equipParts.length >= 1) equipment.helmet = equipParts[0] || "None";
-                        if (equipParts.length >= 2) equipment.amulet = equipParts[1] || "None";
-                        if (equipParts.length >= 3) equipment.artifact = equipParts[2] || "None";
-                    }
-                    
-                    const doodle = doodles.find(d => d.name === doodleName);
-                    if (!doodle) {
-                        alert(`Doodle "${doodleName}" not found in database!`);
-                        return;
-                    }
-                    
-                    newDoodles.push({
-                        name: doodle.name,
-                        image: doodle.image,
-                        type: doodle.type,
-                        moves: [...moves, "", "", ""].slice(0, 4),
-                        trait: trait,
-                        heldItem: heldItem,
-                        stats: [...stats, "", ""].slice(0, 2),
-                        equipment: equipment
-                    });
                 }
                 
-                if (newDoodles.length > 6) {
-                    alert("Team has more than 6 doodles! Only the first 6 will be imported.");
-                    newDoodles.splice(6);
+                // Add the last doodle
+                if (currentDoodle) {
+                    doodles.push(currentDoodle);
                 }
+                
+                const teamData = {
+                    name: teamName,
+                    notes: "",
+                    doodles: doodles
+                };
                 
                 if (teams.length < MAX_TEAMS) {
-                    teams.push({
-                        name: `Imported Team ${teams.length + 1}`,
-                        notes: "",
-                        doodles: newDoodles
-                    });
+                    teams.push(teamData);
                     currentTeamIndex = teams.length - 1;
                     updateTeamSelect();
                     loadTeam(currentTeamIndex);
@@ -1712,7 +1735,7 @@
                     alert("Team imported successfully as a new team!");
                 } else {
                     if (confirm("No space for new team. Replace current team?")) {
-                        teams[currentTeamIndex].doodles = newDoodles;
+                        teams[currentTeamIndex] = teamData;
                         loadTeam(currentTeamIndex);
                         saveToStorage();
                         alert("Team imported successfully (replaced current team)!");
@@ -1720,7 +1743,7 @@
                 }
             } catch (error) {
                 console.error("Import failed:", error);
-                alert("Invalid team text! Please check the format and try again.");
+                alert("Invalid team code! Please check and try again.");
             }
         }
 
