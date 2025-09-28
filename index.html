@@ -553,7 +553,6 @@
     </div>
 
     <script>
-        // Type colors and icons
         const typeColors = {
             'Mythic': 'var(--mythic-color)',
             'Fire': 'var(--fire-color)',
@@ -600,7 +599,7 @@
             'Basic': 'logos/basic.webp'
         };
 
-                      const doodles = [
+                              const doodles = [
             { name: "Aliantion", image: "https://i.ibb.co/fGVtt9VC/Aliantion-1.webp", type: "Insect/Mind" },
             { name: "Aluminja", image: "https://i.ibb.co/tpxnFrs0/Aluminja-1.webp", type: "Metal/Melee" },
             { name: "Antenaflight", image: "https://i.ibb.co/chg5DDHT/Antenaflight-1.webp", type: "Insect/Air" },
@@ -1069,8 +1068,8 @@
             "Sulfur Plume", "Surprise!", "Toxic Bomb", "Venom Bite",
             "Venom Lacerate", "Venomous Sting", "Canister","Last Lament"
         ];
-        
-                const helmets = ["None", "Artificer's Beanie", "Aviator Helmet", "Bowlcut", "Candy Headphones", "Decorated Hairclip", "Doodad", "Drenched Sunhat", "Eggshell Helmet", "Epic Shades", "Feathered Hat", "Glummish Cap", "Head Leaf", "Horned Headband", "Magnificent Tophat", "Marshmellow Fedora", "Pale Sunbonnet", "Scuba Goggles", "Smoldering Hood", "Theatre Mask", "Tinfoil Hat", "Preformers Mask", "Clown Hair", ];
+
+        const helmets = ["None", "Artificer's Beanie", "Aviator Helmet", "Bowlcut", "Candy Headphones", "Decorated Hairclip", "Doodad", "Drenched Sunhat", "Eggshell Helmet", "Epic Shades", "Feathered Hat", "Glummish Cap", "Head Leaf", "Horned Headband", "Magnificent Tophat", "Marshmellow Fedora", "Pale Sunbonnet", "Scuba Goggles", "Smoldering Hood", "Theatre Mask", "Tinfoil Hat", "Preformers Mask", "Clown Hair", ];
         
         const amulets = ["None", "Crystal Shard", "DIY Pin", "Dark Brooch", "Dusty Bandana", "Festive Bow", "Geode Pendant", "Helpful Lantern", "Juniper Necklace", "Mini Camera", "Ornate Necklace", "Rock Candy", "Ruby Pendant", "Sandstone Necklace", "Sapphire Amulet", "Scrap Paper", "Sticky Pendant", "Stone Necklace", "Swag Juice", "Toxic Vial", "Vial of Tears", "Whatchamacallit", "Buggle Ball", "Penant String", ];
         
@@ -1417,18 +1416,21 @@
         function createExpandSectionContent(doodle, index) {
             const moveOptions = createMoveOptions();
             
+            let moveSelects = '';
+            for (let i = 0; i < 4; i++) {
+                const move = doodle.moves[i] || "";
+                moveSelects += `
+                    <select onchange="updateDoodleData(${index}, 'moves.${i}', this.value)">
+                        <option value="">Select Move</option>
+                        ${moveOptions}
+                    </select>
+                `;
+            }
+            
             return `
                 <div class="section-title">Moves</div>
                 <div class="moves-container">
-                    ${Array(4).fill().map((_, i) => {
-                        const move = doodle.moves[i] || "";
-                        return `
-                            <select onchange="updateDoodleData(${index}, 'moves.${i}', this.value)">
-                                <option value="">Select Move</option>
-                                ${moveOptions}
-                            </select>
-                        `;
-                    }).join('')}
+                    ${moveSelects}
                 </div>
                 
                 <div class="section-title">Trait</div>
@@ -1504,7 +1506,7 @@
             let options = '';
             moveGroups.forEach(group => {
                 group.moves.forEach(move => {
-                    options += `<option value="${move}" class="${group.className}" data-type="${group.type}">${move}</option>`;
+                    options += `<option value="${move}" class="move-${group.className}" data-type="${group.type}">${move}</option>`;
                 });
             });
             
@@ -1521,6 +1523,14 @@
             } else {
                 expandSection.classList.add('active');
                 expandBtn.textContent = 'Hide';
+                
+                const doodle = teams[currentTeamIndex].doodles[index];
+                for (let i = 0; i < 4; i++) {
+                    const moveSelect = document.querySelector(`#doodle-card-${index} .moves-container select:nth-child(${i+1})`);
+                    if (moveSelect && doodle.moves[i]) {
+                        moveSelect.value = doodle.moves[i];
+                    }
+                }
                 
                 setTimeout(() => {
                     updateMoveColors(index);
@@ -1545,7 +1555,6 @@
                         moveSelect.insertBefore(icon, moveSelect.firstChild);
                     }
                     
-                    // Set icon based on move type
                     const moveType = getMoveType(selectedOption.value);
                     if (moveType && typeIcons[moveType]) {
                         icon.style.backgroundImage = `url(${typeIcons[moveType]})`;
@@ -1599,34 +1608,103 @@
             if (currentTeamIndex === -1) return;
             
             try {
-                const teamCode = btoa(JSON.stringify(teams[currentTeamIndex]));
+                let teamText = "";
+                teams[currentTeamIndex].doodles.forEach((doodle, index) => {
+                    if (index > 0) teamText += "\n\n";
+                    teamText += `${doodle.name} @ ${doodle.heldItem || "None"}\n`;
+                    if (doodle.trait) teamText += `${doodle.trait}\n`;
+                    
+                    const moves = doodle.moves.filter(m => m).join(" / ");
+                    teamText += `${moves}\n`;
+                    
+                    if (doodle.stats.filter(s => s).length > 0) {
+                        teamText += `Stats: ${doodle.stats.filter(s => s).join(", ")}\n`;
+                    }
+                    
+                    teamText += `Equipment: ${doodle.equipment.helmet} / ${doodle.equipment.amulet} / ${doodle.equipment.artifact}`;
+                });
                 
-                navigator.clipboard.writeText(teamCode)
-                    .then(() => alert("Team code copied to clipboard!"))
+                navigator.clipboard.writeText(teamText)
+                    .then(() => alert("Team text copied to clipboard!"))
                     .catch(() => {
                         const textarea = document.createElement("textarea");
-                        textarea.value = teamCode;
+                        textarea.value = teamText;
                         document.body.appendChild(textarea);
                         textarea.select();
                         document.execCommand("copy");
                         document.body.removeChild(textarea);
-                        alert("Team code copied!");
+                        alert("Team text copied!");
                     });
             } catch (error) {
                 console.error("Copy failed:", error);
-                alert("Error generating team code. Check console for details.");
+                alert("Error generating team text. Check console for details.");
             }
         }
 
         function importTeamCode() {
-            const teamCode = prompt("Paste team code:");
-            if (!teamCode) return;
+            const teamText = prompt("Paste team text:");
+            if (!teamText) return;
 
             try {
-                const teamData = JSON.parse(atob(teamCode));
+                const doodleTexts = teamText.split('\n\n');
+                const newDoodles = [];
+                
+                for (const doodleText of doodleTexts) {
+                    const lines = doodleText.split('\n').map(line => line.trim());
+                    
+                    const firstLineParts = lines[0].split(' @ ');
+                    const doodleName = firstLineParts[0].trim();
+                    const heldItem = firstLineParts.length > 1 ? firstLineParts[1].trim() : "";
+                    
+                    const trait = lines[1] || "";
+                    
+                    const movesLine = lines[2] || "";
+                    const moves = movesLine.split('/').map(move => move.trim()).filter(move => move);
+                    
+                    let stats = ["", ""];
+                    if (lines.length > 3 && lines[3].startsWith("Stats:")) {
+                        const statsLine = lines[3].replace("Stats:", "").trim();
+                        stats = statsLine.split(',').map(stat => stat.trim()).filter(stat => stat);
+                    }
+                    
+                    let equipment = { helmet: "None", amulet: "None", artifact: "None" };
+                    if (lines.length > 4 && lines[4].startsWith("Equipment:")) {
+                        const equipLine = lines[4].replace("Equipment:", "").trim();
+                        const equipParts = equipLine.split('/').map(e => e.trim());
+                        if (equipParts.length >= 1) equipment.helmet = equipParts[0] || "None";
+                        if (equipParts.length >= 2) equipment.amulet = equipParts[1] || "None";
+                        if (equipParts.length >= 3) equipment.artifact = equipParts[2] || "None";
+                    }
+                    
+                    const doodle = doodles.find(d => d.name === doodleName);
+                    if (!doodle) {
+                        alert(`Doodle "${doodleName}" not found in database!`);
+                        return;
+                    }
+                    
+                    newDoodles.push({
+                        name: doodle.name,
+                        image: doodle.image,
+                        type: doodle.type,
+                        moves: [...moves, "", "", ""].slice(0, 4),
+                        trait: trait,
+                        heldItem: heldItem,
+                        stats: [...stats, "", ""].slice(0, 2),
+                        equipment: equipment
+                    });
+                }
+                
+                if (newDoodles.length > 6) {
+                    alert("Team has more than 6 doodles! Only the first 6 will be imported.");
+                    newDoodles.splice(6);
+                }
                 
                 if (teams.length < MAX_TEAMS) {
-                    teams.push(teamData);
+                    teams.push({
+                        name: `Imported Team ${teams.length + 1}`,
+                        notes: "",
+                        doodles: newDoodles
+                    });
                     currentTeamIndex = teams.length - 1;
                     updateTeamSelect();
                     loadTeam(currentTeamIndex);
@@ -1634,7 +1712,7 @@
                     alert("Team imported successfully as a new team!");
                 } else {
                     if (confirm("No space for new team. Replace current team?")) {
-                        teams[currentTeamIndex] = teamData;
+                        teams[currentTeamIndex].doodles = newDoodles;
                         loadTeam(currentTeamIndex);
                         saveToStorage();
                         alert("Team imported successfully (replaced current team)!");
@@ -1642,7 +1720,7 @@
                 }
             } catch (error) {
                 console.error("Import failed:", error);
-                alert("Invalid team code! Please check and try again.");
+                alert("Invalid team text! Please check the format and try again.");
             }
         }
 
