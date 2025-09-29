@@ -553,7 +553,6 @@
     </div>
 
     <script>
-        // Type colors and icons
         const typeColors = {
             'Mythic': 'var(--mythic-color)',
             'Fire': 'var(--fire-color)',
@@ -1082,6 +1081,7 @@
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Joltant", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", ];
 
+
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
@@ -1095,6 +1095,7 @@
                 addTeam();
             } else {
                 updateTeamSelect();
+                currentTeamIndex = 0;
                 loadTeam(currentTeamIndex);
             }
         }
@@ -1161,6 +1162,8 @@
 
             if (currentTeamIndex === -1) return;
 
+            saveCurrentTeamState();
+            
             teams.splice(currentTeamIndex, 1);
             
             if (currentTeamIndex >= teams.length) {
@@ -1174,10 +1177,63 @@
 
         function changeTeam() {
             const select = document.getElementById('team-select');
-            currentTeamIndex = parseInt(select.value);
+            const newIndex = parseInt(select.value);
+            
+            if (currentTeamIndex !== -1 && currentTeamIndex !== newIndex) {
+                saveCurrentTeamState();
+            }
+            
+            currentTeamIndex = newIndex;
             if (currentTeamIndex >= 0) {
                 loadTeam(currentTeamIndex);
             }
+        }
+
+        function saveCurrentTeamState() {
+            if (currentTeamIndex === -1) return;
+            
+            teams[currentTeamIndex].name = document.getElementById('team-name').value || `Team ${currentTeamIndex + 1}`;
+            
+            const doodleCards = document.querySelectorAll('.doodle-card');
+            doodleCards.forEach((card, index) => {
+                if (index < teams[currentTeamIndex].doodles.length) {
+                    const moveSelects = card.querySelectorAll('.moves-container select');
+                    moveSelects.forEach((select, moveIndex) => {
+                        teams[currentTeamIndex].doodles[index].moves[moveIndex] = select.value;
+                    });
+                    
+                    const traitSelect = card.querySelector('.trait-select');
+                    if (traitSelect) {
+                        teams[currentTeamIndex].doodles[index].trait = traitSelect.value;
+                    }
+                    
+                    const heldItemSelect = card.querySelector('.held-item-select');
+                    if (heldItemSelect) {
+                        teams[currentTeamIndex].doodles[index].heldItem = heldItemSelect.value;
+                    }
+                    
+                    const statSelects = card.querySelectorAll('.stat-select');
+                    statSelects.forEach((select, statIndex) => {
+                        teams[currentTeamIndex].doodles[index].stats[statIndex] = select.value;
+                    });
+                    
+                    const helmetSelect = card.querySelector('.helmet-select');
+                    const amuletSelect = card.querySelector('.amulet-select');
+                    const artifactSelect = card.querySelector('.artifact-select');
+                    
+                    if (helmetSelect) {
+                        teams[currentTeamIndex].doodles[index].equipment.helmet = helmetSelect.value;
+                    }
+                    if (amuletSelect) {
+                        teams[currentTeamIndex].doodles[index].equipment.amulet = amuletSelect.value;
+                    }
+                    if (artifactSelect) {
+                        teams[currentTeamIndex].doodles[index].equipment.artifact = artifactSelect.value;
+                    }
+                }
+            });
+            
+            saveToStorage();
         }
 
         function updateTeamName() {
@@ -1404,12 +1460,16 @@
             const expandSection = document.createElement('div');
             expandSection.className = 'expand-section';
             expandSection.id = `expand-section-${index}`;
-            expandSection.innerHTML = createExpandSectionContent(doodle, index);
             
             card.appendChild(cardHeader);
             card.appendChild(doodleInfo);
             card.appendChild(expandBtn);
             card.appendChild(expandSection);
+            
+            setTimeout(() => {
+                expandSection.innerHTML = createExpandSectionContent(doodle, index);
+                setSelectedMoves(doodle, index);
+            }, 0);
             
             return card;
         }
@@ -1480,6 +1540,16 @@
             `;
         }
 
+        function setSelectedMoves(doodle, index) {
+            for (let i = 0; i < 4; i++) {
+                const moveSelect = document.querySelector(`#doodle-card-${index} .moves-container select:nth-child(${i+1})`);
+                if (moveSelect && doodle.moves[i]) {
+                    moveSelect.value = doodle.moves[i];
+                    updateMoveColors(index);
+                }
+            }
+        }
+
         function createMoveOptions() {
             const moveGroups = [
                 { moves: basicMoves, className: 'basic', type: 'Basic' },
@@ -1548,7 +1618,6 @@
                         moveSelect.insertBefore(icon, moveSelect.firstChild);
                     }
                     
-                    // Set icon based on move type
                     const moveType = getMoveType(selectedOption.value);
                     if (moveType && typeIcons[moveType]) {
                         icon.style.backgroundImage = `url(${typeIcons[moveType]})`;
@@ -1573,17 +1642,17 @@
             const doodle = teams[currentTeamIndex].doodles[index];
             if (!doodle) return;
             
-            let text = `${doodle.name} @ ${doodle.heldItem || "None"}\n`;
-            if (doodle.trait) text += `${doodle.trait}\n`;
+            let text = `${doodle.name} @ ${doodle.heldItem || "None"} - ${doodle.trait || "No Trait"} - ${doodle.equipment.helmet}/${doodle.equipment.amulet}/${doodle.equipment.artifact}`;
             
-            const moves = doodle.moves.filter(m => m).join(" / ");
-            text += `${moves}\n`;
-            
-            if (doodle.stats.filter(s => s).length > 0) {
-                text += `Stats: ${doodle.stats.filter(s => s).join(", ")}\n`;
+            const statsText = doodle.stats.filter(s => s).join(", ");
+            if (statsText) {
+                text += ` - ${statsText}`;
             }
             
-            text += `Equipment: ${doodle.equipment.helmet} / ${doodle.equipment.amulet} / ${doodle.equipment.artifact}`;
+            const moves = doodle.moves.filter(m => m).join("/");
+            if (moves) {
+                text += ` - ${moves}`;
+            }
             
             navigator.clipboard.writeText(text)
                 .then(() => alert("Doodle text copied to clipboard!"))
@@ -1607,17 +1676,20 @@
                 
                 team.doodles.forEach((doodle, index) => {
                     teamText += `Slot ${index + 1}:\n`;
-                    teamText += `${doodle.name} @ ${doodle.heldItem || "None"}\n`;
-                    if (doodle.trait) teamText += `${doodle.trait}\n`;
                     
-                    const moves = doodle.moves.filter(m => m).join(" / ");
-                    teamText += `${moves}\n`;
+                    teamText += `${doodle.name} @ ${doodle.heldItem || "None"} - ${doodle.trait || "No Trait"} - ${doodle.equipment.helmet}/${doodle.equipment.amulet}/${doodle.equipment.artifact}`;
                     
-                    if (doodle.stats.filter(s => s).length > 0) {
-                        teamText += `Stats: ${doodle.stats.filter(s => s).join(", ")}\n`;
+                    const statsText = doodle.stats.filter(s => s).join(", ");
+                    if (statsText) {
+                        teamText += ` - ${statsText}`;
                     }
                     
-                    teamText += `Equipment: ${doodle.equipment.helmet} / ${doodle.equipment.amulet} / ${doodle.equipment.artifact}\n\n`;
+                    const moves = doodle.moves.filter(m => m).join("/");
+                    if (moves) {
+                        teamText += ` - ${moves}`;
+                    }
+                    
+                    teamText += '\n\n';
                 });
                 
                 navigator.clipboard.writeText(teamText)
@@ -1642,11 +1714,15 @@
             if (!teamCode) return;
 
             try {
+                if (currentTeamIndex !== -1) {
+                    saveCurrentTeamState();
+                }
+                
                 const lines = teamCode.split('\n');
                 const teamNameMatch = lines[0].match(/Team: (.+)/);
                 const teamName = teamNameMatch ? teamNameMatch[1] : "Imported Team";
                 
-                const doodles = [];
+                const importedDoodles = [];
                 let currentDoodle = null;
                 
                 for (let i = 1; i < lines.length; i++) {
@@ -1654,7 +1730,7 @@
                     
                     if (line.startsWith('Slot')) {
                         if (currentDoodle) {
-                            doodles.push(currentDoodle);
+                            importedDoodles.push(currentDoodle);
                         }
                         currentDoodle = {
                             name: "",
@@ -1672,58 +1748,59 @@
                         };
                     } else if (line.includes(' @ ')) {
                         if (currentDoodle) {
-                            const parts = line.split(' @ ');
-                            currentDoodle.name = parts[0].trim();
-                            currentDoodle.heldItem = parts[1].trim();
+                            const parts = line.split(' - ');
                             
-                            // Find the doodle in the database to get image and type
+                            const doodleItemPart = parts[0];
+                            const doodleItemParts = doodleItemPart.split(' @ ');
+                            currentDoodle.name = doodleItemParts[0].trim();
+                            currentDoodle.heldItem = doodleItemParts.length > 1 ? doodleItemParts[1].trim() : "None";
+                            
+                            if (parts.length > 1) {
+                                currentDoodle.trait = parts[1].trim();
+                            }
+                            
+                            if (parts.length > 2) {
+                                const equipmentParts = parts[2].split('/');
+                                if (equipmentParts.length >= 1) currentDoodle.equipment.helmet = equipmentParts[0].trim() || "None";
+                                if (equipmentParts.length >= 2) currentDoodle.equipment.amulet = equipmentParts[1].trim() || "None";
+                                if (equipmentParts.length >= 3) currentDoodle.equipment.artifact = equipmentParts[2].trim() || "None";
+                            }
+                            
+                            if (parts.length > 3 && parts[3].includes('%')) {
+                                const statsParts = parts[3].split(',').map(s => s.trim());
+                                for (let j = 0; j < Math.min(statsParts.length, 2); j++) {
+                                    currentDoodle.stats[j] = statsParts[j];
+                                }
+                            }
+                            
+                            let movesIndex = 4;
+                            if (parts.length > 3 && !parts[3].includes('%')) {
+                                movesIndex = 3;
+                            }
+                            if (parts.length > movesIndex) {
+                                const moves = parts[movesIndex].split('/').map(m => m.trim());
+                                for (let j = 0; j < Math.min(moves.length, 4); j++) {
+                                    currentDoodle.moves[j] = moves[j];
+                                }
+                            }
+                            
                             const doodleData = doodles.find(d => d.name === currentDoodle.name);
                             if (doodleData) {
                                 currentDoodle.image = doodleData.image;
                                 currentDoodle.type = doodleData.type;
                             }
                         }
-                    } else if (line && !line.startsWith('Stats:') && !line.startsWith('Equipment:') && !line.startsWith('Slot')) {
-                        if (currentDoodle) {
-                            // Check if this is a trait (not a move line)
-                            if (!line.includes('/') && !currentDoodle.trait) {
-                                currentDoodle.trait = line;
-                            } else if (line.includes('/')) {
-                                // This is a moves line
-                                const moves = line.split('/').map(m => m.trim());
-                                for (let j = 0; j < Math.min(moves.length, 4); j++) {
-                                    currentDoodle.moves[j] = moves[j];
-                                }
-                            }
-                        }
-                    } else if (line.startsWith('Stats:')) {
-                        if (currentDoodle) {
-                            const statsLine = line.replace('Stats:', '').trim();
-                            const stats = statsLine.split(',').map(s => s.trim());
-                            for (let j = 0; j < Math.min(stats.length, 2); j++) {
-                                currentDoodle.stats[j] = stats[j];
-                            }
-                        }
-                    } else if (line.startsWith('Equipment:')) {
-                        if (currentDoodle) {
-                            const equipLine = line.replace('Equipment:', '').trim();
-                            const equipParts = equipLine.split('/').map(e => e.trim());
-                            if (equipParts.length >= 1) currentDoodle.equipment.helmet = equipParts[0] || "None";
-                            if (equipParts.length >= 2) currentDoodle.equipment.amulet = equipParts[1] || "None";
-                            if (equipParts.length >= 3) currentDoodle.equipment.artifact = equipParts[2] || "None";
-                        }
                     }
                 }
                 
-                // Add the last doodle
                 if (currentDoodle) {
-                    doodles.push(currentDoodle);
+                    importedDoodles.push(currentDoodle);
                 }
                 
                 const teamData = {
                     name: teamName,
                     notes: "",
-                    doodles: doodles
+                    doodles: importedDoodles
                 };
                 
                 if (teams.length < MAX_TEAMS) {
@@ -1748,34 +1825,45 @@
         }
 
         function importFromText() {
-            const text = prompt("Paste Doodle text (format: Doodle @ Held Item\nTrait\nMove 1 / Move 2 / Move 3 / Move 4\nStats: +Stat1, +Stat2\nEquipment: Helmet / Amulet / Artifact)");
+            const text = prompt("Paste Doodle text (format: Doodle @ Item - Trait - Helmet/Amulet/Artifact - +10%, +10% - Move/Move/Move/Move)");
             if (!text) return;
 
             try {
-                const lines = text.split('\n').map(line => line.trim());
+                const parts = text.split(' - ');
                 
-                const firstLineParts = lines[0].split(' @ ');
-                const doodleName = firstLineParts[0].trim();
-                const heldItem = firstLineParts.length > 1 ? firstLineParts[1].trim() : "";
+                const doodleItemPart = parts[0];
+                const doodleItemParts = doodleItemPart.split(' @ ');
+                const doodleName = doodleItemParts[0].trim();
+                const heldItem = doodleItemParts.length > 1 ? doodleItemParts[1].trim() : "None";
                 
-                const trait = lines[1] || "";
-                
-                const movesLine = lines[2] || "";
-                const moves = movesLine.split('/').map(move => move.trim()).filter(move => move);
-                
-                let stats = ["", ""];
-                if (lines.length > 3 && lines[3].startsWith("Stats:")) {
-                    const statsLine = lines[3].replace("Stats:", "").trim();
-                    stats = statsLine.split(',').map(stat => stat.trim()).filter(stat => stat);
-                }
+                const trait = parts.length > 1 ? parts[1].trim() : "";
                 
                 let equipment = { helmet: "None", amulet: "None", artifact: "None" };
-                if (lines.length > 4 && lines[4].startsWith("Equipment:")) {
-                    const equipLine = lines[4].replace("Equipment:", "").trim();
-                    const equipParts = equipLine.split('/').map(e => e.trim());
-                    if (equipParts.length >= 1) equipment.helmet = equipParts[0] || "None";
-                    if (equipParts.length >= 2) equipment.amulet = equipParts[1] || "None";
-                    if (equipParts.length >= 3) equipment.artifact = equipParts[2] || "None";
+                if (parts.length > 2) {
+                    const equipmentParts = parts[2].split('/');
+                    if (equipmentParts.length >= 1) equipment.helmet = equipmentParts[0].trim() || "None";
+                    if (equipmentParts.length >= 2) equipment.amulet = equipmentParts[1].trim() || "None";
+                    if (equipmentParts.length >= 3) equipment.artifact = equipmentParts[2].trim() || "None";
+                }
+                
+                let stats = ["", ""];
+                if (parts.length > 3 && parts[3].includes('%')) {
+                    const statsParts = parts[3].split(',').map(s => s.trim());
+                    for (let j = 0; j < Math.min(statsParts.length, 2); j++) {
+                        stats[j] = statsParts[j];
+                    }
+                }
+                
+                let moves = ["", "", "", ""];
+                let movesIndex = 4;
+                if (parts.length > 3 && !parts[3].includes('%')) {
+                    movesIndex = 3;
+                }
+                if (parts.length > movesIndex) {
+                    const movesParts = parts[movesIndex].split('/').map(m => m.trim());
+                    for (let j = 0; j < Math.min(movesParts.length, 4); j++) {
+                        moves[j] = movesParts[j];
+                    }
                 }
                 
                 if (currentTeamIndex === -1 || teams[currentTeamIndex].doodles.length >= 6) {
@@ -1793,10 +1881,10 @@
                     name: doodle.name,
                     image: doodle.image,
                     type: doodle.type,
-                    moves: [...moves, "", "", ""].slice(0, 4),
+                    moves: moves,
                     trait: trait,
                     heldItem: heldItem,
-                    stats: [...stats, "", ""].slice(0, 2),
+                    stats: stats,
                     equipment: equipment
                 });
                 
