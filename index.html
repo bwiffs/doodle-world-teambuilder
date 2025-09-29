@@ -188,6 +188,7 @@
             display: flex;
             gap: 10px;
             flex: 1;
+            position: relative;
         }
 
         .doodle-selector select {
@@ -447,6 +448,30 @@
             box-shadow: 0 3px 8px var(--shadow);
         }
 
+        .search-input.active {
+            display: block;
+        }
+
+        .dropdown-search {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 0;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            box-shadow: 0 3px 8px var(--shadow);
+            display: none;
+        }
+
+        .dropdown-search.active {
+            display: block;
+        }
+
         .controls {
             display: flex;
             justify-content: center;
@@ -533,6 +558,7 @@
                 <select id="doodle-select">
                     <option value="">Select a Doodle</option>
                 </select>
+                <input type="text" class="dropdown-search" id="doodle-search" placeholder="Search doodles...">
                 <button class="add-doodle-btn" id="add-doodle">Add Doodle</button>
             </div>
         </div>
@@ -1081,7 +1107,6 @@
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Joltant", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", ];
 
-
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
@@ -1124,6 +1149,45 @@
             document.getElementById('import-code').addEventListener('click', importTeamCode);
             document.getElementById('import-text').addEventListener('click', importFromText);
             
+            // Doodle search functionality
+            const doodleSelect = document.getElementById('doodle-select');
+            const doodleSearch = document.getElementById('doodle-search');
+            
+            doodleSelect.addEventListener('focus', () => {
+                doodleSearch.classList.add('active');
+            });
+            
+            doodleSelect.addEventListener('blur', (e) => {
+                // Delay hiding to allow clicking on search input
+                setTimeout(() => {
+                    if (!doodleSearch.contains(document.activeElement)) {
+                        doodleSearch.classList.remove('active');
+                    }
+                }, 200);
+            });
+            
+            doodleSearch.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const options = doodleSelect.querySelectorAll('option');
+                
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        option.style.display = '';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+            
+            doodleSearch.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if (!doodleSelect.contains(document.activeElement)) {
+                        doodleSearch.classList.remove('active');
+                    }
+                }, 200);
+            });
+            
             document.getElementById('themeToggle').addEventListener('click', () => {
                 document.body.classList.toggle('light-mode');
                 if (document.body.classList.contains('light-mode')) {
@@ -1141,8 +1205,15 @@
                 return;
             }
 
+            // Fixed: Find the next available team number
+            let teamNumber = 1;
+            const teamNames = teams.map(team => team.name);
+            while (teamNames.includes(`Team ${teamNumber}`)) {
+                teamNumber++;
+            }
+
             const newTeam = {
-                name: `Team ${teams.length + 1}`,
+                name: `Team ${teamNumber}`,
                 notes: "",
                 doodles: []
             };
@@ -1469,6 +1540,7 @@
             setTimeout(() => {
                 expandSection.innerHTML = createExpandSectionContent(doodle, index);
                 setSelectedMoves(doodle, index);
+                setupSearchForExpandableSections(index);
             }, 0);
             
             return card;
@@ -1500,6 +1572,7 @@
                         <option value="">Select Trait</option>
                         ${traits.map(t => `<option value="${t}" ${doodle.trait === t ? 'selected' : ''}>${t}</option>`).join('')}
                     </select>
+                    <input type="text" class="dropdown-search trait-search" placeholder="Search traits...">
                 </div>
                 
                 <div class="section-title">Held Item</div>
@@ -1508,6 +1581,7 @@
                         <option value="">Held Item</option>
                         ${heldItems.map(h => `<option value="${h}" ${doodle.heldItem === h ? 'selected' : ''}>${h}</option>`).join('')}
                     </select>
+                    <input type="text" class="dropdown-search held-item-search" placeholder="Search held items...">
                 </div>
                 
                 <div class="section-title">Stats</div>
@@ -1538,6 +1612,60 @@
                     </select>
                 </div>
             `;
+        }
+
+        function setupSearchForExpandableSections(index) {
+            // Setup trait search
+            const traitSelect = document.querySelector(`#doodle-card-${index} .trait-select`);
+            const traitSearch = document.querySelector(`#doodle-card-${index} .trait-search`);
+            
+            if (traitSelect && traitSearch) {
+                setupDropdownSearch(traitSelect, traitSearch, traits);
+            }
+            
+            // Setup held item search
+            const heldItemSelect = document.querySelector(`#doodle-card-${index} .held-item-select`);
+            const heldItemSearch = document.querySelector(`#doodle-card-${index} .held-item-search`);
+            
+            if (heldItemSelect && heldItemSearch) {
+                setupDropdownSearch(heldItemSelect, heldItemSearch, heldItems);
+            }
+        }
+
+        function setupDropdownSearch(selectElement, searchInput, dataArray) {
+            selectElement.addEventListener('focus', () => {
+                searchInput.classList.add('active');
+            });
+            
+            selectElement.addEventListener('blur', (e) => {
+                setTimeout(() => {
+                    if (!searchInput.contains(document.activeElement)) {
+                        searchInput.classList.remove('active');
+                    }
+                }, 200);
+            });
+            
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const options = selectElement.querySelectorAll('option');
+                
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        option.style.display = '';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+            
+            searchInput.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if (!selectElement.contains(document.activeElement)) {
+                        searchInput.classList.remove('active');
+                    }
+                }, 200);
+            });
         }
 
         function setSelectedMoves(doodle, index) {
