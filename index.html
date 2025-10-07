@@ -357,6 +357,109 @@
             align-items: center;
         }
 
+.moves-container select {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+    margin: 3px 0;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+}
+
+
+.move-mythic, .move-mythic option {
+    color: var(--mythic-color) !important;
+}
+
+.move-fire, .move-fire option {
+    color: var(--fire-color) !important;
+}
+
+.move-water, .move-water option {
+    color: var(--water-color) !important;
+}
+
+.move-plant, .move-plant option {
+    color: var(--plant-color) !important;
+}
+
+.move-spark, .move-spark option {
+    color: var(--spark-color) !important;
+}
+
+.move-beast, .move-beast option {
+    color: var(--beast-color) !important;
+}
+
+.move-air, .move-air option {
+    color: var(--air-color) !important;
+}
+
+.move-insect, .move-insect option {
+    color: var(--insect-color) !important;
+}
+
+.move-earth, .move-earth option {
+    color: var(--earth-color) !important;
+}
+
+.move-mind, .move-mind option {
+    color: var(--mind-color) !important;
+}
+
+.move-melee, .move-melee option {
+    color: var(--melee-color) !important;
+}
+
+.move-food, .move-food option {
+    color: var(--food-color) !important;
+}
+
+.move-light, .move-light option {
+    color: var(--light-color) !important;
+}
+
+.move-crystal, .move-crystal option {
+    color: var(--crystal-color) !important;
+}
+
+.move-metal, .move-metal option {
+    color: var(--metal-color) !important;
+}
+
+.move-spirit, .move-spirit option {
+    color: var(--spirit-color) !important;
+}
+
+.move-ice, .move-ice option {
+    color: var(--ice-color) !important;
+}
+
+.move-dark, .move-dark option {
+    color: var(--dark-color) !important;
+}
+
+.move-poison, .move-poison option {
+    color: var(--poison-color) !important;
+}
+
+.move-basic, .move-basic option {
+    color: var(--basic-color) !important;
+}
+
+.moves-container select option {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.moves-container select:not([class*="move-"]) {
+    color: var(--text-color);
+}
+
+
         .search-container {
             position: relative;
             margin-bottom: 12px;
@@ -788,7 +891,6 @@
             </div>
         </div>
 
-        <!-- Defensive Calculator Page -->
         <div class="page" id="defensive">
             <div class="header">
                 <h1>Defensive Type Calculator</h1>
@@ -827,7 +929,6 @@
             </div>
         </div>
 
-        <!-- Offensive Calculator Page -->
         <div class="page" id="offensive">
             <div class="header">
                 <h1>Offensive Type Calculator</h1>
@@ -868,7 +969,6 @@
     </div>
 
     <script>
-        // Type chart and other data remains the same
         const typeChart = {
             "basic": {
                 "basic": 1, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
@@ -1982,7 +2082,6 @@
         }
 
         function setSelectedStatsAndEquipment(doodle, index) {
-            // Set stats
             for (let i = 0; i < 2; i++) {
                 const statSelect = document.querySelector(`#doodle-card-${index} .stat-select:nth-child(${i+1})`);
                 if (statSelect && doodle.stats[i]) {
@@ -1990,7 +2089,6 @@
                 }
             }
 
-            // Set equipment
             const helmetSelect = document.querySelector(`#doodle-card-${index} .helmet-select`);
             const amuletSelect = document.querySelector(`#doodle-card-${index} .amulet-select`);
             const artifactSelect = document.querySelector(`#doodle-card-${index} .artifact-select`);
@@ -2650,8 +2748,6 @@
         }
 
         function applyTraitEffects(primary, secondary, trait, attackingType, effectiveness) {
-            // Implementation of trait effects would go here
-            // This is a simplified version - you would need to implement the actual trait logic
             return effectiveness;
         }
 
@@ -2931,7 +3027,6 @@
             header.appendChild(title);
             header.appendChild(removeBtn);
             
-            // Create 4 type selects by default for moves
             const typeSelectsHTML = Array(4).fill().map((_, i) => `
                 <select class="type-select offensive-type" data-doodle="${offensiveDoodleCount}">
                     <option value="">Move ${i+1}</option>
@@ -3213,7 +3308,6 @@
             };
 
             team.doodles.forEach(doodle => {
-                // Load move types instead of doodle types
                 const moveTypes = doodle.moves
                     .filter(move => move !== "")
                     .map(move => getMoveType(move).toLowerCase());
