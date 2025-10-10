@@ -199,13 +199,65 @@
             position: relative;
         }
 
-        .doodle-selector select {
+        .custom-dropdown {
+            position: relative;
             flex: 1;
+        }
+
+        .dropdown-header {
             padding: 10px;
-            border-radius: 0;
             border: 1px solid var(--input-border);
             background-color: var(--input-bg);
-            min-width: 200px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-top: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-list.active {
+            display: block;
+        }
+
+        .dropdown-search {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-bottom: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .dropdown-options {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .dropdown-option {
+            padding: 8px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--section-border);
+        }
+
+        .dropdown-option:hover {
+            background-color: var(--button-bg);
+        }
+
+        .dropdown-option.selected {
+            background-color: var(--button-hover);
         }
 
         .add-doodle-btn {
@@ -235,6 +287,15 @@
             gap: 15px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
             position: relative;
+            cursor: move;
+        }
+
+        .doodle-card.dragging {
+            opacity: 0.5;
+        }
+
+        .doodle-card.drag-over {
+            border: 2px dashed var(--button-hover);
         }
 
         .card-header {
@@ -357,161 +418,93 @@
             align-items: center;
         }
 
-.moves-container select {
-    width: 100%;
-    font-size: 14px;
-    padding: 8px;
-    margin: 3px 0;
-    background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-}
-
-
-.move-mythic, .move-mythic option {
-    color: var(--mythic-color) !important;
-}
-
-.move-fire, .move-fire option {
-    color: var(--fire-color) !important;
-}
-
-.move-water, .move-water option {
-    color: var(--water-color) !important;
-}
-
-.move-plant, .move-plant option {
-    color: var(--plant-color) !important;
-}
-
-.move-spark, .move-spark option {
-    color: var(--spark-color) !important;
-}
-
-.move-beast, .move-beast option {
-    color: var(--beast-color) !important;
-}
-
-.move-air, .move-air option {
-    color: var(--air-color) !important;
-}
-
-.move-insect, .move-insect option {
-    color: var(--insect-color) !important;
-}
-
-.move-earth, .move-earth option {
-    color: var(--earth-color) !important;
-}
-
-.move-mind, .move-mind option {
-    color: var(--mind-color) !important;
-}
-
-.move-melee, .move-melee option {
-    color: var(--melee-color) !important;
-}
-
-.move-food, .move-food option {
-    color: var(--food-color) !important;
-}
-
-.move-light, .move-light option {
-    color: var(--light-color) !important;
-}
-
-.move-crystal, .move-crystal option {
-    color: var(--crystal-color) !important;
-}
-
-.move-metal, .move-metal option {
-    color: var(--metal-color) !important;
-}
-
-.move-spirit, .move-spirit option {
-    color: var(--spirit-color) !important;
-}
-
-.move-ice, .move-ice option {
-    color: var(--ice-color) !important;
-}
-
-.move-dark, .move-dark option {
-    color: var(--dark-color) !important;
-}
-
-.move-poison, .move-poison option {
-    color: var(--poison-color) !important;
-}
-
-.move-basic, .move-basic option {
-    color: var(--basic-color) !important;
-}
-
-.moves-container select option {
-    background-color: var(--input-bg);
-    color: var(--text-color);
-}
-
-.moves-container select:not([class*="move-"]) {
-    color: var(--text-color);
-}
-
-
-        .search-container {
-            position: relative;
-            margin-bottom: 12px;
+        .move-mythic, .move-mythic option {
+            color: var(--mythic-color) !important;
         }
 
-        .search-container select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 0;
-            border: 1px solid var(--input-border);
-            background-color: var(--input-bg);
-            font-size: 14px;
+        .move-fire, .move-fire option {
+            color: var(--fire-color) !important;
         }
 
-        .search-input {
-            display: none;
-            position: absolute;
-            bottom: -45px;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            padding: 10px;
-            font-size: 14px;
-            border-radius: 0;
-            border: 1px solid var(--input-border);
+        .move-water, .move-water option {
+            color: var(--water-color) !important;
+        }
+
+        .move-plant, .move-plant option {
+            color: var(--plant-color) !important;
+        }
+
+        .move-spark, .move-spark option {
+            color: var(--spark-color) !important;
+        }
+
+        .move-beast, .move-beast option {
+            color: var(--beast-color) !important;
+        }
+
+        .move-air, .move-air option {
+            color: var(--air-color) !important;
+        }
+
+        .move-insect, .move-insect option {
+            color: var(--insect-color) !important;
+        }
+
+        .move-earth, .move-earth option {
+            color: var(--earth-color) !important;
+        }
+
+        .move-mind, .move-mind option {
+            color: var(--mind-color) !important;
+        }
+
+        .move-melee, .move-melee option {
+            color: var(--melee-color) !important;
+        }
+
+        .move-food, .move-food option {
+            color: var(--food-color) !important;
+        }
+
+        .move-light, .move-light option {
+            color: var(--light-color) !important;
+        }
+
+        .move-crystal, .move-crystal option {
+            color: var(--crystal-color) !important;
+        }
+
+        .move-metal, .move-metal option {
+            color: var(--metal-color) !important;
+        }
+
+        .move-spirit, .move-spirit option {
+            color: var(--spirit-color) !important;
+        }
+
+        .move-ice, .move-ice option {
+            color: var(--ice-color) !important;
+        }
+
+        .move-dark, .move-dark option {
+            color: var(--dark-color) !important;
+        }
+
+        .move-poison, .move-poison option {
+            color: var(--poison-color) !important;
+        }
+
+        .move-basic, .move-basic option {
+            color: var(--basic-color) !important;
+        }
+
+        .moves-container select option {
             background-color: var(--input-bg);
             color: var(--text-color);
-            box-shadow: 0 3px 8px var(--shadow);
         }
 
-        .search-input.active {
-            display: block;
-        }
-
-        .dropdown-search {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            padding: 10px;
-            font-size: 14px;
-            border-radius: 0;
-            border: 1px solid var(--input-border);
-            background-color: var(--input-bg);
+        .moves-container select:not([class*="move-"]) {
             color: var(--text-color);
-            box-shadow: 0 3px 8px var(--shadow);
-            display: none;
-        }
-
-        .dropdown-search.active {
-            display: block;
         }
 
         .controls {
@@ -867,13 +860,17 @@
             </div>
             
             <div class="doodle-creation">
-                <div class="doodle-selector">
-                    <select id="doodle-select">
-                        <option value="">Select a Doodle</option>
-                    </select>
-                    <input type="text" class="dropdown-search" id="doodle-search" placeholder="Search doodles...">
-                    <button class="add-doodle-btn" id="add-doodle">Add Doodle</button>
+                <div class="custom-dropdown" id="doodle-dropdown">
+                    <div class="dropdown-header" id="doodle-header">
+                        <span>Select a Doodle</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="dropdown-list" id="doodle-list">
+                        <input type="text" class="dropdown-search" id="doodle-search" placeholder="Search doodles...">
+                        <div class="dropdown-options" id="doodle-options"></div>
+                    </div>
                 </div>
+                <button class="add-doodle-btn" id="add-doodle">Add Doodle</button>
             </div>
             
             <div class="team-display" id="team-display">
@@ -1640,12 +1637,12 @@
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Joltant", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", "Last Stand", "Justicar", "Volcanic Core", "Verdant Predation", "Cursed Growth", "Short Circuit", "Home Ground", "Nullcoat", "True Flame", "Lunarc", "Animosity", "Heartbreak", "Altertype", ];
 
-
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
         let defensiveDoodleCount = 1;
         let offensiveDoodleCount = 1;
+        let draggedItem = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.nav-button').forEach(button => {
@@ -1674,7 +1671,7 @@
         }
 
         function initializeTeambuilder() {
-            populateDoodleSelect();
+            populateDoodleDropdown();
             loadFromStorage();
             setupEventListeners();
             
@@ -1687,18 +1684,30 @@
             }
         }
 
-        function populateDoodleSelect() {
-            const doodleSelect = document.getElementById('doodle-select');
-            doodleSelect.innerHTML = '<option value="">Select a Doodle</option>';
+        function populateDoodleDropdown() {
+            const doodleOptions = document.getElementById('doodle-options');
+            doodleOptions.innerHTML = '';
             
             if (doodles && doodles.length > 0) {
                 doodles.forEach(doodle => {
-                    const option = document.createElement('option');
-                    option.value = doodle.name;
+                    const option = document.createElement('div');
+                    option.className = 'dropdown-option';
                     option.textContent = doodle.name;
+                    option.dataset.value = doodle.name;
                     option.dataset.image = doodle.image;
                     option.dataset.type = doodle.type;
-                    doodleSelect.appendChild(option);
+                    
+                    option.addEventListener('click', function() {
+                        document.getElementById('doodle-header').querySelector('span').textContent = doodle.name;
+                        document.getElementById('doodle-list').classList.remove('active');
+                        
+                        document.querySelectorAll('#doodle-options .dropdown-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                    });
+                    
+                    doodleOptions.appendChild(option);
                 });
             }
         }
@@ -1713,44 +1722,36 @@
             document.getElementById('import-code').addEventListener('click', importTeamCode);
             document.getElementById('import-text').addEventListener('click', importFromText);
             
-            const doodleSelect = document.getElementById('doodle-select');
+            const doodleHeader = document.getElementById('doodle-header');
+            const doodleList = document.getElementById('doodle-list');
             const doodleSearch = document.getElementById('doodle-search');
             
-            if (doodleSelect && doodleSearch) {
-                doodleSelect.addEventListener('focus', () => {
-                    doodleSearch.classList.add('active');
-                });
+            doodleHeader.addEventListener('click', function() {
+                doodleList.classList.toggle('active');
+                if (doodleList.classList.contains('active')) {
+                    doodleSearch.focus();
+                }
+            });
+            
+            doodleSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = document.querySelectorAll('#doodle-options .dropdown-option');
                 
-                doodleSelect.addEventListener('blur', (e) => {
-                    setTimeout(() => {
-                        if (!doodleSearch.contains(document.activeElement)) {
-                            doodleSearch.classList.remove('active');
-                        }
-                    }, 200);
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
                 });
-                
-                doodleSearch.addEventListener('input', (e) => {
-                    const searchTerm = e.target.value.toLowerCase();
-                    const options = doodleSelect.querySelectorAll('option');
-                    
-                    options.forEach(option => {
-                        const text = option.textContent.toLowerCase();
-                        if (text.includes(searchTerm)) {
-                            option.style.display = '';
-                        } else {
-                            option.style.display = 'none';
-                        }
-                    });
-                });
-                
-                doodleSearch.addEventListener('blur', () => {
-                    setTimeout(() => {
-                        if (!doodleSelect.contains(document.activeElement)) {
-                            doodleSearch.classList.remove('active');
-                        }
-                    }, 200);
-                });
-            }
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.custom-dropdown')) {
+                    doodleList.classList.remove('active');
+                }
+            });
         }
 
         function addTeam() {
@@ -1894,8 +1895,8 @@
                 return;
             }
             
-            const selectedDoodleName = document.getElementById('doodle-select').value;
-            if (!selectedDoodleName) {
+            const selectedDoodleName = document.getElementById('doodle-header').querySelector('span').textContent;
+            if (selectedDoodleName === 'Select a Doodle') {
                 alert('Please select a doodle first!');
                 return;
             }
@@ -1919,7 +1920,10 @@
                 renderTeam();
                 saveToStorage();
                 
-                document.getElementById('doodle-select').value = "";
+                document.getElementById('doodle-header').querySelector('span').textContent = 'Select a Doodle';
+                document.querySelectorAll('#doodle-options .dropdown-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
             }
         }
 
@@ -2012,6 +2016,15 @@
             const card = document.createElement('div');
             card.className = 'doodle-card';
             card.id = `doodle-card-${index}`;
+            card.draggable = true;
+            card.dataset.index = index;
+            
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragover', handleDragOver);
+            card.addEventListener('dragenter', handleDragEnter);
+            card.addEventListener('dragleave', handleDragLeave);
+            card.addEventListener('drop', handleDrop);
+            card.addEventListener('dragend', handleDragEnd);
             
             const cardHeader = document.createElement('div');
             cardHeader.className = 'card-header';
@@ -2094,10 +2107,54 @@
                 expandSection.innerHTML = createExpandSectionContent(doodle, index);
                 setSelectedMoves(doodle, index);
                 setSelectedStatsAndEquipment(doodle, index);
-                setupSearchForExpandableSections(index);
+                setupCustomDropdowns(index);
             }, 0);
             
             return card;
+        }
+
+        function handleDragStart(e) {
+            draggedItem = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', this.dataset.index);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave() {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            const toIndex = parseInt(this.dataset.index);
+            
+            if (fromIndex !== toIndex) {
+                const team = teams[currentTeamIndex];
+                [team.doodles[fromIndex], team.doodles[toIndex]] = [team.doodles[toIndex], team.doodles[fromIndex]];
+                
+                renderTeam();
+                saveToStorage();
+            }
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+            document.querySelectorAll('.doodle-card').forEach(card => {
+                card.classList.remove('drag-over');
+            });
         }
 
         function setSelectedStatsAndEquipment(doodle, index) {
@@ -2144,21 +2201,27 @@
                 </div>
                 
                 <div class="section-title">Trait</div>
-                <div class="search-container">
-                    <select class="trait-select" onchange="updateDoodleData(${index}, 'trait', this.value)">
-                        <option value="">Select Trait</option>
-                        ${traits.map(t => `<option value="${t}" ${doodle.trait === t ? 'selected' : ''}>${t}</option>`).join('')}
-                    </select>
-                    <input type="text" class="dropdown-search trait-search" placeholder="Search traits...">
+                <div class="custom-dropdown trait-dropdown" data-doodle="${index}">
+                    <div class="dropdown-header trait-header">
+                        <span>${doodle.trait || "Select Trait"}</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="dropdown-list trait-list">
+                        <input type="text" class="dropdown-search trait-search" placeholder="Search traits...">
+                        <div class="dropdown-options trait-options"></div>
+                    </div>
                 </div>
                 
                 <div class="section-title">Held Item</div>
-                <div class="search-container">
-                    <select class="held-item-select" onchange="updateDoodleData(${index}, 'heldItem', this.value)">
-                        <option value="">Held Item</option>
-                        ${heldItems.map(h => `<option value="${h}" ${doodle.heldItem === h ? 'selected' : ''}>${h}</option>`).join('')}
-                    </select>
-                    <input type="text" class="dropdown-search held-item-search" placeholder="Search held items...">
+                <div class="custom-dropdown held-item-dropdown" data-doodle="${index}">
+                    <div class="dropdown-header held-item-header">
+                        <span>${doodle.heldItem || "Held Item"}</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="dropdown-list held-item-list">
+                        <input type="text" class="dropdown-search held-item-search" placeholder="Search held items...">
+                        <div class="dropdown-options held-item-options"></div>
+                    </div>
                 </div>
                 
                 <div class="section-title">Stats</div>
@@ -2191,55 +2254,108 @@
             `;
         }
 
-        function setupSearchForExpandableSections(index) {
-            const traitSelect = document.querySelector(`#doodle-card-${index} .trait-select`);
-            const traitSearch = document.querySelector(`#doodle-card-${index} .trait-search`);
+        function setupCustomDropdowns(index) {
+            const traitDropdown = document.querySelector(`.trait-dropdown[data-doodle="${index}"]`);
+            const traitHeader = traitDropdown.querySelector('.trait-header');
+            const traitList = traitDropdown.querySelector('.trait-list');
+            const traitSearch = traitDropdown.querySelector('.trait-search');
+            const traitOptions = traitDropdown.querySelector('.trait-options');
             
-            if (traitSelect && traitSearch) {
-                setupDropdownSearch(traitSelect, traitSearch, traits);
-            }
-            
-            const heldItemSelect = document.querySelector(`#doodle-card-${index} .held-item-select`);
-            const heldItemSearch = document.querySelector(`#doodle-card-${index} .held-item-search`);
-            
-            if (heldItemSelect && heldItemSearch) {
-                setupDropdownSearch(heldItemSelect, heldItemSearch, heldItems);
-            }
-        }
-
-        function setupDropdownSearch(selectElement, searchInput, dataArray) {
-            selectElement.addEventListener('focus', () => {
-                searchInput.classList.add('active');
+            traits.forEach(trait => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
+                option.textContent = trait;
+                option.dataset.value = trait;
+                
+                option.addEventListener('click', function() {
+                    traitHeader.querySelector('span').textContent = trait;
+                    traitList.classList.remove('active');
+                    updateDoodleData(index, 'trait', trait);
+                    
+                    traitOptions.querySelectorAll('.dropdown-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+                
+                traitOptions.appendChild(option);
             });
             
-            selectElement.addEventListener('blur', (e) => {
-                setTimeout(() => {
-                    if (!searchInput.contains(document.activeElement)) {
-                        searchInput.classList.remove('active');
-                    }
-                }, 200);
+            traitHeader.addEventListener('click', function() {
+                traitList.classList.toggle('active');
+                if (traitList.classList.contains('active')) {
+                    traitSearch.focus();
+                }
             });
             
-            searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const options = selectElement.querySelectorAll('option');
+            traitSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = traitOptions.querySelectorAll('.dropdown-option');
                 
                 options.forEach(option => {
                     const text = option.textContent.toLowerCase();
                     if (text.includes(searchTerm)) {
-                        option.style.display = '';
+                        option.style.display = 'block';
                     } else {
                         option.style.display = 'none';
                     }
                 });
             });
             
-            searchInput.addEventListener('blur', () => {
-                setTimeout(() => {
-                    if (!selectElement.contains(document.activeElement)) {
-                        searchInput.classList.remove('active');
+            const heldItemDropdown = document.querySelector(`.held-item-dropdown[data-doodle="${index}"]`);
+            const heldItemHeader = heldItemDropdown.querySelector('.held-item-header');
+            const heldItemList = heldItemDropdown.querySelector('.held-item-list');
+            const heldItemSearch = heldItemDropdown.querySelector('.held-item-search');
+            const heldItemOptions = heldItemDropdown.querySelector('.held-item-options');
+            
+            heldItems.forEach(item => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
+                option.textContent = item;
+                option.dataset.value = item;
+                
+                option.addEventListener('click', function() {
+                    heldItemHeader.querySelector('span').textContent = item;
+                    heldItemList.classList.remove('active');
+                    updateDoodleData(index, 'heldItem', item);
+                    
+                    heldItemOptions.querySelectorAll('.dropdown-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+                
+                heldItemOptions.appendChild(option);
+            });
+            
+            heldItemHeader.addEventListener('click', function() {
+                heldItemList.classList.toggle('active');
+                if (heldItemList.classList.contains('active')) {
+                    heldItemSearch.focus();
+                }
+            });
+            
+            heldItemSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = heldItemOptions.querySelectorAll('.dropdown-option');
+                
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
                     }
-                }, 200);
+                });
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.trait-dropdown')) {
+                    traitList.classList.remove('active');
+                }
+                if (!event.target.closest('.held-item-dropdown')) {
+                    heldItemList.classList.remove('active');
+                }
             });
         }
 
@@ -2903,29 +3019,23 @@
             }
 
             typesArray.forEach(type => {
-                const badge = document.createElement('span');
                 let typeName = typeof type === 'object' ? type.type : type;
                 let effect = typeof type === 'object' ? type.effect : '';
+                let count = typeof type === 'object' ? type.count : 0;
 
-                badge.className = `calc-type-badge ${typeName}`;
-
-                if (effectType) {
-                    badge.classList.add(effect);
-                }
-
-                let text = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+                let badgeText = typeName.charAt(0).toUpperCase() + typeName.slice(1);
                 if (effectType === 'weakness' || effectType === 'resist') {
-                    if (typeof type === 'object' && type.count > 0) {
-                        text += ` (${type.count})`;
+                    if (count > 0) {
+                        badgeText += ` (${count})`;
                     }
-                    if (effect === 'weak-4x') text += ' 4×';
-                    else if (effect === 'weak-2x') text += ' 2×';
-                    else if (effect === 'weak-075x') text += ' 1.5×';
-                    else if (effect === 'resist-025x') text += ' ¼×';
-                    else if (effect === 'resist-05x') text += ' ½×';
+                    if (effect === 'weak-4x') badgeText += ' 4×';
+                    else if (effect === 'weak-2x') badgeText += ' 2×';
+                    else if (effect === 'weak-075x') badgeText += ' 1.5×';
+                    else if (effect === 'resist-025x') badgeText += ' ¼×';
+                    else if (effect === 'resist-05x') badgeText += ' ½×';
                 }
 
-                badge.textContent = text;
+                const badge = createTypeBadge(typeName, badgeText, effect);
                 element.appendChild(badge);
             });
         }
@@ -3258,29 +3368,23 @@
                 });
 
             typesArray.forEach(type => {
-                const badge = document.createElement('span');
                 let typeName = type.type;
                 let effect = type.effect;
+                let count = type.count;
 
-                badge.className = `calc-type-badge ${typeName}`;
-
-                if (effectType) {
-                    badge.classList.add(effect);
-                }
-
-                let text = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+                let badgeText = typeName.charAt(0).toUpperCase() + typeName.slice(1);
                 if (effectType === 'weakness' || effectType === 'resist') {
-                    if (type.count > 0) {
-                        text += ` (${type.count})`;
+                    if (count > 0) {
+                        badgeText += ` (${count})`;
                     }
-                    if (effect === 'weak-4x') text += ' 4×';
-                    else if (effect === 'weak-2x') text += ' 2×';
-                    else if (effect === 'weak-075x') text += ' 1.5×';
-                    else if (effect === 'resist-025x') text += ' ¼×';
-                    else if (effect === 'resist-05x') text += ' ½×';
+                    if (effect === 'weak-4x') badgeText += ' 4×';
+                    else if (effect === 'weak-2x') badgeText += ' 2×';
+                    else if (effect === 'weak-075x') badgeText += ' 1.5×';
+                    else if (effect === 'resist-025x') badgeText += ' ¼×';
+                    else if (effect === 'resist-05x') badgeText += ' ½×';
                 }
 
-                badge.textContent = text;
+                const badge = createTypeBadge(typeName, badgeText, effect);
                 element.appendChild(badge);
             });
         }
