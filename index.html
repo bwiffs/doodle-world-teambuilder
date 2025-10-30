@@ -771,6 +771,104 @@
             font-size: 14px;
         }
 
+        /* Offensive Calculator Styles */
+        .offensive-calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .type-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .offensive-type-select {
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            border-radius: 0;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .calculate-btn {
+            background-color: var(--button-bg);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 300px;
+            align-self: center;
+        }
+
+        .calculate-btn:hover {
+            background-color: var(--button-hover);
+        }
+
+        .offensive-results-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .offensive-result-category {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 0;
+            box-shadow: 0 4px 12px var(--shadow);
+            min-height: 200px;
+        }
+
+        .offensive-result-category h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--section-border);
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .offensive-result-list {
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .offensive-type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px 8px 40px;
+            border-radius: 0;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            position: relative;
+            box-shadow: 0 2px 4px var(--shadow);
+        }
+
+        .offensive-type-icon {
+            position: absolute;
+            left: 12px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
         @media (max-width: 768px) {
             .team-management, .doodle-creation {
                 flex-direction: column;
@@ -810,16 +908,24 @@
             .nav-menu {
                 flex-direction: column;
             }
-        }
-
-        @media (max-width: 600px) {
-            .summary-grid {
+            
+            .type-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .offensive-results-container {
                 grid-template-columns: 1fr;
             }
             
             .save-load-container {
                 flex-direction: column;
                 align-items: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -926,41 +1032,66 @@
             </div>
         </div>
 
+        <!-- New Offensive Calculator Page -->
         <div class="page" id="offensive">
             <div class="header">
-                <h1>Offensive Type Calculator</h1>
+                <h1>Offensive Type Coverage Calculator</h1>
             </div>
 
             <div class="save-load-container">
-                <button class="save-btn" id="save-offensive">Save Offensive Team</button>
-                <button class="load-btn" id="load-offensive">Load Offensive Team</button>
-                <button class="load-btn" id="load-from-teambuilder-offensive">Load from Teambuilder</button>
+                <button class="save-btn" id="save-offensive">Save Coverage</button>
+                <button class="load-btn" id="load-offensive">Load Coverage</button>
             </div>
 
-            <div class="calculator-container" id="offensive-container"></div>
-            
-            <button class="add-doodle-calc" id="add-offensive">+ Add Doodle</button>
+            <div class="offensive-calculator">
+                <div class="type-selection">
+                    <select class="offensive-type-select" id="type-1">
+                        <option value="">Select Type 1</option>
+                    </select>
+                    <select class="offensive-type-select" id="type-2">
+                        <option value="">Select Type 2</option>
+                    </select>
+                    <select class="offensive-type-select" id="type-3">
+                        <option value="">Select Type 3</option>
+                    </select>
+                    <select class="offensive-type-select" id="type-4">
+                        <option value="">Select Type 4</option>
+                    </select>
+                </div>
 
-            <div class="team-summary">
-                <h2>Team Summary</h2>
-                <div class="summary-grid">
-                    <div class="summary-box">
-                        <div class="summary-title">Team Coverage</div>
-                        <div id="offensive-coverage" class="result-list">None</div>
+                <button class="calculate-btn" id="calculate-coverage">Calculate Coverage</button>
+
+                <div class="offensive-results-container">
+                    <div class="offensive-result-category">
+                        <h3>Super Effective</h3>
+                        <div id="super-effective" class="offensive-result-list">
+                            <span class="none">None</span>
+                        </div>
                     </div>
-                    <div class="summary-box">
-                        <div class="summary-title">Not Effective Against</div>
-                        <div id="offensive-not-effective" class="result-list">None</div>
+                    <div class="offensive-result-category">
+                        <h3>Normal Effectiveness</h3>
+                        <div id="normal-effective" class="offensive-result-list">
+                            <span class="none">None</span>
+                        </div>
                     </div>
-                    <div class="summary-box">
-                        <div class="summary-title">Resisted By</div>
-                        <div id="offensive-resisted" class="result-list">None</div>
+                    <div class="offensive-result-category">
+                        <h3>Not Very Effective</h3>
+                        <div id="not-very-effective" class="offensive-result-list">
+                            <span class="none">None</span>
+                        </div>
                     </div>
-                    <div class="summary-box">
-                        <div class="summary-title">Coverage Gaps</div>
-                        <div id="offensive-gaps" class="result-list">None</div>
+                    <div class="offensive-result-category">
+                        <h3>No Effect</h3>
+                        <div id="no-effect" class="offensive-result-list">
+                            <span class="none">None</span>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="footer">
+                <div class="credits">Created by Bwiffs</div>
+                <div class="update-info">Updated: Dungeons</div>
             </div>
         </div>
     </div>
@@ -1645,11 +1776,11 @@
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Electrician", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed Resilience", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", "Last Stand", "Justicar", "Volcanic Core", "Verdant Predation", "Cursed Growth", "Short Circuit", "Home Ground", "Nullcoat", "True Flame", "Lunarc", "Animosity", "Heartbreak", "Altertype", "Metalant", "Venandi Feast", "Flowerhaven", "Ruinous Garden", "Resolve", ];
 
+
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
         let defensiveDoodleCount = 1;
-        let offensiveDoodleCount = 1;
         let draggedItem = null;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -2897,11 +3028,11 @@
         function createTypeBadge(type, text, effect = '') {
             const badge = document.createElement('span');
             badge.className = `calc-type-badge ${type} ${effect}`;
-            badge.style.backgroundColor = typeColors[type.charAt(0).toUpperCase() + type.slice(1)] || typeColors['Basic'];
+            badge.style.backgroundColor = typeColors[type.charAt(0).toUpperCase() + type.slice(1)] || typeColors['basic'];
             
             const icon = document.createElement('span');
             icon.className = 'type-icon';
-            icon.style.backgroundImage = `url(${typeIcons[type.charAt(0).toUpperCase() + type.slice(1)] || typeIcons['Basic']})`;
+            icon.style.backgroundImage = `url(${typeIcons[type.charAt(0).toUpperCase() + type.slice(1)] || typeIcons['basic']})`;
             badge.appendChild(icon);
             
             const textNode = document.createTextNode(text);
@@ -3132,352 +3263,141 @@
             alert('Defensive team loaded successfully!');
         }
 
+        // NEW OFFENSIVE CALCULATOR FUNCTIONS
         function initializeOffensiveCalculator() {
-            document.getElementById('add-offensive').addEventListener('click', addOffensiveDoodle);
-            document.getElementById('save-offensive').addEventListener('click', saveOffensiveTeam);
-            document.getElementById('load-offensive').addEventListener('click', loadOffensiveTeam);
-            document.getElementById('load-from-teambuilder-offensive').addEventListener('click', loadOffensiveFromTeambuilder);
-            
-            createOffensiveDoodleBox();
+            populateOffensiveTypeDropdowns();
+            setupOffensiveEventListeners();
         }
 
-        function createOffensiveDoodleBox() {
-            const container = document.getElementById('offensive-container');
-            const box = document.createElement('div');
-            box.className = 'calculator-box';
-            box.dataset.index = offensiveDoodleCount;
-            
-            const header = document.createElement('div');
-            header.className = 'calculator-header';
-            
-            const title = document.createElement('h3');
-            title.textContent = `Doodle ${offensiveDoodleCount}`;
-            
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'remove-calc';
-            removeBtn.textContent = '×';
-            removeBtn.onclick = function() {
-                container.removeChild(box);
-                updateOffensiveSummary();
-            };
-            
-            header.appendChild(title);
-            header.appendChild(removeBtn);
-            
-            const typeSelectsHTML = Array(4).fill().map((_, i) => `
-                <select class="type-select offensive-type" data-doodle="${offensiveDoodleCount}">
-                    <option value="">Move ${i+1}</option>
-                    ${allTypes.map(type => `<option value="${type}">${type.charAt(0).toUpperCase() + type.slice(1)}</option>`).join('')}
-                </select>
-            `).join('');
-            
-            box.innerHTML = `
-                <div class="type-select-container" id="offensive-type-container-${offensiveDoodleCount}">
-                    ${typeSelectsHTML}
-                </div>
+        function populateOffensiveTypeDropdowns() {
+            const typeSelects = [
+                document.getElementById('type-1'),
+                document.getElementById('type-2'), 
+                document.getElementById('type-3'),
+                document.getElementById('type-4')
+            ];
+
+            typeSelects.forEach(select => {
+                select.innerHTML = '<option value="">Select Type</option>';
                 
-                <div class="result-title">Super Effective Against:</div>
-                <div class="result-list offensive" data-doodle="${offensiveDoodleCount}"><span class="none">None</span></div>
-            `;
-            
-            box.prepend(header);
-            container.appendChild(box);
-            offensiveDoodleCount++;
-            
-            box.querySelectorAll('.offensive-type').forEach(select => {
-                select.addEventListener('change', updateOffensiveCoverage);
-            });
-        }
-
-        function addOffensiveDoodle() {
-            const container = document.getElementById('offensive-container');
-            if (container.children.length < 6) {
-                createOffensiveDoodleBox();
-            } else {
-                alert('Maximum of 6 doodles reached!');
-            }
-        }
-
-        function updateOffensiveCoverage() {
-            const doodleIndex = this.getAttribute('data-doodle');
-            const box = document.querySelector(`#offensive-container .calculator-box[data-index="${doodleIndex}"]`);
-            
-            const typeSelects = box.querySelectorAll('.offensive-type');
-            const selectedTypes = Array.from(typeSelects)
-                .map(select => select.value)
-                .filter(type => type !== "");
-            
-            if (selectedTypes.length === 0) {
-                box.querySelector(`.offensive[data-doodle="${doodleIndex}"]`).innerHTML = '<span class="none">None</span>';
-                updateOffensiveSummary();
-                return;
-            }
-
-            const offensiveCoverage = calculateOffensiveCoverage(selectedTypes);
-            updateOffensiveResultList(`.offensive[data-doodle="${doodleIndex}"]`, offensiveCoverage, 'offensive');
-
-            updateOffensiveSummary();
-        }
-
-        function calculateOffensiveCoverage(types) {
-            const results = {};
-            
-            types.forEach(type => {
-                allTypes.forEach(defendingType => {
-                    const effectiveness = typeChart[defendingType][type];
-                    
-                    if (effectiveness > 1) {
-                        if (!results[defendingType] || effectiveness > results[defendingType].effectiveness) {
-                            results[defendingType] = {
-                                effectiveness: effectiveness,
-                                attackingType: type
-                            };
-                        }
-                    }
+                allTypes.forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                    select.appendChild(option);
                 });
             });
-            
-            const formattedResults = {};
-            Object.entries(results).forEach(([defendingType, data]) => {
-                if (data.effectiveness >= 3.5) {
-                    formattedResults[defendingType] = 'weak-4x';
-                } else if (data.effectiveness > 1.5) {
-                    formattedResults[defendingType] = 'weak-2x';
-                } else if (data.effectiveness > 1.1) {
-                    formattedResults[defendingType] = 'weak-075x';
-                }
-            });
-            
-            return formattedResults;
         }
 
-        function updateOffensiveResultList(selector, typeEffects, effectType = '') {
-            const element = document.querySelector(selector);
-
-            if (!element) return;
+        function setupOffensiveEventListeners() {
+            document.getElementById('calculate-coverage').addEventListener('click', calculateCoverage);
+            document.getElementById('save-offensive').addEventListener('click', saveCoverage);
+            document.getElementById('load-offensive').addEventListener('click', loadCoverage);
             
-            if (Object.keys(typeEffects).length === 0) {
-                element.innerHTML = '<span class="none">None</span>';
-                return;
-            }
-
-            element.innerHTML = '';
-
-            const typesArray = Object.entries(typeEffects)
-                .sort((a, b) => {
-                    if (a[1] !== b[1]) {
-                        return a[1].localeCompare(b[1]);
-                    }
-                    return a[0].localeCompare(b[0]);
-                });
-
-            typesArray.forEach(([type, effect]) => {
-                let badgeText = type.charAt(0).toUpperCase() + type.slice(1);
-                if (effect === 'weak-4x') badgeText += ' (4×)';
-                else if (effect === 'weak-2x') badgeText += ' (2×)';
-                else if (effect === 'weak-075x') badgeText += ' (1.5×)';
-
-                const badge = createTypeBadge(type, badgeText, effect);
-                element.appendChild(badge);
+            document.querySelectorAll('.offensive-type-select').forEach(select => {
+                select.addEventListener('change', calculateCoverage);
             });
         }
 
-        function updateOffensiveSummary() {
-            const allCoverage = {};
-            const allTeamTypes = [];
-            
-            document.querySelectorAll('#offensive-container .calculator-box').forEach((box) => {
-                const typeSelects = box.querySelectorAll('.offensive-type');
-                const selectedTypes = Array.from(typeSelects)
-                    .map(select => select.value)
-                    .filter(type => type !== "");
+        function calculateCoverage() {
+            const selectedTypes = [
+                document.getElementById('type-1').value,
+                document.getElementById('type-2').value,
+                document.getElementById('type-3').value,
+                document.getElementById('type-4').value
+            ].filter(type => type !== "");
+
+            const results = {
+                superEffective: [],
+                normalEffective: [],
+                notVeryEffective: [],
+                noEffect: []
+            };
+
+            allTypes.forEach(defendingType => {
+                let maxEffectiveness = 1;
                 
                 if (selectedTypes.length > 0) {
-                    allTeamTypes.push(...selectedTypes);
-                    const coverage = calculateOffensiveCoverage(selectedTypes);
-                    Object.keys(coverage).forEach(type => {
-                        if (!allCoverage[type]) allCoverage[type] = 0;
-                        allCoverage[type]++;
-                    });
+                    maxEffectiveness = selectedTypes.reduce((max, offensiveType) => {
+                        const effectiveness = typeChart[defendingType][offensiveType];
+                        return Math.max(max, effectiveness);
+                    }, 0);
+                }
+
+                if (maxEffectiveness > 1) {
+                    results.superEffective.push(defendingType);
+                } else if (maxEffectiveness === 1) {
+                    results.normalEffective.push(defendingType);
+                } else if (maxEffectiveness > 0) {
+                    results.notVeryEffective.push(defendingType);
+                } else {
+                    results.noEffect.push(defendingType);
                 }
             });
-            
-            const coverageData = {};
-            Object.entries(allCoverage).forEach(([type, count]) => {
-                coverageData[type] = { count, maxEffect: 'weak-2x' };
-            });
-            
-            updateOffensiveTeamResultList('#offensive-coverage', coverageData, 'weakness');
-            
-            const notEffective = calculateNotEffectiveTypes(allTeamTypes);
-            updateOffensiveTeamResultList('#offensive-not-effective', notEffective, 'resist');
-            
-            document.getElementById('offensive-resisted').innerHTML = '<span class="none">N/A</span>';
-            document.getElementById('offensive-gaps').innerHTML = '<span class="none">N/A</span>';
+
+            displayOffensiveResults(results);
         }
 
-        function calculateNotEffectiveTypes(types) {
-            const notEffective = {};
-            
-            allTypes.forEach(defendingType => {
-                let isEffective = false;
-                
-                types.forEach(type => {
-                    const effectiveness = typeChart[defendingType][type];
-                    if (effectiveness > 1) {
-                        isEffective = true;
-                    }
-                });
-                
-                if (!isEffective) {
-                    let resistanceLevel = 1;
-                    types.forEach(type => {
-                        const effectiveness = typeChart[defendingType][type];
-                        if (effectiveness < 1) {
-                            resistanceLevel *= effectiveness;
-                        }
-                    });
-                    
-                    if (resistanceLevel < 1) {
-                        if (resistanceLevel <= 0.26) {
-                            notEffective[defendingType] = 'resist-025x';
-                        } else {
-                            notEffective[defendingType] = 'resist-05x';
-                        }
-                    } else {
-                        notEffective[defendingType] = 'neutral';
-                    }
-                }
-            });
-            
-            return notEffective;
+        function displayOffensiveResults(results) {
+            displayOffensiveResultList('super-effective', results.superEffective);
+            displayOffensiveResultList('normal-effective', results.normalEffective);
+            displayOffensiveResultList('not-very-effective', results.notVeryEffective);
+            displayOffensiveResultList('no-effect', results.noEffect);
         }
 
-        function updateOffensiveTeamResultList(selector, typeData, effectType = '') {
-            const element = document.querySelector(selector);
+        function displayOffensiveResultList(elementId, types) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '';
 
-            if (Object.keys(typeData).length === 0) {
+            if (types.length === 0) {
                 element.innerHTML = '<span class="none">None</span>';
                 return;
             }
 
-            element.innerHTML = '';
+            types.forEach(type => {
+                const badge = document.createElement('span');
+                badge.className = 'offensive-type-badge';
+                badge.style.backgroundColor = typeColors[type] || typeColors['basic'];
+                badge.textContent = type.charAt(0).toUpperCase() + type.slice(1);
 
-            const typesArray = Object.entries(typeData)
-                .map(([type, data]) => ({
-                    type,
-                    count: typeof data === 'object' ? data.count : 0,
-                    effect: typeof data === 'object' ? data.maxEffect : data
-                }))
-                .sort((a, b) => {
-                    if (b.count !== a.count) return b.count - a.count;
-                    if (b.effect !== a.effect) return b.effect.localeCompare(a.effect);
-                    return a.type.localeCompare(b.type);
-                });
+                const icon = document.createElement('span');
+                icon.className = 'offensive-type-icon';
+                icon.style.backgroundImage = `url(${typeIcons[type] || typeIcons['basic']})`;
+                badge.prepend(icon);
 
-            typesArray.forEach(type => {
-                let typeName = type.type;
-                let effect = type.effect;
-                let count = type.count;
-
-                let badgeText = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-                if (effectType === 'weakness' || effectType === 'resist') {
-                    if (count > 0) {
-                        badgeText += ` (${count})`;
-                    }
-                    if (effect === 'weak-4x') badgeText += ' 4×';
-                    else if (effect === 'weak-2x') badgeText += ' 2×';
-                    else if (effect === 'weak-075x') badgeText += ' 1.5×';
-                    else if (effect === 'resist-025x') badgeText += ' ¼×';
-                    else if (effect === 'resist-05x') badgeText += ' ½×';
-                }
-
-                const badge = createTypeBadge(typeName, badgeText, effect);
                 element.appendChild(badge);
             });
         }
 
-        function saveOffensiveTeam() {
-            const teamData = {
-                doodles: []
+        function saveCoverage() {
+            const coverageData = {
+                type1: document.getElementById('type-1').value,
+                type2: document.getElementById('type-2').value,
+                type3: document.getElementById('type-3').value,
+                type4: document.getElementById('type-4').value
             };
 
-            document.querySelectorAll('#offensive-container .calculator-box').forEach((box, index) => {
-                const doodleIndex = box.dataset.index;
-                const doodleData = { index: doodleIndex };
-                
-                const typeSelects = box.querySelectorAll('.offensive-type');
-                doodleData.types = Array.from(typeSelects).map(select => select.value).filter(val => val);
-                
-                teamData.doodles.push(doodleData);
-            });
-
-            localStorage.setItem('offensiveTeam', JSON.stringify(teamData));
-            alert('Offensive team saved successfully!');
+            localStorage.setItem('offensiveCoverage', JSON.stringify(coverageData));
+            alert('Coverage saved successfully!');
         }
 
-        function loadOffensiveTeam() {
-            const savedTeam = localStorage.getItem('offensiveTeam');
-            if (!savedTeam) {
-                alert('No saved offensive team found!');
+        function loadCoverage() {
+            const savedCoverage = localStorage.getItem('offensiveCoverage');
+            
+            if (!savedCoverage) {
+                alert('No saved coverage found!');
                 return;
             }
 
-            const teamData = JSON.parse(savedTeam);
-            loadOffensiveDoodles(teamData);
-        }
-
-        function loadOffensiveFromTeambuilder() {
-            if (teams.length === 0 || currentTeamIndex === -1) {
-                alert('No team found in teambuilder!');
-                return;
-            }
-
-            const team = teams[currentTeamIndex];
-            const teamData = {
-                doodles: []
-            };
-
-            team.doodles.forEach(doodle => {
-                const moveTypes = doodle.moves
-                    .filter(move => move !== "")
-                    .map(move => getMoveType(move).toLowerCase());
-
-                const doodleData = {
-                    types: moveTypes
-                };
-                teamData.doodles.push(doodleData);
-            });
-
-            loadOffensiveDoodles(teamData);
-            alert('Team loaded from teambuilder!');
-        }
-
-        function loadOffensiveDoodles(teamData) {
-            const container = document.getElementById('offensive-container');
-            container.innerHTML = '';
-            offensiveDoodleCount = 1;
+            const coverageData = JSON.parse(savedCoverage);
             
-            teamData.doodles.forEach((doodleData, index) => {
-                createOffensiveDoodleBox();
-                const box = document.querySelector(`#offensive-container .calculator-box[data-index="${offensiveDoodleCount - 1}"]`);
-                
-                if (doodleData.types && doodleData.types.length > 0) {
-                    const typeContainer = box.querySelector(`#offensive-type-container-${offensiveDoodleCount - 1}`);
-                    const typeSelects = typeContainer.querySelectorAll('.offensive-type');
-                    
-                    for (let i = 0; i < Math.min(doodleData.types.length, typeSelects.length); i++) {
-                        typeSelects[i].value = doodleData.types[i];
-                    }
-                }
-                
-                if (box.querySelector('.offensive-type')) {
-                    box.querySelector('.offensive-type').dispatchEvent(new Event('change'));
-                }
-            });
-            
-            updateOffensiveSummary();
-            alert('Offensive team loaded successfully!');
+            document.getElementById('type-1').value = coverageData.type1 || '';
+            document.getElementById('type-2').value = coverageData.type2 || '';
+            document.getElementById('type-3').value = coverageData.type3 || '';
+            document.getElementById('type-4').value = coverageData.type4 || '';
+
+            calculateCoverage();
+            alert('Coverage loaded successfully!');
         }
     </script>
 </body>
