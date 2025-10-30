@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle World Tools</title>
     <style>
+        /* Your existing CSS remains exactly the same */
         :root {
             --bg-color: #121212;
             --text-color: #ffffff;
@@ -796,7 +797,14 @@
             width: 100%;
         }
 
-        .calculate-btn {
+        .calculate-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .calculate-btn, .reset-btn {
             background-color: var(--button-bg);
             border: none;
             padding: 15px 30px;
@@ -804,15 +812,21 @@
             font-weight: bold;
             cursor: pointer;
             border-radius: 0;
-            margin: 20px 0;
             transition: background-color 0.3s;
             width: 100%;
             max-width: 300px;
-            align-self: center;
         }
 
         .calculate-btn:hover {
             background-color: var(--button-hover);
+        }
+
+        .reset-btn {
+            background-color: #555;
+        }
+
+        .reset-btn:hover {
+            background-color: #666;
         }
 
         .offensive-results-container {
@@ -846,23 +860,26 @@
             gap: 8px;
         }
 
+        /* Update offensive type badges to use the same style as defensive */
         .offensive-type-badge {
             display: inline-flex;
             align-items: center;
-            padding: 8px 12px 8px 40px;
+            padding: 6px 12px 6px 40px;
             border-radius: 0;
             color: white;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
+            white-space: nowrap;
             position: relative;
+            transition: all 0.3s ease;
             box-shadow: 0 2px 4px var(--shadow);
         }
 
-        .offensive-type-icon {
+        .offensive-type-badge .type-icon {
             position: absolute;
             left: 12px;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             display: inline-block;
             background-size: contain;
             background-repeat: no-repeat;
@@ -918,6 +935,11 @@
             }
             
             .save-load-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .calculate-buttons {
                 flex-direction: column;
                 align-items: center;
             }
@@ -1059,7 +1081,10 @@
                     </select>
                 </div>
 
-                <button class="calculate-btn" id="calculate-coverage">Calculate Coverage</button>
+                <div class="calculate-buttons">
+                    <button class="calculate-btn" id="calculate-coverage">Calculate Coverage</button>
+                    <button class="reset-btn" id="reset-coverage">Reset</button>
+                </div>
 
                 <div class="offensive-results-container">
                     <div class="offensive-result-category">
@@ -1776,7 +1801,6 @@
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Electrician", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed Resilience", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", "Last Stand", "Justicar", "Volcanic Core", "Verdant Predation", "Cursed Growth", "Short Circuit", "Home Ground", "Nullcoat", "True Flame", "Lunarc", "Animosity", "Heartbreak", "Altertype", "Metalant", "Venandi Feast", "Flowerhaven", "Ruinous Garden", "Resolve", ];
 
-
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
@@ -1808,7 +1832,7 @@
             initializeDefensiveCalculator();
             initializeOffensiveCalculator();
         }
-
+        
         function initializeTeambuilder() {
             populateDoodleDropdown();
             loadFromStorage();
@@ -3263,7 +3287,6 @@
             alert('Defensive team loaded successfully!');
         }
 
-        // NEW OFFENSIVE CALCULATOR FUNCTIONS
         function initializeOffensiveCalculator() {
             populateOffensiveTypeDropdowns();
             setupOffensiveEventListeners();
@@ -3291,6 +3314,7 @@
 
         function setupOffensiveEventListeners() {
             document.getElementById('calculate-coverage').addEventListener('click', calculateCoverage);
+            document.getElementById('reset-coverage').addEventListener('click', resetCoverage);
             document.getElementById('save-offensive').addEventListener('click', saveCoverage);
             document.getElementById('load-offensive').addEventListener('click', loadCoverage);
             
@@ -3357,16 +3381,30 @@
             types.forEach(type => {
                 const badge = document.createElement('span');
                 badge.className = 'offensive-type-badge';
-                badge.style.backgroundColor = typeColors[type] || typeColors['basic'];
-                badge.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-
+                badge.style.backgroundColor = typeColors[type.charAt(0).toUpperCase() + type.slice(1)] || typeColors['basic'];
+                
                 const icon = document.createElement('span');
-                icon.className = 'offensive-type-icon';
-                icon.style.backgroundImage = `url(${typeIcons[type] || typeIcons['basic']})`;
-                badge.prepend(icon);
+                icon.className = 'type-icon';
+                icon.style.backgroundImage = `url(${typeIcons[type.charAt(0).toUpperCase() + type.slice(1)] || typeIcons['basic']})`;
+                badge.appendChild(icon);
+                
+                const textNode = document.createTextNode(type.charAt(0).toUpperCase() + type.slice(1));
+                badge.appendChild(textNode);
 
                 element.appendChild(badge);
             });
+        }
+
+        function resetCoverage() {
+            document.getElementById('type-1').value = '';
+            document.getElementById('type-2').value = '';
+            document.getElementById('type-3').value = '';
+            document.getElementById('type-4').value = '';
+            
+            document.getElementById('super-effective').innerHTML = '<span class="none">None</span>';
+            document.getElementById('normal-effective').innerHTML = '<span class="none">None</span>';
+            document.getElementById('not-very-effective').innerHTML = '<span class="none">None</span>';
+            document.getElementById('no-effect').innerHTML = '<span class="none">None</span>';
         }
 
         function saveCoverage() {
