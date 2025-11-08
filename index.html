@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle World Tools</title>
     <style>
+        /* All your CSS styles remain exactly the same */
         :root {
             --bg-color: #121212;
             --text-color: #ffffff;
@@ -858,29 +859,43 @@
             gap: 8px;
         }
 
-        .offensive-type-badge {
-            display: inline-flex;
+        .offensive-doodle-result {
+            display: flex;
             align-items: center;
-            padding: 6px 12px 6px 40px;
+            gap: 10px;
+            padding: 8px;
+            background-color: var(--input-bg);
             border-radius: 0;
-            color: white;
-            font-size: 13px;
-            font-weight: bold;
-            white-space: nowrap;
-            position: relative;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px var(--shadow);
+            border: 1px solid var(--input-border);
         }
 
-        .offensive-type-badge .type-icon {
-            position: absolute;
-            left: 12px;
-            width: 16px;
-            height: 16px;
-            display: inline-block;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+        .offensive-doodle-result .doodle-sprite {
+            width: 50px;
+            height: 50px;
+            margin: 0;
+        }
+
+        .offensive-doodle-result .doodle-info {
+            flex: 1;
+        }
+
+        .offensive-doodle-result .doodle-name {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .offensive-doodle-result .type-badges {
+            gap: 3px;
+        }
+
+        .offensive-doodle-result .type-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+        }
+
+        .offensive-doodle-result .type-icon {
+            width: 12px;
+            height: 12px;
         }
 
         @media (max-width: 768px) {
@@ -1051,7 +1066,7 @@
             </div>
         </div>
 
-        <!-- New Offensive Calculator Page -->
+        <!-- Offensive Calculator Page -->
         <div class="page" id="offensive">
             <div class="header">
                 <h1>Offensive Type Coverage Calculator</h1>
@@ -1119,7 +1134,8 @@
     </div>
 
     <script>
-        const typeChart = {
+        // DEFENSIVE TYPE CHART
+        const defensiveTypeChart = {
             "basic": {
                 "basic": 1, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
                 "beast": 1, "air": 1, "insect": 1, "earth": 1, "mind": 1, 
@@ -1242,7 +1258,131 @@
             }
         };
 
-        const allTypes = Object.keys(typeChart);
+        //OFFENSIVE TYPE CHART
+        const offensiveTypeChart = {
+            "basic": {
+                "basic": 1, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
+                "beast": 1, "air": 1, "insect": 1, "earth": 1, "mind": 1, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 1, "metal": 0.5, 
+                "spirit": 0, "ice": 1, "dark": 1, "poison": 1, "mythic": 0.5
+            },
+            "fire": {
+                "basic": 1, "fire": 0.5, "water": 0.5, "plant": 2, "spark": 1, 
+                "beast": 2, "air": 1, "insect": 2, "earth": 0.5, "mind": 1, 
+                "melee": 1, "food": 2, "light": 1, "crystal": 0.5, "metal": 2, 
+                "spirit": 1, "ice": 2, "dark": 1, "poison": 1, "mythic": 0.5
+            },
+            "water": {
+                "basic": 1, "fire": 2, "water": 0.5, "plant": 0.5, "spark": 1, 
+                "beast": 1, "air": 1, "insect": 1, "earth": 2, "mind": 1, 
+                "melee": 1, "food": 2, "light": 1, "crystal": 1, "metal": 1, 
+                "spirit": 1, "ice": 1, "dark": 1, "poison": 0.5, "mythic": 0.5
+            },
+            "plant": {
+                "basic": 1, "fire": 0.5, "water": 2, "plant": 0.5, "spark": 1, 
+                "beast": 1, "air": 0.5, "insect": 0.5, "earth": 2, "mind": 1, 
+                "melee": 1, "food": 2, "light": 2, "crystal": 1, "metal": 0.5, 
+                "spirit": 1, "ice": 1, "dark": 1, "poison": 1, "mythic": 0.5
+            },
+            "spark": {
+                "basic": 1, "fire": 1, "water": 2, "plant": 0.5, "spark": 0.5, 
+                "beast": 2, "air": 2, "insect": 2, "earth": 0, "mind": 1, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 0.5, "metal": 1, 
+                "spirit": 1, "ice": 1, "dark": 1, "poison": 1, "mythic": 0.5
+            },
+            "beast": {
+                "basic": 1, "fire": 0.5, "water": 1, "plant": 1, "spark": 0.5, 
+                "beast": 2, "air": 1, "insect": 2, "earth": 1, "mind": 0.5, 
+                "melee": 0.5, "food": 2, "light": 1, "crystal": 1, "metal": 0.5, 
+                "spirit": 1, "ice": 1, "dark": 2, "poison": 1, "mythic": 0.5
+            },
+            "air": {
+                "basic": 1, "fire": 1, "water": 1, "plant": 2, "spark": 0.5, 
+                "beast": 1, "air": 1, "insect": 2, "earth": 1, "mind": 1, 
+                "melee": 2, "food": 1, "light": 1, "crystal": 1, "metal": 0.5, 
+                "spirit": 1, "ice": 1, "dark": 1, "poison": 0.5, "mythic": 1
+            },
+            "insect": {
+                "basic": 1, "fire": 0.5, "water": 1, "plant": 2, "spark": 1, 
+                "beast": 0.5, "air": 0.5, "insect": 1, "earth": 1, "mind": 2, 
+                "melee": 0.5, "food": 2, "light": 1, "crystal": 1, "metal": 0.5, 
+                "spirit": 1, "ice": 1, "dark": 2, "poison": 0.5, "mythic": 1
+            },
+            "earth": {
+                "basic": 1, "fire": 2, "water": 1, "plant": 0.5, "spark": 2, 
+                "beast": 1, "air": 0, "insect": 0.5, "earth": 1, "mind": 1, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 2, "metal": 2, 
+                "spirit": 1, "ice": 2, "dark": 1, "poison": 2, "mythic": 1
+            },
+            "mind": {
+                "basic": 1, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
+                "beast": 2, "air": 1, "insect": 1, "earth": 1, "mind": 0.5, 
+                "melee": 2, "food": 1, "light": 1, "crystal": 2, "metal": 0.5, 
+                "spirit": 0.5, "ice": 1, "dark": 0, "poison": 2, "mythic": 1
+            },
+            "melee": {
+                "basic": 2, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
+                "beast": 1, "air": 0.5, "insect": 0.5, "earth": 1, "mind": 0.5, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 2, "metal": 2, 
+                "spirit": 0, "ice": 2, "dark": 1, "poison": 0.5, "mythic": 1
+            },
+            "food": {
+                "basic": 1, "fire": 0.5, "water": 1, "plant": 0.5, "spark": 1, 
+                "beast": 0.5, "air": 1, "insect": 1, "earth": 1, "mind": 2, 
+                "melee": 2, "food": 1, "light": 1, "crystal": 1, "metal": 1, 
+                "spirit": 0.5, "ice": 1, "dark": 1, "poison": 1, "mythic": 1
+            },
+            "light": {
+                "basic": 1, "fire": 1, "water": 1, "plant": 0.5, "spark": 1, 
+                "beast": 1, "air": 1, "insect": 1, "earth": 1, "mind": 1, 
+                "melee": 1, "food": 1, "light": 0.5, "crystal": 0.5, "metal": 1, 
+                "spirit": 2, "ice": 1, "dark": 2, "poison": 1, "mythic": 2
+            },
+            "crystal": {
+                "basic": 1, "fire": 1, "water": 0.5, "plant": 1, "spark": 2, 
+                "beast": 1, "air": 1, "insect": 1, "earth": 0.5, "mind": 1, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 1, "metal": 1, 
+                "spirit": 2, "ice": 0.5, "dark": 1, "poison": 1, "mythic": 2
+            },
+            "metal": {
+                "basic": 1, "fire": 0.5, "water": 0.5, "plant": 1, "spark": 0.5, 
+                "beast": 1, "air": 1, "insect": 1, "earth": 1, "mind": 1, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 2, "metal": 0.5, 
+                "spirit": 1, "ice": 2, "dark": 1, "poison": 1, "mythic": 1
+            },
+            "spirit": {
+                "basic": 0, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
+                "beast": 1, "air": 1, "insect": 1, "earth": 1, "mind": 2, 
+                "melee": 1, "food": 1, "light": 0, "crystal": 0.5, "metal": 1, 
+                "spirit": 2, "ice": 1, "dark": 0.5, "poison": 1, "mythic": 1
+            },
+            "ice": {
+                "basic": 1, "fire": 2, "water": 0.5, "plant": 2, "spark": 1, 
+                "beast": 1, "air": 2, "insect": 1, "earth": 2, "mind": 1, 
+                "melee": 0.5, "food": 1, "light": 1, "crystal": 1, "metal": 0.5, 
+                "spirit": 1, "ice": 0.5, "dark": 1, "poison": 1, "mythic": 1
+            },
+            "dark": {
+                "basic": 1, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
+                "beast": 0.5, "air": 1, "insect": 0.5, "earth": 1, "mind": 2, 
+                "melee": 1, "food": 1, "light": 2, "crystal": 1, "metal": 1, 
+                "spirit": 2, "ice": 1, "dark": 0.5, "poison": 1, "mythic": 1
+            },
+            "poison": {
+                "basic": 1, "fire": 1, "water": 2, "plant": 2, "spark": 1, 
+                "beast": 1, "air": 2, "insect": 1, "earth": 0.5, "mind": 1, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 0, "metal": 0, 
+                "spirit": 0.5, "ice": 1, "dark": 1, "poison": 0.5, "mythic": 1
+            },
+            "mythic": {
+                "basic": 1, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
+                "beast": 1, "air": 1, "insect": 1, "earth": 1, "mind": 1, 
+                "melee": 1, "food": 1, "light": 1, "crystal": 0.5, "metal": 1, 
+                "spirit": 1, "ice": 1, "dark": 1, "poison": 1, "mythic": 2
+            }
+        };
+
+        const allTypes = Object.keys(defensiveTypeChart);
         
         const typeColors = {
             'Mythic': 'var(--mythic-color)',
@@ -1803,11 +1943,11 @@
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Electrician", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed Resilience", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", "Last Stand", "Justicar", "Volcanic Core", "Verdant Predation", "Cursed Growth", "Short Circuit", "Home Ground", "Nullcoat", "True Flame", "Lunarc", "Animosity", "Heartbreak", "Altertype", "Metalant", "Venandi Feast", "Flowerhaven", "Ruinous Garden", "Resolve", "Starvision", "Cauldron Stew", "Trick Tail", "Mixed Bag"];
 
+
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
         let defensiveDoodleCount = 1;
-        let draggedItem = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.nav-button').forEach(button => {
@@ -1834,11 +1974,11 @@
             initializeDefensiveCalculator();
             initializeOffensiveCalculator();
         }
-        
+
         function initializeTeambuilder() {
             populateDoodleDropdown();
             loadFromStorage();
-            setupEventListeners();
+            setupTeambuilderEventListeners();
             
             if (teams.length === 0) {
                 addTeam();
@@ -1877,7 +2017,7 @@
             }
         }
 
-        function setupEventListeners() {
+        function setupTeambuilderEventListeners() {
             document.getElementById('add-team').addEventListener('click', addTeam);
             document.getElementById('delete-team').addEventListener('click', deleteTeam);
             document.getElementById('team-select').addEventListener('change', changeTeam);
@@ -2279,7 +2419,6 @@
         }
 
         function handleDragStart(e) {
-            draggedItem = this;
             this.classList.add('dragging');
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', this.dataset.index);
@@ -2972,9 +3111,9 @@
                 return;
             }
 
-            const weaknesses = calculateWeaknesses(primaryType, secondaryType, trait);
-            const resistances = calculateResistances(primaryType, secondaryType, trait);
-            const immunities = calculateImmunities(primaryType, secondaryType, trait);
+            const weaknesses = calculateDefensiveWeaknesses(primaryType, secondaryType, trait);
+            const resistances = calculateDefensiveResistances(primaryType, secondaryType, trait);
+            const immunities = calculateDefensiveImmunities(primaryType, secondaryType, trait);
 
             updateDefensiveResultList(`.weaknesses[data-doodle="${doodleIndex}"]`, weaknesses, 'weakness');
             updateDefensiveResultList(`.resistances[data-doodle="${doodleIndex}"]`, resistances, 'resist');
@@ -2983,12 +3122,12 @@
             updateDefensiveSummary();
         }
 
-        function calculateWeaknesses(primary, secondary, trait) {
+        function calculateDefensiveWeaknesses(primary, secondary, trait) {
             const results = {};
 
             allTypes.forEach(attackingType => {
-                const primaryEffect = typeChart[primary][attackingType];
-                const secondaryEffect = secondary ? typeChart[secondary][attackingType] : 1;
+                const primaryEffect = defensiveTypeChart[primary][attackingType];
+                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
                 let combinedEffect = primaryEffect * secondaryEffect;
 
                 combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
@@ -3007,12 +3146,12 @@
             return results;
         }
 
-        function calculateResistances(primary, secondary, trait) {
+        function calculateDefensiveResistances(primary, secondary, trait) {
             const results = {};
 
             allTypes.forEach(attackingType => {
-                const primaryEffect = typeChart[primary][attackingType];
-                const secondaryEffect = secondary ? typeChart[secondary][attackingType] : 1;
+                const primaryEffect = defensiveTypeChart[primary][attackingType];
+                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
                 let combinedEffect = primaryEffect * secondaryEffect;
 
                 combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
@@ -3029,12 +3168,12 @@
             return results;
         }
 
-        function calculateImmunities(primary, secondary, trait) {
+        function calculateDefensiveImmunities(primary, secondary, trait) {
             const results = {};
 
             allTypes.forEach(attackingType => {
-                const primaryEffect = typeChart[primary][attackingType];
-                const secondaryEffect = secondary ? typeChart[secondary][attackingType] : 1;
+                const primaryEffect = defensiveTypeChart[primary][attackingType];
+                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
                 let combinedEffect = primaryEffect * secondaryEffect;
 
                 combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
@@ -3111,7 +3250,7 @@
                 const trait = box.querySelector('.trait')?.value;
 
                 if (primary) {
-                    const weaknesses = calculateWeaknesses(primary, secondary, trait);
+                    const weaknesses = calculateDefensiveWeaknesses(primary, secondary, trait);
                     Object.entries(weaknesses).forEach(([type, effect]) => {
                         if (!allWeaknesses[type]) allWeaknesses[type] = { count: 0, maxEffect: effect };
                         allWeaknesses[type].count++;
@@ -3126,7 +3265,7 @@
                         }
                     });
 
-                    const resistances = calculateResistances(primary, secondary, trait);
+                    const resistances = calculateDefensiveResistances(primary, secondary, trait);
                     Object.entries(resistances).forEach(([type, effect]) => {
                         if (!allResistances[type]) allResistances[type] = { count: 0, maxEffect: effect };
                         allResistances[type].count++;
@@ -3136,7 +3275,7 @@
                         }
                     });
 
-                    const immunities = calculateImmunities(primary, secondary, trait);
+                    const immunities = calculateDefensiveImmunities(primary, secondary, trait);
                     Object.keys(immunities).forEach(type => {
                         allImmunities.add(type);
                     });
@@ -3297,7 +3436,7 @@
         function populateOffensiveTypeDropdowns() {
             const typeSelects = [
                 document.getElementById('type-1'),
-                document.getElementById('type-2'), 
+                document.getElementById('type-2'),
                 document.getElementById('type-3'),
                 document.getElementById('type-4')
             ];
@@ -3315,17 +3454,13 @@
         }
 
         function setupOffensiveEventListeners() {
-            document.getElementById('calculate-coverage').addEventListener('click', calculateCoverage);
-            document.getElementById('reset-coverage').addEventListener('click', resetCoverage);
-            document.getElementById('save-offensive').addEventListener('click', saveCoverage);
-            document.getElementById('load-offensive').addEventListener('click', loadCoverage);
-            
-            document.querySelectorAll('.offensive-type-select').forEach(select => {
-                select.addEventListener('change', calculateCoverage);
-            });
+            document.getElementById('calculate-coverage').addEventListener('click', calculateOffensiveCoverage);
+            document.getElementById('reset-coverage').addEventListener('click', resetOffensiveCoverage);
+            document.getElementById('save-offensive').addEventListener('click', saveOffensiveCoverage);
+            document.getElementById('load-offensive').addEventListener('click', loadOffensiveCoverage);
         }
 
-        function calculateCoverage() {
+        function calculateOffensiveCoverage() {
             const selectedTypes = [
                 document.getElementById('type-1').value,
                 document.getElementById('type-2').value,
@@ -3340,28 +3475,46 @@
                 noEffect: []
             };
 
-            allTypes.forEach(defendingType => {
-                let maxEffectiveness = 1;
+            doodles.forEach(doodle => {
+                let maxEffectiveness = 0;
                 
-                if (selectedTypes.length > 0) {
-                    maxEffectiveness = selectedTypes.reduce((max, offensiveType) => {
-                        const effectiveness = typeChart[defendingType][offensiveType];
-                        return Math.max(max, effectiveness);
-                    }, 0);
+                selectedTypes.forEach(offensiveType => {
+                    const effectiveness = calculateOffensiveEffectiveness(offensiveType, doodle);
+                    if (effectiveness > maxEffectiveness) {
+                        maxEffectiveness = effectiveness;
+                    }
+                });
+
+                if (selectedTypes.length === 0) {
+                    maxEffectiveness = 1;
                 }
 
                 if (maxEffectiveness > 1) {
-                    results.superEffective.push(defendingType);
+                    results.superEffective.push(doodle);
                 } else if (maxEffectiveness === 1) {
-                    results.normalEffective.push(defendingType);
+                    results.normalEffective.push(doodle);
                 } else if (maxEffectiveness > 0) {
-                    results.notVeryEffective.push(defendingType);
+                    results.notVeryEffective.push(doodle);
                 } else {
-                    results.noEffect.push(defendingType);
+                    results.noEffect.push(doodle);
                 }
             });
 
             displayOffensiveResults(results);
+        }
+
+        function calculateOffensiveEffectiveness(offensiveType, doodle) {
+            const defendingTypes = doodle.type.split('/');
+            let effectiveness = 1;
+            
+            defendingTypes.forEach(defendingType => {
+                const normalizedDefendingType = defendingType.toLowerCase();
+                if (offensiveTypeChart[offensiveType] && offensiveTypeChart[offensiveType][normalizedDefendingType] !== undefined) {
+                    effectiveness *= offensiveTypeChart[offensiveType][normalizedDefendingType];
+                }
+            });
+            
+            return effectiveness;
         }
 
         function displayOffensiveResults(results) {
@@ -3371,33 +3524,58 @@
             displayOffensiveResultList('no-effect', results.noEffect);
         }
 
-        function displayOffensiveResultList(elementId, types) {
+        function displayOffensiveResultList(elementId, doodles) {
             const element = document.getElementById(elementId);
             element.innerHTML = '';
 
-            if (types.length === 0) {
+            if (doodles.length === 0) {
                 element.innerHTML = '<span class="none">None</span>';
                 return;
             }
 
-            types.forEach(type => {
-                const badge = document.createElement('span');
-                badge.className = 'offensive-type-badge';
-                badge.style.backgroundColor = typeColors[type.charAt(0).toUpperCase() + type.slice(1)] || typeColors['basic'];
+            doodles.forEach(doodle => {
+                const doodleElement = document.createElement('div');
+                doodleElement.className = 'offensive-doodle-result';
                 
-                const icon = document.createElement('span');
-                icon.className = 'type-icon';
-                icon.style.backgroundImage = `url(${typeIcons[type.charAt(0).toUpperCase() + type.slice(1)] || typeIcons['basic']})`;
-                badge.appendChild(icon);
+                const sprite = document.createElement('div');
+                sprite.className = 'doodle-sprite';
+                sprite.style.backgroundImage = `url(${doodle.image})`;
                 
-                const textNode = document.createTextNode(type.charAt(0).toUpperCase() + type.slice(1));
-                badge.appendChild(textNode);
-
-                element.appendChild(badge);
+                const info = document.createElement('div');
+                info.className = 'doodle-info';
+                
+                const name = document.createElement('div');
+                name.className = 'doodle-name';
+                name.textContent = doodle.name;
+                
+                const typeBadges = document.createElement('div');
+                typeBadges.className = 'type-badges';
+                const types = doodle.type.split('/');
+                types.forEach(type => {
+                    const badge = document.createElement('span');
+                    badge.className = 'type-badge';
+                    badge.textContent = type;
+                    badge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
+                    
+                    const icon = document.createElement('span');
+                    icon.className = 'type-icon';
+                    icon.style.backgroundImage = `url(${typeIcons[type] || typeIcons['Basic']})`;
+                    badge.prepend(icon);
+                    
+                    typeBadges.appendChild(badge);
+                });
+                
+                info.appendChild(name);
+                info.appendChild(typeBadges);
+                
+                doodleElement.appendChild(sprite);
+                doodleElement.appendChild(info);
+                
+                element.appendChild(doodleElement);
             });
         }
 
-        function resetCoverage() {
+        function resetOffensiveCoverage() {
             document.getElementById('type-1').value = '';
             document.getElementById('type-2').value = '';
             document.getElementById('type-3').value = '';
@@ -3409,7 +3587,7 @@
             document.getElementById('no-effect').innerHTML = '<span class="none">None</span>';
         }
 
-        function saveCoverage() {
+        function saveOffensiveCoverage() {
             const coverageData = {
                 type1: document.getElementById('type-1').value,
                 type2: document.getElementById('type-2').value,
@@ -3418,14 +3596,14 @@
             };
 
             localStorage.setItem('offensiveCoverage', JSON.stringify(coverageData));
-            alert('Coverage saved successfully!');
+            alert('Offensive coverage saved successfully!');
         }
 
-        function loadCoverage() {
+        function loadOffensiveCoverage() {
             const savedCoverage = localStorage.getItem('offensiveCoverage');
             
             if (!savedCoverage) {
-                alert('No saved coverage found!');
+                alert('No saved offensive coverage found!');
                 return;
             }
 
@@ -3436,8 +3614,8 @@
             document.getElementById('type-3').value = coverageData.type3 || '';
             document.getElementById('type-4').value = coverageData.type4 || '';
 
-            calculateCoverage();
-            alert('Coverage loaded successfully!');
+            calculateOffensiveCoverage();
+            alert('Offensive coverage loaded successfully!');
         }
     </script>
 </body>
