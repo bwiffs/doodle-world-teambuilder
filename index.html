@@ -270,6 +270,29 @@
             white-space: nowrap;
         }
 
+        .attunement-toggle {
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .attunement-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .attunement-label input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .attunement-text {
+            font-weight: bold;
+        }
+
         .team-display {
             display: flex;
             flex-direction: column;
@@ -296,6 +319,10 @@
 
         .doodle-card.drag-over {
             border: 2px dashed var(--button-hover);
+        }
+
+        .doodle-card.attuned {
+            border-left: 4px solid var(--mythic-color);
         }
 
         .card-header {
@@ -330,6 +357,17 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .attunement-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--mythic-color);
+            border-radius: 50%;
         }
 
         .type-badges {
@@ -378,6 +416,15 @@
             background: var(--button-hover);
         }
 
+        .attune-btn {
+            background-color: var(--mythic-color) !important;
+            font-weight: bold;
+        }
+
+        .attune-btn:hover {
+            background-color: #c9b1f0 !important;
+        }
+
         .expand-section {
             display: none;
             margin-top: 15px;
@@ -418,93 +465,20 @@
             align-items: center;
         }
 
-        .move-mythic, .move-mythic option {
-            color: var(--mythic-color) !important;
+        .stats-container, .equipment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .move-fire, .move-fire option {
-            color: var(--fire-color) !important;
-        }
-
-        .move-water, .move-water option {
-            color: var(--water-color) !important;
-        }
-
-        .move-plant, .move-plant option {
-            color: var(--plant-color) !important;
-        }
-
-        .move-spark, .move-spark option {
-            color: var(--spark-color) !important;
-        }
-
-        .move-beast, .move-beast option {
-            color: var(--beast-color) !important;
-        }
-
-        .move-air, .move-air option {
-            color: var(--air-color) !important;
-        }
-
-        .move-insect, .move-insect option {
-            color: var(--insect-color) !important;
-        }
-
-        .move-earth, .move-earth option {
-            color: var(--earth-color) !important;
-        }
-
-        .move-mind, .move-mind option {
-            color: var(--mind-color) !important;
-        }
-
-        .move-melee, .move-melee option {
-            color: var(--melee-color) !important;
-        }
-
-        .move-food, .move-food option {
-            color: var(--food-color) !important;
-        }
-
-        .move-light, .move-light option {
-            color: var(--light-color) !important;
-        }
-
-        .move-crystal, .move-crystal option {
-            color: var(--crystal-color) !important;
-        }
-
-        .move-metal, .move-metal option {
-            color: var(--metal-color) !important;
-        }
-
-        .move-spirit, .move-spirit option {
-            color: var(--spirit-color) !important;
-        }
-
-        .move-ice, .move-ice option {
-            color: var(--ice-color) !important;
-        }
-
-        .move-dark, .move-dark option {
-            color: var(--dark-color) !important;
-        }
-
-        .move-poison, .move-poison option {
-            color: var(--poison-color) !important;
-        }
-
-        .move-basic, .move-basic option {
-            color: var(--basic-color) !important;
-        }
-
-        .moves-container select option {
+        .stats-container select, .equipment-container select {
+            width: 100%;
+            padding: 8px;
             background-color: var(--input-bg);
-            color: var(--text-color);
-        }
-
-        .moves-container select:not([class*="move-"]) {
-            color: var(--text-color);
+            border: 1px solid var(--input-border);
+            border-radius: 0;
+            font-size: 14px;
         }
 
         .controls {
@@ -525,6 +499,20 @@
             font-weight: bold;
         }
 
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--section-border);
+            flex-wrap: wrap;
+        }
+
+        .credits, .update-info {
+            font-size: 14px;
+        }
+
+        /* Defensive Calculator Styles */
         .calculator-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -565,7 +553,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .remove-calc:hover {
             background: #ff4444;
         }
@@ -584,22 +572,6 @@
             margin-bottom: 12px;
             box-shadow: 0 2px 4px var(--shadow);
             font-size: 14px;
-        }
-
-        .add-type-btn {
-            background-color: var(--button-bg);
-            color: var(--text-color);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 0;
-            cursor: pointer;
-            margin-top: 5px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .add-type-btn:hover {
-            background-color: var(--button-hover);
         }
 
         .result-title {
@@ -733,44 +705,7 @@
             background-color: var(--button-hover);
         }
 
-        .type-count {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 0;
-            padding: 2px 8px;
-            margin-left: 8px;
-            font-size: 12px;
-        }
-
-        .footer {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid var(--section-border);
-            flex-wrap: wrap;
-        }
-
-        .credits, .update-info {
-            font-size: 14px;
-        }
-
-        .stats-container, .equipment-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .stats-container select, .equipment-container select {
-            width: 100%;
-            padding: 8px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 0;
-            font-size: 14px;
-        }
-
+        /* Offensive Calculator Styles */
         .offensive-calculator {
             display: flex;
             flex-direction: column;
@@ -897,6 +832,96 @@
             height: 12px;
         }
 
+        /* Move Type Colors */
+        .move-mythic, .move-mythic option {
+            color: var(--mythic-color) !important;
+        }
+
+        .move-fire, .move-fire option {
+            color: var(--fire-color) !important;
+        }
+
+        .move-water, .move-water option {
+            color: var(--water-color) !important;
+        }
+
+        .move-plant, .move-plant option {
+            color: var(--plant-color) !important;
+        }
+
+        .move-spark, .move-spark option {
+            color: var(--spark-color) !important;
+        }
+
+        .move-beast, .move-beast option {
+            color: var(--beast-color) !important;
+        }
+
+        .move-air, .move-air option {
+            color: var(--air-color) !important;
+        }
+
+        .move-insect, .move-insect option {
+            color: var(--insect-color) !important;
+        }
+
+        .move-earth, .move-earth option {
+            color: var(--earth-color) !important;
+        }
+
+        .move-mind, .move-mind option {
+            color: var(--mind-color) !important;
+        }
+
+        .move-melee, .move-melee option {
+            color: var(--melee-color) !important;
+        }
+
+        .move-food, .move-food option {
+            color: var(--food-color) !important;
+        }
+
+        .move-light, .move-light option {
+            color: var(--light-color) !important;
+        }
+
+        .move-crystal, .move-crystal option {
+            color: var(--crystal-color) !important;
+        }
+
+        .move-metal, .move-metal option {
+            color: var(--metal-color) !important;
+        }
+
+        .move-spirit, .move-spirit option {
+            color: var(--spirit-color) !important;
+        }
+
+        .move-ice, .move-ice option {
+            color: var(--ice-color) !important;
+        }
+
+        .move-dark, .move-dark option {
+            color: var(--dark-color) !important;
+        }
+
+        .move-poison, .move-poison option {
+            color: var(--poison-color) !important;
+        }
+
+        .move-basic, .move-basic option {
+            color: var(--basic-color) !important;
+        }
+
+        .moves-container select option {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .moves-container select:not([class*="move-"]) {
+            color: var(--text-color);
+        }
+
         @media (max-width: 768px) {
             .team-management, .doodle-creation {
                 flex-direction: column;
@@ -1012,6 +1037,14 @@
                 <button class="add-doodle-btn" id="add-doodle">Add Doodle</button>
             </div>
             
+            <!-- Attunement Toggle -->
+            <div class="attunement-toggle">
+                <label class="attunement-label">
+                    <input type="checkbox" id="auto-attune" checked>
+                    <span class="attunement-text">Auto-attune signature items & traits</span>
+                </label>
+            </div>
+            
             <div class="team-display" id="team-display">
             </div>
             
@@ -1027,6 +1060,7 @@
             </div>
         </div>
 
+        <!-- Defensive Calculator Page -->
         <div class="page" id="defensive">
             <div class="header">
                 <h1>Defensive Type Calculator</h1>
@@ -1257,7 +1291,7 @@
             }
         };
 
-        //OFFENSIVE TYPE CHART
+        // OFFENSIVE TYPE CHART
         const offensiveTypeChart = {
             "basic": {
                 "basic": 1, "fire": 1, "water": 1, "plant": 1, "spark": 1, 
@@ -1428,6 +1462,207 @@
             'Poison': 'logos/poison.webp',
             'Basic': 'logos/basic.webp'
         };
+
+const doodleAttunements = {
+
+    "Mawthra-A": {
+        runestone: "Mawthra Rune", 
+        signatureTrait: "Warden"
+    },
+    "Thornet-A": {
+        runestone: "Thornet Rune",
+        signatureTrait: "Retaliate"
+    },
+    "Voltenchant-A": {
+        runestone: "Voltenchant Rune", 
+        signatureTrait: "Downpour"
+    },
+    "Theaterror-A": {
+        runestone: "Theaterror Rune",
+        signatureTrait: "Spiteful"
+    },
+    "Maskomedy-A": {
+        runestone: "Maskomedy Rune",
+        signatureTrait: "Cardinal Sins"
+    },
+    "Mourveil-A": {
+        runestone: "Mourveil Rune",
+        signatureTrait: "The Fungus"
+    },
+    "Malotrick-A": {
+        runestone: "Malotrick Rune",
+        signatureTrait: "Gaseous Form"
+    },
+    "Tulenna-A": {
+        runestone: "Tulenna Rune",
+        signatureTrait: "Toxicity"
+    },
+    "Staligant-A": {
+        runestone: "Staligant Rune",
+    },
+    "Corrolizard-A": {
+        runestone: "Corrolizard Rune",
+        signatureTrait: "Decay"
+    },
+    "Grufflin-A": {
+        runestone: "Grufflin Rune",
+        signatureTrait: "Analytical"
+    },
+    "Skadean-A": {
+        runestone: "Skadean Rune",
+        signatureTrait: " Sea Goddess Disciple"
+    },
+    "Partybug-A": {
+        runestone: "Partybug Rune", 
+        signatureTrait: "Archmage"
+    },
+    "Somberock-A": {
+        runestone: "Somberock Rune",
+        signatureTrait: "Luminosity"
+    },
+    "Nyanto-A": {
+        runestone: "Nyanto Rune",
+        signatureTrait: "Your Meowjesty"
+    },
+    "Suomous-A": {
+        runestone: "Suomous Rune",
+        signatureTrait: "Jab Cross"
+    },
+    "Daeferno-A": {
+        runestone: "Daeferno Rune",
+        signatureTrait: "Revenant"
+    },
+    "Vigimante-A": {
+        runestone: "Vigimante Rune",
+        signatureTrait: "Crowd Support"
+    },
+    "Groato-A": {
+        runestone: "Groato Rune",
+        signatureTrait: "Extinguisher"
+    },
+    "Lumiline-A": {
+        runestone: "Lumiline Rune",
+        signatureTrait: "Crystallization"
+    },
+    "Cacmeow-A": {
+        runestone: "Cacmeow Rune",
+        signatureTrait: "Visicous"
+    },
+    "Cryotera-A": {
+        runestone: "Cryotera Rune",
+        signatureTrait: "Bypass"
+    },
+    "Spectatik-A": {
+        runestone: "Spectatik Rune",
+        signatureTrait: "Speed of Swag"
+    },
+    "Bionotic-A": {
+        runestone: "Bionotic Rune",
+        signatureTrait: "Mind Games"
+    },
+    "Archopos-A": {
+        runestone: "Archopos Rune",
+        signatureTrait: "Delicate"
+    },
+    "Cerebopod-A": {
+        runestone: "Cerebopod Rune",
+        signatureTrait: "Refreshed Resilience"
+    },
+    "Hattrix-A": {
+        runestone: "Hattrix Rune",
+        signatureTrait: "Spell Shield"
+    },
+    "Cragildae-A": {
+        runestone: "Cragildae Rune",
+        signatureTrait: "Grounded"
+    },
+    "Bubbull-A": {
+        runestone: "Bubbul Rune",
+        signatureTrait: "Melting Point"
+    },
+    "Tufflaze-A": {
+        runestone: "Tufflaze Rune",
+        signatureTrait: "Annihilation"
+    },
+    "Libelagua-A": {
+        runestone: "Libelagua Rune",
+        signatureTrait: "Bogdown"
+    },
+    "Snowclowne-A": {
+        signatureItem: "Snowclowne Silly Cone",
+        signatureTrait: "Frostillery"
+    },
+    "Jellupy-A": {
+        signatureItem: "Jellupy Whisk",
+        signatureTrait: "Jelly Sync"
+    },
+    "Fancyoon-A": {
+        signatureItem: "Fancyoon Boa", 
+          signatureTrait: "Foul Welcome"
+    },
+    "Hangryphus-A": {
+        signatureItem: "Hangryphus Pie",
+        signatureTrait: "Last Stand"
+    },
+    "Exoskelis-A": {
+        signatureItem: "Exoskelis Shard",
+        signatureTrait: "Revival"
+    },
+    "Calamander-A": {
+        signatureItem: "Calamander's Candy",
+        signatureTrait: "Hidden Strength"
+    },
+    "Umaisho-A": {
+        signatureItem: "Umaisho Matcha",
+        signatureTrait: "Lipid Scale"
+    },
+    "Ostigon-A": {
+        signatureItem: "Ostigon Collar",
+        signatureTrait: "Corruption"
+    },
+    "Vermorph-A": {
+        signatureItem: "Vermorph Goggles",
+        signatureTrait: "Electrician"
+    },
+    "Jinglark-A": {
+        signatureItem: "Jinglark Present",
+        signatureTrait: "Holiday Spirit"
+    },
+    "Hypnotl-A": {
+        signatureItem: "Hypnotl Antigen",
+        signatureTrait: "Mushboom"
+    },
+    "Bungo": {
+        signatureTrait: "Split"
+    },
+    "Seamknight": {
+        signatureTrait: "Vigor"
+    },
+    "Seamstress": {
+        signatureTrait: "Elegance"
+    },
+    "Reliconis": {
+        signatureTrait: "Reformation"
+    },
+    "Armaratus": {
+        signatureTrait: "Soul Fortification"
+    },
+    "Glacigash": {
+        signatureTrait: "Enfeeble"
+    },
+    "Lacergen-Earth": {
+        signatureItem: "Earth Data"
+    },
+    "Lacergen-Spark": {
+        signatureItem: "Spark Data"
+    },
+    "Lacergen-Fire": {
+        signatureItem: "Fire Data"
+    },
+    "Lacergen-Ice": {
+        signatureItem: "Ice Data"
+    },
+};
 
                                              const doodles = [
             { name: "Abyssent", image: "https://i.ibb.co/6089VMk2/Abyssent-1.webp", type: "Water/Light" },
@@ -1941,8 +2176,6 @@
         const heldItems = ["None", "Acid Storm in a Bottle", "Air Candy Cube", "Air Taffy", "Arid Wand", "Basic Candy Cube", "Basic Taffy", "Battery", "Beast Candy Cube", "Beast Taffy", "Blueprint", "Bubblegum", "Bubble Wand", "Champion Belt", "Conductor's Baton", "Confectioner's Wand", "Corrosive Wand", "Crooked Talon", "Crystal Candy Cube", "Crystal Taffy", "Cure Jelly", "Cursed Cloak", "Dark Candy Cube", "Dark Chocolate", "Dark Taffy", "Decorative Fan", "Defensive Jelly", "Delicate Wing", "Determination Jelly", "Determination Headband", "Earth Candy Cube", "Earth Data", "Earth Taffy", "Empowered Ring", "Enchanted Emerald", "Enchanted Ruby", "Enchanted Sapphire", "Fire Candy Cube", "Fire Data", "Fire Taffy", "Food Candy Cube", "Food Taffy", "Friendship Ribbon", "Frozen TV Dinner", "Gauze Wrap", "Glasses", "Grease", "Heal Jelly", "Homemade Plush", "Ice Candy Cube", "Ice Data", "Ice Pack", "Ice Taffy", "Imbued Relic", "Insect Candy Cube", "Insect Taffy", "Jetpack", "Laminate", "Lethal Ornament", "Lighter", "Light Candy Cube", "Light Taffy", "Lucky Pebble", "Magical Jelly", "Magic Wand", "Matchbox", "Melee Candy Cube", "Melee Taffy", "Metal Candy Cube", "Metal Taffy", "Mind Candy Cube", "Mind Taffy", "Moon Charm", "Mythic Candy Cube", "Mythic Taffy", "Perfect Alloy", "Plant Candy Cube", "Plant Taffy", "Poison Candy Cube", "Poison Taffy", "Power Jelly", "Pretty Seashell", "Questionable Sludge", "Refined Crystal", "Refractive Prism", "Riot Shield", "Running Shoes", "Sickly Doze", "Sponge", "Small Sprout", "Sniper Scope", "Spark Candy Cube", "Spark Data", "Spark Taffy", "Speed Jelly", "Spirit Candy Cube", "Spirit Jar", "Spirit Taffy", "Starry Glasses", "Stormy Wand", "Strength Jelly", "Studded Fang", "Spiky Thorns", "Soothing Charm", "Unwashed Plushie", "Used Crayons", "Used Timber", "Wake-Up Jelly", "Water Candy Cube", "Water Taffy", "Wierd Jelly", "Hypnotl's Antigen", "Calamander's Candy", "Umaisho Matcha", "Ostigon Collar", "Vermorph Goggles", "Jinglark Present", "Mawthra Rune", "Thornet Rune", "Tufflaze Rune", "Voltenchant Rune", "Theaterror Rune", "Maskomedy Rune", "Mourveil Rune", "Malotrick Rune", "Tulenna Rune", "Staligant Rune", "Corrolizard Rune", "Staligant Rune", "Grufflin Rune", "Skadean Rune", "Partybug Rune", "Somberock Rune", "Nyanto Rune", "Suomous Rune", "Daeferno Rune", "Vigimante Rune", "Groato Rune", "Lumiline Rune", "Cacmeow Rune", "Cryotera Rune", "Spectatik Rune", "Bionotic Rune", "Archopos Rune", "Cerebopod Rune", "Hattrix Rune", "Cragildae Rune", "Bubbul Rune", "Snowclowne Silly Cone", "Onion", "Ruler", "Doomflower", "Potassium Conduit", "Jellupy Whisk", "Fancyoon Boa", "Yo-yo", "Old Monitor", "Pinball String", "Prize Claw", "Video Game Controller", "Arcade Joystick", "Surge DNA (Velocivult)", "Spore DNA (Trithorn)", "Ember DNA (Volcanur)", "Virus DNA (Myphoxic)", "Hangryphus Pie", "Exoskelis Shard", "Void Jelly", "Relay Jelly", "Loop Jelly", "Whirlwind Jelly", "Bell Jelly", "Gift Jelly", "Nesting Doll",];
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Electrician", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed Resilience", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", "Last Stand", "Justicar", "Volcanic Core", "Verdant Predation", "Cursed Growth", "Short Circuit", "Home Ground", "Nullcoat", "True Flame", "Lunarc", "Animosity", "Heartbreak", "Altertype", "Metalant", "Venandi Feast", "Flowerhaven", "Ruinous Garden", "Resolve", "Starvision", "Cauldron Stew", "Trick Tail", "Mixed Bag"];
-
-
         const MAX_TEAMS = 5;
         let teams = [];
         let currentTeamIndex = -1;
@@ -2207,7 +2440,7 @@
             
             const doodle = doodles.find(d => d.name === selectedDoodleName);
             if (doodle) {
-                teams[currentTeamIndex].doodles.push({
+                const baseDoodle = {
                     name: doodle.name,
                     image: doodle.image,
                     type: doodle.type,
@@ -2220,7 +2453,31 @@
                         amulet: "None",
                         artifact: "None"
                     }
-                });
+                };
+                
+                const autoAttune = document.getElementById('auto-attune').checked;
+                const attunement = doodleAttunements[doodle.name];
+                
+                let finalDoodle = {...baseDoodle};
+                
+                if (autoAttune && attunement) {
+                    if (attunement.signatureTrait) {
+                        finalDoodle.trait = attunement.signatureTrait;
+                    }
+                    
+                    if (attunement.runestone) {
+                        finalDoodle.heldItem = attunement.runestone;
+                    } else if (attunement.signatureItem) {
+                        finalDoodle.heldItem = attunement.signatureItem;
+                    }
+                    
+                    console.log(`Auto-attuned ${doodle.name} with:`, {
+                        trait: finalDoodle.trait,
+                        heldItem: finalDoodle.heldItem
+                    });
+                }
+                
+                teams[currentTeamIndex].doodles.push(finalDoodle);
                 renderTeam();
                 saveToStorage();
                 
@@ -2351,6 +2608,15 @@
             exportBtn.textContent = 'Export';
             exportBtn.onclick = () => exportDoodleToText(index);
             
+            const attunement = doodleAttunements[doodle.name];
+            if (attunement) {
+                const attuneBtn = document.createElement('button');
+                attuneBtn.className = 'card-btn attune-btn';
+                attuneBtn.textContent = 'Attune';
+                attuneBtn.onclick = () => applyAttunement(index);
+                cardButtons.appendChild(attuneBtn);
+            }
+            
             cardButtons.appendChild(clearBtn);
             cardButtons.appendChild(exportBtn);
             cardHeader.appendChild(slotInfo);
@@ -2369,6 +2635,15 @@
             const name = document.createElement('div');
             name.className = 'doodle-name';
             name.textContent = doodle.name;
+            
+            if (attunement) {
+                const attunedIndicator = document.createElement('span');
+                attunedIndicator.className = 'attunement-indicator';
+                attunedIndicator.title = 'Has signature attunements';
+                name.appendChild(attunedIndicator);
+                
+                card.classList.add('attuned');
+            }
             
             const typeBadges = document.createElement('div');
             typeBadges.className = 'type-badges';
@@ -2730,6 +3005,36 @@
             teams[currentTeamIndex].doodles.splice(index, 1);
             renderTeam();
             saveToStorage();
+        }
+
+        function applyAttunement(index) {
+            if (currentTeamIndex === -1) return;
+            
+            const doodle = teams[currentTeamIndex].doodles[index];
+            const attunement = doodleAttunements[doodle.name];
+            
+            if (!attunement) {
+                alert("No attunement data found for this doodle!");
+                return;
+            }
+            
+            if (attunement.signatureTrait) {
+                doodle.trait = attunement.signatureTrait;
+                updateDoodleData(index, 'trait', attunement.signatureTrait);
+            }
+            
+            if (attunement.runestone) {
+                doodle.heldItem = attunement.runestone;
+                updateDoodleData(index, 'heldItem', attunement.runestone);
+            } else if (attunement.signatureItem) {
+                doodle.heldItem = attunement.signatureItem;
+                updateDoodleData(index, 'heldItem', attunement.signatureItem);
+            }
+            
+            renderTeam();
+            saveToStorage();
+            
+            alert(`Attuned ${doodle.name} with signature items!`);
         }
 
         function exportDoodleToText(index) {
@@ -3189,22 +3494,6 @@
             return effectiveness;
         }
 
-        function createTypeBadge(type, text, effect = '') {
-            const badge = document.createElement('span');
-            badge.className = `calc-type-badge ${type} ${effect}`;
-            badge.style.backgroundColor = typeColors[type.charAt(0).toUpperCase() + type.slice(1)] || typeColors['basic'];
-            
-            const icon = document.createElement('span');
-            icon.className = 'type-icon';
-            icon.style.backgroundImage = `url(${typeIcons[type.charAt(0).toUpperCase() + type.slice(1)] || typeIcons['basic']})`;
-            badge.appendChild(icon);
-            
-            const textNode = document.createTextNode(text);
-            badge.appendChild(textNode);
-            
-            return badge;
-        }
-
         function updateDefensiveResultList(selector, typeEffects, effectType = '') {
             const element = document.querySelector(selector);
 
@@ -3233,7 +3522,18 @@
                 else if (effect === 'resist-025x') badgeText += ' (¼×)';
                 else if (effect === 'resist-05x') badgeText += ' (½×)';
 
-                const badge = createTypeBadge(type, badgeText, effect);
+                const badge = document.createElement('span');
+                badge.className = `calc-type-badge ${type} ${effect}`;
+                badge.style.backgroundColor = typeColors[type.charAt(0).toUpperCase() + type.slice(1)] || typeColors['basic'];
+                
+                const icon = document.createElement('span');
+                icon.className = 'type-icon';
+                icon.style.backgroundImage = `url(${typeIcons[type.charAt(0).toUpperCase() + type.slice(1)] || typeIcons['basic']})`;
+                badge.appendChild(icon);
+                
+                const textNode = document.createTextNode(badgeText);
+                badge.appendChild(textNode);
+                
                 element.appendChild(badge);
             });
         }
@@ -3338,7 +3638,18 @@
                     else if (effect === 'resist-05x') badgeText += ' ½×';
                 }
 
-                const badge = createTypeBadge(typeName, badgeText, effect);
+                const badge = document.createElement('span');
+                badge.className = `calc-type-badge ${typeName} ${effect}`;
+                badge.style.backgroundColor = typeColors[typeName.charAt(0).toUpperCase() + typeName.slice(1)] || typeColors['basic'];
+                
+                const icon = document.createElement('span');
+                icon.className = 'type-icon';
+                icon.style.backgroundImage = `url(${typeIcons[typeName.charAt(0).toUpperCase() + typeName.slice(1)] || typeIcons['basic']})`;
+                badge.appendChild(icon);
+                
+                const textNode = document.createTextNode(badgeText);
+                badge.appendChild(textNode);
+                
                 element.appendChild(badge);
             });
         }
