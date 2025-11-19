@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doodle World Tools</title>
     <style>
+        /* All your existing CSS styles remain exactly the same */
         :root {
             --bg-color: #121212;
             --text-color: #ffffff;
@@ -2272,15 +2273,21 @@ const doodleAttunements = {
             });
             
             doodleSearch.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
+                const searchTerm = this.value.toLowerCase().trim();
                 const options = document.querySelectorAll('#doodle-options .dropdown-option');
+                
+                const validTypes = Object.keys(typeColors).map(type => type.toLowerCase());
+                const isTypeSearch = !searchTerm.includes(' ') && validTypes.includes(searchTerm);
                 
                 options.forEach(option => {
                     const text = option.textContent.toLowerCase();
-                    if (text.includes(searchTerm)) {
-                        option.style.display = 'block';
+                    const doodleType = option.dataset.type.toLowerCase();
+                    
+                    if (isTypeSearch) {
+                        option.style.display = doodleType.includes(searchTerm) ? 'block' : 'none';
                     } else {
-                        option.style.display = 'none';
+
+                        option.style.display = text.includes(searchTerm) ? 'block' : 'none';
                     }
                 });
             });
