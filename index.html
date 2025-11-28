@@ -512,7 +512,6 @@
             font-size: 14px;
         }
 
-        /* Defensive Calculator Styles */
         .calculator-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -705,7 +704,6 @@
             background-color: var(--button-hover);
         }
 
-        /* Offensive Calculator Styles */
         .offensive-calculator {
             display: flex;
             flex-direction: column;
@@ -832,7 +830,6 @@
             height: 12px;
         }
 
-        /* Move Type Colors */
         .move-mythic, .move-mythic option {
             color: var(--mythic-color) !important;
         }
@@ -989,6 +986,7 @@
     </style>
 </head>
 <body>
+    <!-- HTML structure remains exactly the same as before -->
     <div class="nav-container">
         <ul class="nav-menu">
             <li class="nav-item">
@@ -1056,7 +1054,7 @@
             
             <div class="footer">
                 <div class="credits">Created by Bwiffs</div>
-                <div class="update-info">Updated: Ranked Season 18 + Type Searching (Type water, fire etc in the doodle search bar)</div>
+                <div class="update-info">Updated: 11/28/2025 </div>
             </div>
         </div>
 
@@ -1474,6 +1472,7 @@
             "Filament": { immunity: "spark" },
             "Fire Up": { immunity: "fire" },
             "Fireproof Armor": { damageReduction: { type: "fire", amount: 0.5 } },
+            "Blightfrost": { damageReduction: { type: "fire", amount: 0.5 } },
             "Hard Candy": { damageReduction: { type: "fire", amount: 0.25 } },
             "Herbivore": { immunity: "plant" },
             "Karna": { damageReduction: { type: "earth", amount: 0.5 } },
@@ -1488,6 +1487,55 @@
             "Tumble": { damageReduction: { type: "melee", amount: 0.5 } },
             "Water Absorb": { immunity: "water" }
         };
+
+        const traitMoveTypeChanges = {
+            "Galvanize": { from: "basic", to: "spark" },
+            "Your Meowjesty": { from: "basic", to: "air" },
+            "Toxicity": { from: "basic", to: "poison" },
+            "Apparition": { from: "basic", to: "spirit" },
+            "Luminosity": { from: "dark", to: "light" }
+        };
+
+        const specialMoveTypes = {
+            "Chemical Breath": {
+                "Noxvul": "poison",
+                "Exovul": "fire", 
+                "Endovul": "ice",
+                "Vuliable": "basic"
+            },
+            "Elemental Claws": {
+                "Lacergen-Earth": "earth",
+                "Lacergen-Spark": "spark",
+                "Lacergen-Fire": "fire",
+                "Lacergen-Ice": "ice"
+            }
+        };
+
+        const moveTypeMap = {};
+        
+        function populateMoveTypeMap() {
+            basicMoves.forEach(move => moveTypeMap[move] = 'basic');
+            
+            mythicMoves.forEach(move => moveTypeMap[move] = 'mythic');
+            fireMoves.forEach(move => moveTypeMap[move] = 'fire');
+            waterMoves.forEach(move => moveTypeMap[move] = 'water');
+            plantMoves.forEach(move => moveTypeMap[move] = 'plant');
+            electricMoves.forEach(move => moveTypeMap[move] = 'spark');
+            beastMoves.forEach(move => moveTypeMap[move] = 'beast');
+            airMoves.forEach(move => moveTypeMap[move] = 'air');
+            bugMoves.forEach(move => moveTypeMap[move] = 'insect');
+            earthMoves.forEach(move => moveTypeMap[move] = 'earth');
+            mindMoves.forEach(move => moveTypeMap[move] = 'mind');
+            meleeMoves.forEach(move => moveTypeMap[move] = 'melee');
+            foodMoves.forEach(move => moveTypeMap[move] = 'food');
+            lightMoves.forEach(move => moveTypeMap[move] = 'light');
+            crystalMoves.forEach(move => moveTypeMap[move] = 'crystal');
+            metalMoves.forEach(move => moveTypeMap[move] = 'metal');
+            spiritMoves.forEach(move => moveTypeMap[move] = 'spirit');
+            iceMoves.forEach(move => moveTypeMap[move] = 'ice');
+            darkMoves.forEach(move => moveTypeMap[move] = 'dark');
+            poisonMoves.forEach(move => moveTypeMap[move] = 'poison');
+        }
 
 const doodleAttunements = {
 
@@ -2226,6 +2274,8 @@ const doodleAttunements = {
                 });
             });
 
+            populateMoveTypeMap();
+            
             initialize();
         });
 
@@ -2503,11 +2553,6 @@ const doodleAttunements = {
                     } else if (attunement.signatureItem) {
                         finalDoodle.heldItem = attunement.signatureItem;
                     }
-                    
-                    console.log(`Auto-attuned ${doodle.name} with:`, {
-                        trait: finalDoodle.trait,
-                        heldItem: finalDoodle.heldItem
-                    });
                 }
                 
                 teams[currentTeamIndex].doodles.push(finalDoodle);
@@ -2528,20 +2573,25 @@ const doodleAttunements = {
             saveToStorage();
         }
 
-        window.updateDoodleData = function(doodleIndex, field, value) {
-            if (currentTeamIndex === -1) return;
-            if (field.includes('.')) {
-                const parts = field.split('.');
-                teams[currentTeamIndex].doodles[doodleIndex][parts[0]][parts[1]] = value;
-            } else {
-                teams[currentTeamIndex].doodles[doodleIndex][field] = value;
-            }
-            saveToStorage();
+        function getMoveType(moveName, trait = null, doodleName = null) {
+            if (!moveName) return null;
             
-            if (field.startsWith('moves.')) {
-                updateMoveColors(doodleIndex);
+            if (specialMoveTypes[moveName] && doodleName) {
+                const specialType = specialMoveTypes[moveName][doodleName];
+                if (specialType) return specialType;
             }
-        };
+            
+            let moveType = moveTypeMap[moveName];
+            
+            if (trait && traitMoveTypeChanges[trait] && moveType) {
+                const typeChange = traitMoveTypeChanges[trait];
+                if (moveType === typeChange.from) {
+                    moveType = typeChange.to;
+                }
+            }
+            
+            return moveType;
+        }
 
         function updateMoveColors(doodleIndex) {
             const doodle = teams[currentTeamIndex].doodles[doodleIndex];
@@ -2560,39 +2610,28 @@ const doodleAttunements = {
                         'move-ice', 'move-dark', 'move-poison', 'move-basic'
                     );
                     
-                    const moveType = getMoveType(selectedOption.value);
+                    const moveType = getMoveType(selectedOption.value, doodle.trait, doodle.name);
                     if (moveType) {
-                        moveSelect.classList.add(`move-${moveType.toLowerCase()}`);
+                        moveSelect.classList.add(`move-${moveType}`);
                     }
                 }
             }
         }
 
-        function getMoveType(moveName) {
-            if (!moveName) return null;
+        window.updateDoodleData = function(doodleIndex, field, value) {
+            if (currentTeamIndex === -1) return;
+            if (field.includes('.')) {
+                const parts = field.split('.');
+                teams[currentTeamIndex].doodles[doodleIndex][parts[0]][parts[1]] = value;
+            } else {
+                teams[currentTeamIndex].doodles[doodleIndex][field] = value;
+            }
+            saveToStorage();
             
-            if (mythicMoves.includes(moveName)) return 'Mythic';
-            if (fireMoves.includes(moveName)) return 'Fire';
-            if (waterMoves.includes(moveName)) return 'Water';
-            if (plantMoves.includes(moveName)) return 'Plant';
-            if (electricMoves.includes(moveName)) return 'Spark';
-            if (beastMoves.includes(moveName)) return 'Beast';
-            if (airMoves.includes(moveName)) return 'Air';
-            if (bugMoves.includes(moveName)) return 'Insect';
-            if (earthMoves.includes(moveName)) return 'Earth';
-            if (mindMoves.includes(moveName)) return 'Mind';
-            if (meleeMoves.includes(moveName)) return 'Melee';
-            if (foodMoves.includes(moveName)) return 'Food';
-            if (lightMoves.includes(moveName)) return 'Light';
-            if (crystalMoves.includes(moveName)) return 'Crystal';
-            if (metalMoves.includes(moveName)) return 'Metal';
-            if (spiritMoves.includes(moveName)) return 'Spirit';
-            if (iceMoves.includes(moveName)) return 'Ice';
-            if (darkMoves.includes(moveName)) return 'Dark';
-            if (poisonMoves.includes(moveName)) return 'Poison';
-            
-            return 'Basic';
-        }
+            if (field.startsWith('moves.') || field === 'trait') {
+                updateMoveColors(doodleIndex);
+            }
+        };
 
         function renderTeam() {
             if (currentTeamIndex === -1) return;
@@ -2799,8 +2838,8 @@ const doodleAttunements = {
                 <div class="moves-container">
                     ${Array(4).fill().map((_, i) => {
                         const move = doodle.moves[i] || "";
-                        const moveType = getMoveType(move);
-                        const moveClass = moveType ? `move-${moveType.toLowerCase()}` : '';
+                        const moveType = getMoveType(move, doodle.trait, doodle.name);
+                        const moveClass = moveType ? `move-${moveType}` : '';
                         
                         return `
                             <select class="${moveClass}" onchange="updateDoodleData(${index}, 'moves.${i}', this.value)">
@@ -3356,109 +3395,6 @@ const doodleAttunements = {
             localStorage.setItem('currentTeamIndex', currentTeamIndex);
         }
 
-
-        function applyTraitEffects(primary, secondary, trait, attackingType, effectiveness) {
-            if (!trait || !traitEffects[trait]) return effectiveness;
-
-            const effect = traitEffects[trait];
-            
-            if (effect.immunity) {
-                if (effect.immunity === "primary" && primary === attackingType) {
-                    return 0;
-                } else if (effect.immunity === attackingType) {
-                    return 0;
-                }
-            }
-            
-            if (effect.removeType && (primary === effect.removeType || secondary === effect.removeType)) {
-                let newEffectiveness = 1;
-                if (primary !== effect.removeType) {
-                    newEffectiveness *= defensiveTypeChart[primary][attackingType];
-                }
-                if (secondary && secondary !== effect.removeType) {
-                    newEffectiveness *= defensiveTypeChart[secondary][attackingType];
-                }
-                effectiveness = newEffectiveness;
-            }
-            
-            if (effect.damageReduction && effect.damageReduction.type === attackingType) {
-                effectiveness *= (1 - effect.damageReduction.amount);
-            }
-            
-            if (effect.invertChart) {
-                if (effectiveness === 4) effectiveness = 0.25;
-                else if (effectiveness === 2) effectiveness = 0.5;
-                else if (effectiveness === 0.5) effectiveness = 2;
-                else if (effectiveness === 0.25) effectiveness = 4;
-            }
-            
-            return effectiveness;
-        }
-
-        function calculateDefensiveWeaknesses(primary, secondary, trait) {
-            const results = {};
-
-            allTypes.forEach(attackingType => {
-                const primaryEffect = defensiveTypeChart[primary][attackingType];
-                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
-                let combinedEffect = primaryEffect * secondaryEffect;
-
-                combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
-
-                if (combinedEffect > 1) {
-                    if (combinedEffect >= 3.5) { 
-                        results[attackingType] = 'weak-4x';
-                    } else if (combinedEffect > 1.5) {
-                        results[attackingType] = 'weak-2x';
-                    } else if (combinedEffect > 1.1) {
-                        results[attackingType] = 'weak-075x';
-                    }
-                }
-            });
-
-            return results;
-        }
-
-        function calculateDefensiveResistances(primary, secondary, trait) {
-            const results = {};
-
-            allTypes.forEach(attackingType => {
-                const primaryEffect = defensiveTypeChart[primary][attackingType];
-                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
-                let combinedEffect = primaryEffect * secondaryEffect;
-
-                combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
-
-                if (combinedEffect < 1 && combinedEffect > 0) {
-                    if (combinedEffect <= 0.26) { 
-                        results[attackingType] = 'resist-025x';
-                    } else if (combinedEffect < 0.9) {
-                        results[attackingType] = 'resist-05x';
-                    }
-                }
-            });
-
-            return results;
-        }
-
-        function calculateDefensiveImmunities(primary, secondary, trait) {
-            const results = {};
-
-            allTypes.forEach(attackingType => {
-                const primaryEffect = defensiveTypeChart[primary][attackingType];
-                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
-                let combinedEffect = primaryEffect * secondaryEffect;
-
-                combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
-
-                if (Math.abs(combinedEffect) < 0.1) { 
-                    results[attackingType] = 'immune';
-                }
-            });
-
-            return results;
-        }
-
         function initializeDefensiveCalculator() {
             document.getElementById('add-defensive').addEventListener('click', addDefensiveDoodle);
             document.getElementById('save-defensive').addEventListener('click', saveDefensiveTeam);
@@ -3560,6 +3496,108 @@ const doodleAttunements = {
             updateDefensiveResultList(`.immunities[data-doodle="${doodleIndex}"]`, immunities);
 
             updateDefensiveSummary();
+        }
+
+        function applyTraitEffects(primary, secondary, trait, attackingType, effectiveness) {
+            if (!trait || !traitEffects[trait]) return effectiveness;
+
+            const effect = traitEffects[trait];
+            
+            if (effect.immunity) {
+                if (effect.immunity === "primary" && primary === attackingType) {
+                    return 0;
+                } else if (effect.immunity === attackingType) {
+                    return 0;
+                }
+            }
+            
+            if (effect.removeType && (primary === effect.removeType || secondary === effect.removeType)) {
+                let newEffectiveness = 1;
+                if (primary !== effect.removeType) {
+                    newEffectiveness *= defensiveTypeChart[primary][attackingType];
+                }
+                if (secondary && secondary !== effect.removeType) {
+                    newEffectiveness *= defensiveTypeChart[secondary][attackingType];
+                }
+                effectiveness = newEffectiveness;
+            }
+            
+            if (effect.damageReduction && effect.damageReduction.type === attackingType) {
+                effectiveness *= (1 - effect.damageReduction.amount);
+            }
+            
+            if (effect.invertChart) {
+                if (effectiveness === 4) effectiveness = 0.25;
+                else if (effectiveness === 2) effectiveness = 0.5;
+                else if (effectiveness === 0.5) effectiveness = 2;
+                else if (effectiveness === 0.25) effectiveness = 4;
+            }
+            
+            return effectiveness;
+        }
+
+        function calculateDefensiveWeaknesses(primary, secondary, trait) {
+            const results = {};
+
+            allTypes.forEach(attackingType => {
+                const primaryEffect = defensiveTypeChart[primary][attackingType];
+                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
+                let combinedEffect = primaryEffect * secondaryEffect;
+
+                combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
+
+                if (combinedEffect > 1) {
+                    if (combinedEffect >= 3.5) { 
+                        results[attackingType] = 'weak-4x';
+                    } else if (combinedEffect > 1.5) {
+                        results[attackingType] = 'weak-2x';
+                    } else if (combinedEffect > 1.1) {
+                        results[attackingType] = 'weak-075x';
+                    }
+                }
+            });
+
+            return results;
+        }
+
+        function calculateDefensiveResistances(primary, secondary, trait) {
+            const results = {};
+
+            allTypes.forEach(attackingType => {
+                const primaryEffect = defensiveTypeChart[primary][attackingType];
+                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
+                let combinedEffect = primaryEffect * secondaryEffect;
+
+                combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
+
+                if (combinedEffect < 1 && combinedEffect > 0) {
+                    if (combinedEffect <= 0.26) { 
+                        results[attackingType] = 'resist-025x';
+                    } else if (combinedEffect < 0.9) {
+                        results[attackingType] = 'resist-05x';
+                    }
+                }
+            });
+
+            return results;
+        }
+
+        function calculateDefensiveImmunities(primary, secondary, trait) {
+            const results = {};
+
+            allTypes.forEach(attackingType => {
+                const primaryEffect = defensiveTypeChart[primary][attackingType];
+                const secondaryEffect = secondary ? defensiveTypeChart[secondary][attackingType] : 1;
+                let combinedEffect = primaryEffect * secondaryEffect;
+
+                combinedEffect = applyTraitEffects(primary, secondary, trait, attackingType, combinedEffect);
+
+                if (Math.abs(combinedEffect) < 0.1) { 
+                    results[attackingType] = 'immune';
+                }
+            });
+
+            return results;
         }
 
         function updateDefensiveResultList(selector, typeEffects, effectType = '') {
