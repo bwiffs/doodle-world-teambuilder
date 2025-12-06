@@ -830,6 +830,29 @@
             height: 12px;
         }
 
+        .offensive-traits-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .traits-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .traits-label input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .traits-text {
+            font-weight: bold;
+        }
+
         .move-mythic, .move-mythic option {
             color: var(--mythic-color) !important;
         }
@@ -986,7 +1009,6 @@
     </style>
 </head>
 <body>
-    <!-- HTML structure remains exactly the same as before -->
     <div class="nav-container">
         <ul class="nav-menu">
             <li class="nav-item">
@@ -1103,11 +1125,6 @@
                 <h1>Offensive Type Coverage Calculator</h1>
             </div>
 
-            <div class="save-load-container">
-                <button class="save-btn" id="save-offensive">Save Coverage</button>
-                <button class="load-btn" id="load-offensive">Load Coverage</button>
-            </div>
-
             <div class="offensive-calculator">
                 <div class="type-selection">
                     <select class="offensive-type-select" id="type-1">
@@ -1122,6 +1139,13 @@
                     <select class="offensive-type-select" id="type-4">
                         <option value="">Select Type 4</option>
                     </select>
+                </div>
+
+                <div class="offensive-traits-toggle">
+                    <label class="traits-label">
+                        <input type="checkbox" id="include-traits">
+                        <span class="traits-text">Include Traits</span>
+                    </label>
                 </div>
 
                 <div class="calculate-buttons">
@@ -1300,7 +1324,7 @@
             "fire": {
                 "basic": 1, "fire": 0.5, "water": 0.5, "plant": 2, "spark": 1, 
                 "beast": 2, "air": 1, "insect": 2, "earth": 0.5, "mind": 1, 
-                "melee": 1, "food": 2, "light": 1, "crystal": 0.5, "metal": 2, 
+                "melee": 1, "food": 2, "light": 0.5, "crystal": 0.5, "metal": 2, 
                 "spirit": 1, "ice": 2, "dark": 1, "poison": 1, "mythic": 0.5
             },
             "water": {
@@ -1486,7 +1510,7 @@
             "Stormwater": { immunity: "water" },
             "Tumble": { damageReduction: { type: "melee", amount: 0.5 } },
             "Water Absorb": { immunity: "water" },
-            "Sky Deity": { immunity: ["earth", "air"] },
+            "Sky Deity": { immunity: ["air", "earth"] }
         };
 
         const traitMoveTypeChanges = {
@@ -1510,6 +1534,94 @@
                 "Lacergen-Fire": "fire",
                 "Lacergen-Ice": "ice"
             }
+        };
+
+        const doodleDefaultTraits = {
+            // Absorber
+            "Lacergen-Earth": "Absorber",
+            "Lacergen-Spark": "Absorber",
+            "Lacergen-Fire": "Absorber",
+            "Lacergen-Ice": "Absorber",
+            // Apex
+            "Gyornaw": "Apex",
+            "Arthopex": "Apex",
+            // Arid
+            "Prickles": "Arid",
+            // Bright Lights
+            "Phantern": "Bright Lights",
+            "Abyssent": "Bright Lights",
+            // Caliginous
+            "Flong": "Caliginous",
+            // Conductor
+            "Voltenchant": "Conductor",
+            "Scorsurge": "Conductor",
+            "Vermorph": "Conductor",
+            "Metalytra": "Conductor",
+            "Voltatoo": "Conductor",
+            // Divine Beast
+            "Koriyu": "Divine Beast",
+            // Filament
+            "Jelluminous": "Filament",
+            // Fire Up
+            "Meltimaw": "Fire Up",
+            "Salaferno": "Fire Up",
+            "Exovul": "Fire Up",
+            "Bronzoch": "Fire Up",
+            // Fireproof Armor
+            "Clangutang": "Fireproof Armor",
+            "Aluminja": "Fireproof Armor",
+            "Gauntcier": "Fireproof Armor",
+            // Blightfrost
+            "Endovul": "Blightfrost",
+            // Hard Candy
+            "Somberock": "Hard Candy",
+            // Herbivore
+            "Gowatt": "Herbivore",
+            "Springling": "Herbivore",
+            "Nyanto": "Herbivore",
+            "Goliage": "Herbivore",
+            // Karna
+            "Infurnius": "Karna",
+            // Levitate
+            "Riptorvent": "Levitate",
+            "Spectrowl": "Levitate",
+            "Morphiu-C": "Levitate",
+            "Morphiu-L": "Levitate",
+            "Morphiu-T": "Levitate",
+            "Morphiu-O": "Levitate",
+            "Daeferno": "Levitate",
+            "Serpentsheen": "Levitate",
+            "Incandesect": "Levitate",
+            "Ignisect": "Levitate",
+            // Melting Point
+            "Bubbull-A": "Melting Point",
+            // Mushboom
+            "Hypnotl-A": "Mushboom",
+            // Nitelite
+            "Lumiline": "Nitelite",
+            "Klydaskunk": "Nitelite",
+            // Puffball
+            "Hypnotl": "Puffball",
+            // Skyborn
+            "Nimbell": "Skyborn",
+            "Morphiu-G": "Skyborn",
+            // Spiteful
+            "Theaterror-A": "Spiteful",
+            // Stormwater
+            "Moss": "Stormwater",
+            "Mold": "Stormwater",
+            "Ctholos": "Stormwater",
+            // Tumble
+            "Snorolla": "Tumble",
+            // Water Absorb
+            "Libelagua": "Water Absorb",
+            "Cacmeow": "Water Absorb",
+            "Goliage": "Water Absorb",
+            "Mantiscald": "Water Absorb",
+            "Umaisho": "Water Absorb",
+            "Kelpimer": "Water Absorb",
+            // Sky Deity
+            "Riptorvent-A": "Sky Deity"
         };
 
         const moveTypeMap = {};
@@ -2257,6 +2369,8 @@ const doodleAttunements = {
         const heldItems = ["None", "Acid Storm in a Bottle", "Air Candy Cube", "Air Taffy", "Arid Wand", "Basic Candy Cube", "Basic Taffy", "Battery", "Beast Candy Cube", "Beast Taffy", "Blueprint", "Bubblegum", "Bubble Wand", "Champion Belt", "Conductor's Baton", "Confectioner's Wand", "Corrosive Wand", "Crooked Talon", "Crystal Candy Cube", "Crystal Taffy", "Cure Jelly", "Cursed Cloak", "Dark Candy Cube", "Dark Chocolate", "Dark Taffy", "Decorative Fan", "Defensive Jelly", "Delicate Wing", "Determination Jelly", "Determination Headband", "Earth Candy Cube", "Earth Data", "Earth Taffy", "Empowered Ring", "Enchanted Emerald", "Enchanted Ruby", "Enchanted Sapphire", "Fire Candy Cube", "Fire Data", "Fire Taffy", "Food Candy Cube", "Food Taffy", "Friendship Ribbon", "Frozen TV Dinner", "Gauze Wrap", "Glasses", "Grease", "Heal Jelly", "Homemade Plush", "Ice Candy Cube", "Ice Data", "Ice Pack", "Ice Taffy", "Imbued Relic", "Insect Candy Cube", "Insect Taffy", "Jetpack", "Laminate", "Lethal Ornament", "Lighter", "Light Candy Cube", "Light Taffy", "Lucky Pebble", "Magical Jelly", "Magic Wand", "Matchbox", "Melee Candy Cube", "Melee Taffy", "Metal Candy Cube", "Metal Taffy", "Mind Candy Cube", "Mind Taffy", "Moon Charm", "Mythic Candy Cube", "Mythic Taffy", "Perfect Alloy", "Plant Candy Cube", "Plant Taffy", "Poison Candy Cube", "Poison Taffy", "Power Jelly", "Pretty Seashell", "Questionable Sludge", "Refined Crystal", "Refractive Prism", "Riot Shield", "Running Shoes", "Sickly Doze", "Sponge", "Small Sprout", "Sniper Scope", "Spark Candy Cube", "Spark Data", "Spark Taffy", "Speed Jelly", "Spirit Candy Cube", "Spirit Jar", "Spirit Taffy", "Starry Glasses", "Stormy Wand", "Strength Jelly", "Studded Fang", "Spiky Thorns", "Soothing Charm", "Unwashed Plushie", "Used Crayons", "Used Timber", "Wake-Up Jelly", "Water Candy Cube", "Water Taffy", "Wierd Jelly", "Hypnotl's Antigen", "Calamander's Candy", "Umaisho Matcha", "Ostigon Collar", "Vermorph Goggles", "Jinglark Present", "Mawthra Rune", "Thornet Rune", "Tufflaze Rune", "Voltenchant Rune", "Theaterror Rune", "Maskomedy Rune", "Mourveil Rune", "Malotrick Rune", "Tulenna Rune", "Staligant Rune", "Corrolizard Rune", "Staligant Rune", "Grufflin Rune", "Skadean Rune", "Partybug Rune", "Somberock Rune", "Nyanto Rune", "Suomous Rune", "Daeferno Rune", "Vigimante Rune", "Groato Rune", "Lumiline Rune", "Cacmeow Rune", "Cryotera Rune", "Spectatik Rune", "Bionotic Rune", "Archopos Rune", "Cerebopod Rune", "Hattrix Rune", "Cragildae Rune", "Bubbul Rune", "Snowclowne Silly Cone", "Onion", "Ruler", "Doomflower", "Potassium Conduit", "Jellupy Whisk", "Fancyoon Boa", "Yo-yo", "Old Monitor", "Pinball String", "Prize Claw", "Video Game Controller", "Arcade Joystick", "Surge DNA (Velocivult)", "Spore DNA (Trithorn)", "Ember DNA (Volcanur)", "Virus DNA (Myphoxic)", "Hangryphus Pie", "Exoskelis Shard", "Void Jelly", "Relay Jelly", "Loop Jelly", "Whirlwind Jelly", "Bell Jelly", "Gift Jelly", "Nesting Doll", "Plastic Fangs", "Riptorvent Rune",];
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Electrician", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed Resilience", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", "Last Stand", "Justicar", "Volcanic Core", "Verdant Predation", "Cursed Growth", "Short Circuit", "Home Ground", "Nullcoat", "True Flame", "Lunarc", "Animosity", "Heartbreak", "Altertype", "Metalant", "Venandi Feast", "Flowerhaven", "Ruinous Garden", "Resolve", "Starvision", "Cauldron Stew", "Trick Tail", "Mixed Bag", "Stimulant", "Holiday Spirit", "Sky Deity"];
+
+        const defensiveTraits = Object.keys(traitEffects);
 
         const MAX_TEAMS = 5;
         let teams = [];
@@ -3445,7 +3559,7 @@ const doodleAttunements = {
                     </select>
                     <select class="type-select trait" data-doodle="${defensiveDoodleCount}">
                         <option value="">Trait</option>
-                        ${traits.map(trait => `<option value="${trait}">${trait}</option>`).join('')}
+                        ${defensiveTraits.map(trait => `<option value="${trait}">${trait}</option>`).join('')}
                     </select>
                 </div>
                 
@@ -3513,6 +3627,8 @@ const doodleAttunements = {
                 if (effect.immunity === "primary" && primary === attackingType) {
                     return 0;
                 } else if (effect.immunity === attackingType) {
+                    return 0;
+                } else if (Array.isArray(effect.immunity) && effect.immunity.includes(attackingType)) {
                     return 0;
                 }
             }
@@ -3878,8 +3994,6 @@ const doodleAttunements = {
         function setupOffensiveEventListeners() {
             document.getElementById('calculate-coverage').addEventListener('click', calculateOffensiveCoverage);
             document.getElementById('reset-coverage').addEventListener('click', resetOffensiveCoverage);
-            document.getElementById('save-offensive').addEventListener('click', saveOffensiveCoverage);
-            document.getElementById('load-offensive').addEventListener('click', loadOffensiveCoverage);
         }
 
         function calculateOffensiveCoverage() {
@@ -3890,6 +4004,8 @@ const doodleAttunements = {
                 document.getElementById('type-4').value
             ].filter(type => type !== "");
 
+            const includeTraits = document.getElementById('include-traits').checked;
+            
             const results = {
                 superEffective: [],
                 normalEffective: [],
@@ -3901,7 +4017,7 @@ const doodleAttunements = {
                 let maxEffectiveness = 0;
                 
                 selectedTypes.forEach(offensiveType => {
-                    const effectiveness = calculateOffensiveEffectiveness(offensiveType, doodle);
+                    const effectiveness = calculateOffensiveEffectiveness(offensiveType, doodle, includeTraits);
                     if (effectiveness > maxEffectiveness) {
                         maxEffectiveness = effectiveness;
                     }
@@ -3925,7 +4041,7 @@ const doodleAttunements = {
             displayOffensiveResults(results);
         }
 
-        function calculateOffensiveEffectiveness(offensiveType, doodle) {
+        function calculateOffensiveEffectiveness(offensiveType, doodle, includeTraits = false) {
             const defendingTypes = doodle.type.split('/');
             let effectiveness = 1;
             
@@ -3935,6 +4051,15 @@ const doodleAttunements = {
                     effectiveness *= offensiveTypeChart[offensiveType][normalizedDefendingType];
                 }
             });
+            
+            if (includeTraits) {
+                const defaultTrait = doodleDefaultTraits[doodle.name];
+                if (defaultTrait && traitEffects[defaultTrait]) {
+                    const primary = defendingTypes[0].toLowerCase();
+                    const secondary = defendingTypes[1] ? defendingTypes[1].toLowerCase() : null;
+                    effectiveness = applyTraitEffects(primary, secondary, defaultTrait, offensiveType, effectiveness);
+                }
+            }
             
             return effectiveness;
         }
@@ -4007,37 +4132,6 @@ const doodleAttunements = {
             document.getElementById('normal-effective').innerHTML = '<span class="none">None</span>';
             document.getElementById('not-very-effective').innerHTML = '<span class="none">None</span>';
             document.getElementById('no-effect').innerHTML = '<span class="none">None</span>';
-        }
-
-        function saveOffensiveCoverage() {
-            const coverageData = {
-                type1: document.getElementById('type-1').value,
-                type2: document.getElementById('type-2').value,
-                type3: document.getElementById('type-3').value,
-                type4: document.getElementById('type-4').value
-            };
-
-            localStorage.setItem('offensiveCoverage', JSON.stringify(coverageData));
-            alert('Offensive coverage saved successfully!');
-        }
-
-        function loadOffensiveCoverage() {
-            const savedCoverage = localStorage.getItem('offensiveCoverage');
-            
-            if (!savedCoverage) {
-                alert('No saved offensive coverage found!');
-                return;
-            }
-
-            const coverageData = JSON.parse(savedCoverage);
-            
-            document.getElementById('type-1').value = coverageData.type1 || '';
-            document.getElementById('type-2').value = coverageData.type2 || '';
-            document.getElementById('type-3').value = coverageData.type3 || '';
-            document.getElementById('type-4').value = coverageData.type4 || '';
-
-            calculateOffensiveCoverage();
-            alert('Offensive coverage loaded successfully!');
         }
     </script>
 </body>
