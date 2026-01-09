@@ -942,6 +942,215 @@
             color: var(--text-color);
         }
 
+        /* Matchup Calculator Styles */
+        .matchup-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .matchup-doodles {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .matchup-doodle-select {
+            position: relative;
+            width: 100%;
+        }
+
+        .matchup-dropdown-header {
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 46px;
+        }
+
+        .matchup-dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-top: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .matchup-dropdown-list.active {
+            display: block;
+        }
+
+        .matchup-dropdown-search {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-bottom: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .matchup-options {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .matchup-option {
+            padding: 8px 10px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--section-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .matchup-option:hover {
+            background-color: var(--button-bg);
+        }
+
+        .matchup-option.selected {
+            background-color: var(--button-hover);
+        }
+
+        .mini-sprite {
+            width: 40px;
+            height: 40px;
+            background-color: var(--input-border);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .matchup-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .matchup-btn {
+            background-color: var(--button-bg);
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0;
+            transition: background-color 0.3s;
+            min-width: 200px;
+        }
+
+        .matchup-btn:hover {
+            background-color: var(--button-hover);
+        }
+
+        .matchup-results-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .matchup-result-category {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 0;
+            box-shadow: 0 4px 12px var(--shadow);
+            min-height: 400px;
+        }
+
+        .matchup-result-category h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--section-border);
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .matchup-result-list {
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            max-height: 350px;
+        }
+
+        .matchup-result-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: var(--input-bg);
+            border-radius: 0;
+            border: 1px solid var(--input-border);
+        }
+
+        .matchup-result-item .doodle-sprite {
+            width: 60px;
+            height: 60px;
+            margin: 0;
+        }
+
+        .matchup-result-item .doodle-info {
+            flex: 1;
+        }
+
+        .matchup-result-item .doodle-name {
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .matchup-result-item .type-badges {
+            gap: 5px;
+        }
+
+        .matchup-result-item .type-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+        }
+
+        .matchup-result-item .type-icon {
+            width: 12px;
+            height: 12px;
+        }
+
+        .matchup-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--section-border);
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .matchup-stat {
+            text-align: center;
+            flex: 1;
+        }
+
+        .matchup-stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--header-color);
+            margin-top: 5px;
+        }
+
         @media (max-width: 768px) {
             .team-management, .doodle-creation {
                 flex-direction: column;
@@ -999,10 +1208,35 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            /* Matchup Calculator Responsive */
+            .matchup-doodles {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .matchup-results-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .matchup-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .matchup-btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
         @media (max-width: 600px) {
             .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .matchup-doodles {
                 grid-template-columns: 1fr;
             }
         }
@@ -1019,6 +1253,9 @@
             </li>
             <li class="nav-item">
                 <button class="nav-button" data-page="offensive">Offensive Calculator</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-button" data-page="matchup">Matchup Calculator</button>
             </li>
         </ul>
     </div>
@@ -1176,6 +1413,61 @@
                         <h3>No Effect</h3>
                         <div id="no-effect" class="offensive-result-list">
                             <span class="none">None</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="credits">Created by Bwiffs</div>
+                <div class="update-info">Updated: 1/03/2026</div>
+            </div>
+        </div>
+
+        <!-- Matchup Calculator Page -->
+        <div class="page" id="matchup">
+            <div class="header">
+                <h1>Matchup Calculator</h1>
+            </div>
+
+            <div class="matchup-container">
+                <h3 style="text-align: center; margin-bottom: 20px;">Select up to 4 doodles to find coverage against them</h3>
+                
+                <div class="matchup-doodles" id="matchup-doodles">
+                    <!-- Doodle selectors will be added here by JavaScript -->
+                </div>
+
+                <div class="matchup-controls">
+                    <button class="matchup-btn" id="calculate-matchup">Find Coverage</button>
+                    <button class="matchup-btn" id="clear-matchup">Clear All</button>
+                </div>
+
+                <div class="matchup-stats">
+                    <div class="matchup-stat">
+                        <div>Doodles Found</div>
+                        <div class="matchup-stat-value" id="found-count">0</div>
+                    </div>
+                    <div class="matchup-stat">
+                        <div>Best Coverage</div>
+                        <div class="matchup-stat-value" id="best-coverage">0 types</div>
+                    </div>
+                    <div class="matchup-stat">
+                        <div>Total Checked</div>
+                        <div class="matchup-stat-value" id="total-checked">0</div>
+                    </div>
+                </div>
+
+                <div class="matchup-results-container">
+                    <div class="matchup-result-category">
+                        <h3>Best Coverage Doodles</h3>
+                        <div id="best-coverage-list" class="matchup-result-list">
+                            <span class="none">Select doodles</span>
+                        </div>
+                    </div>
+                    <div class="matchup-result-category">
+                        <h3>All Coverage Doodles</h3>
+                        <div id="all-coverage-list" class="matchup-result-list">
+                            <span class="none">Select doodles</span>
                         </div>
                     </div>
                 </div>
@@ -2383,7 +2675,7 @@ const doodleAttunements = {
         
         const stats = ["+10% Health", "+10% Attack", "+10% Defense", "+10% Magic Attack", "+10% Magic Defense", "+10% Speed"];
         
-        const heldItems = ["None", "Acid Storm in a Bottle", "Air Candy Cube", "Air Taffy", "Arid Wand", "Basic Candy Cube", "Basic Taffy", "Battery", "Beast Candy Cube", "Beast Taffy", "Blueprint", "Bubblegum", "Bubble Wand", "Champion Belt", "Conductor's Baton", "Confectioner's Wand", "Corrosive Wand", "Crooked Talon", "Crystal Candy Cube", "Crystal Taffy", "Cure Jelly", "Cursed Cloak", "Dark Candy Cube", "Dark Chocolate", "Dark Taffy", "Decorative Fan", "Defensive Jelly", "Delicate Wing", "Determination Jelly", "Determination Headband", "Earth Candy Cube", "Earth Data", "Earth Taffy", "Empowered Ring", "Enchanted Emerald", "Enchanted Ruby", "Enchanted Sapphire", "Fire Candy Cube", "Fire Data", "Fire Taffy", "Food Candy Cube", "Food Taffy", "Friendship Ribbon", "Frozen TV Dinner", "Gauze Wrap", "Glasses", "Grease", "Heal Jelly", "Homemade Plush", "Ice Candy Cube", "Ice Data", "Ice Pack", "Ice Taffy", "Imbued Relic", "Insect Candy Cube", "Insect Taffy", "Jetpack", "Laminate", "Lethal Ornament", "Lighter", "Light Candy Cube", "Light Taffy", "Lucky Pebble", "Magical Jelly", "Magic Wand", "Matchbox", "Melee Candy Cube", "Melee Taffy", "Metal Candy Cube", "Metal Taffy", "Mind Candy Cube", "Mind Taffy", "Moon Charm", "Mythic Candy Cube", "Mythic Taffy", "Perfect Alloy", "Plant Candy Cube", "Plant Taffy", "Poison Candy Cube", "Poison Taffy", "Power Jelly", "Pretty Seashell", "Questionable Sludge", "Refined Crystal", "Refractive Prism", "Riot Shield", "Running Shoes", "Sickly Doze", "Sponge", "Small Sprout", "Sniper Scope", "Spark Candy Cube", "Spark Data", "Spark Taffy", "Speed Jelly", "Spirit Candy Cube", "Spirit Jar", "Spirit Taffy", "Starry Glasses", "Stormy Wand", "Strength Jelly", "Studded Fang", "Spiky Thorns", "Soothing Charm", "Unwashed Plushie", "Used Crayons", "Used Timber", "Wake-Up Jelly", "Water Candy Cube", "Water Taffy", "Wierd Jelly", "Hypnotl's Antigen", "Calamander's Candy", "Umaisho Matcha", "Ostigon Collar", "Vermorph Goggles", "Jinglark Present", "Mawthra Rune", "Thornet Rune", "Tufflaze Rune", "Voltenchant Rune", "Theaterror Rune", "Maskomedy Rune", "Mourveil Rune", "Malotrick Rune", "Tulenna Rune", "Staligant Rune", "Corrolizard Rune", "Staligant Rune", "Grufflin Rune", "Skadean Rune", "Partybug Rune", "Somberock Rune", "Nyanto Rune", "Suomous Rune", "Daeferno Rune", "Vigimante Rune", "Groato Rune", "Lumiline Rune", "Cacmeow Rune", "Cryotera Rune", "Spectatik Rune", "Bionotic Rune", "Archopos Rune", "Cerebopod Rune", "Hattrix Rune", "Cragildae Rune", "Bubbul Rune", "Snowclowne Silly Cone", "Onion", "Ruler", "Doomflower", "Potassium Conduit", "Jellupy Whisk", "Fancyoon Boa", "Yo-yo", "Old Monitor", "Pinball String", "Prize Claw", "Video Game Controller", "Arcade Joystick", "Surge DNA (Velocivult)", "Spore DNA (Trithorn)", "Ember DNA (Volcanur)", "Virus DNA (Myphoxic)", "Hangryphus Pie", "Exoskelis Shard", "Void Jelly", "Relay Jelly", "Loop Jelly", "Whirlwind Jelly", "Bell Jelly", "Gift Jelly", "Nesting Doll", "Plastic Fangs", "Riptorvent Rune", "Hollihare Wreath"];
+        const heldItems = ["None", "Acid Storm in a Bottle", "Air Candy Cube", "Air Taffy", "Arid Wand", "Basic Candy Cube", "Basic Taffy", "Battery", "Beast Candy Cube", "Beast Taffy", "Blueprint", "Bubblegum", "Bubble Wand", "Champion Belt", "Conductor's Baton", "Confectioner's Wand", "Corrosive Wand", "Crooked Talon", "Crystal Candy Cube", "Crystal Taffy", "Cure Jelly", "Cursed Cloak", "Dark Candy Cube", "Dark Chocolate", "Dark Taffy", "Decorative Fan", "Defensive Jelly", "Delicate Wing", "Determination Jelly", "Determination Headband", "Earth Candy Cube", "Earth Data", "Earth Taffy", "Empowered Ring", "Enchanted Emerald", "Enchanted Ruby", "Enchanted Sapphire", "Fire Candy Cube", "Fire Data", "Fire Taffy", "Food Candy Cube", "Food Taffy", "Friendship Ribbon", "Frozen TV Dinner", "Gauze Wrap", "Glasses", "Grease", "Heal Jelly", "Homemade Plush", "Heal Jelly", "Ice Candy Cube", "Ice Data", "Ice Pack", "Ice Taffy", "Imbued Relic", "Insect Candy Cube", "Insect Taffy", "Jetpack", "Laminate", "Lethal Ornament", "Lighter", "Light Candy Cube", "Light Taffy", "Lucky Pebble", "Magical Jelly", "Magic Wand", "Matchbox", "Melee Candy Cube", "Melee Taffy", "Metal Candy Cube", "Metal Taffy", "Mind Candy Cube", "Mind Taffy", "Moon Charm", "Mythic Candy Cube", "Mythic Taffy", "Perfect Alloy", "Plant Candy Cube", "Plant Taffy", "Poison Candy Cube", "Poison Taffy", "Power Jelly", "Pretty Seashell", "Questionable Sludge", "Refined Crystal", "Refractive Prism", "Riot Shield", "Running Shoes", "Sickly Doze", "Sponge", "Small Sprout", "Sniper Scope", "Spark Candy Cube", "Spark Data", "Spark Taffy", "Speed Jelly", "Spirit Candy Cube", "Spirit Jar", "Spirit Taffy", "Starry Glasses", "Stormy Wand", "Strength Jelly", "Studded Fang", "Spiky Thorns", "Soothing Charm", "Unwashed Plushie", "Used Crayons", "Used Timber", "Wake-Up Jelly", "Water Candy Cube", "Water Taffy", "Wierd Jelly", "Hypnotl's Antigen", "Calamander's Candy", "Umaisho Matcha", "Ostigon Collar", "Vermorph Goggles", "Jinglark Present", "Mawthra Rune", "Thornet Rune", "Tufflaze Rune", "Voltenchant Rune", "Theaterror Rune", "Maskomedy Rune", "Mourveil Rune", "Malotrick Rune", "Tulenna Rune", "Staligant Rune", "Corrolizard Rune", "Staligant Rune", "Grufflin Rune", "Skadean Rune", "Partybug Rune", "Somberock Rune", "Nyanto Rune", "Suomous Rune", "Daeferno Rune", "Vigimante Rune", "Groato Rune", "Lumiline Rune", "Cacmeow Rune", "Cryotera Rune", "Spectatik Rune", "Bionotic Rune", "Archopos Rune", "Cerebopod Rune", "Hattrix Rune", "Cragildae Rune", "Bubbul Rune", "Snowclowne Silly Cone", "Onion", "Ruler", "Doomflower", "Potassium Conduit", "Jellupy Whisk", "Fancyoon Boa", "Yo-yo", "Old Monitor", "Pinball String", "Prize Claw", "Video Game Controller", "Arcade Joystick", "Surge DNA (Velocivult)", "Spore DNA (Trithorn)", "Ember DNA (Volcanur)", "Virus DNA (Myphoxic)", "Hangryphus Pie", "Exoskelis Shard", "Void Jelly", "Relay Jelly", "Loop Jelly", "Whirlwind Jelly", "Bell Jelly", "Gift Jelly", "Nesting Doll", "Plastic Fangs", "Riptorvent Rune", "Hollihare Wreath"];
         
         const traits = ["Absorber", "Accelerate", "Acid Advance", "Adaptive", "Adipose", "Air Current", "Alacrity", "Almagest", "Aloe Vera", "Ambrosia", "Amp It Up", "Analytical", "Annihilation", "Annoying Insect", "Anti-Paralysis", "Antivenom", "Apathetic", "Apex", "Apparition", "Archmage", "Arid", "Arsonist", "Avenger", "Balloon Pop", "Banana Peel", "Bandit", "Barkenstein", "Basic Care", "Battery Charge", "Bee Arena", "Berry Good", "Bird of Prey", "Blinding Rocks", "Bludgeon", "Bogdown", "Bon Appetit", "Botulism", "Brainwash", "Bright Lights", "Bubble Blaster", "Bug Zapper", "Bulwark", "Burning Beast", "Burning Body", "Bypass", "Caliginous", "Calm", "Caloric Deficit", "Capoeira", "Capricious", "Cardinal Sins", "Careless", "Chanting", "Chef", "Chemical Explosion", "Chivalry", "Chlorobite", "Chlorokinesis", "Chocolate Drizzle", "Clearcut Ore", "Combustion", "Composed", "Concentrated", "Conductor", "Confidence", "Contagion", "Corrosion", "Courteous", "Covetous", "Cracked", "Crispy", "Crowd Support", "Crude", "Crystalline", "Crystallization", "Daring Devil", "Dauntless", "Decay", "Deepfreeze", "Delicate", "Desert Body", "Destructive Anger", "Deterrant Sabre", "Detox", "Dimwitted", "Direct Combatant", "Doll Eyes", "Discover", "Divine Beast", "Downpour", "Duel", "Durable", "Dust Dash", "Dust Storm", "Edible Treat", "Efficient Proxy", "Electrocute", "Elegance", "Elemental Resist", "Enfeeble", "Entangle", "Entertainer", "Envy", "Eruption", "Escapist", "Ethereal", "Evasive", "Everlasting", "Evil Glare", "Exoskeleton", "Extinguisher", "Ferocity", "Filament", "Fire Up", "Fireproof Armor", "Firestarter", "Firewall", "First Degree Burns", "Fish Outta Water", "Floaty", "Foam Guard", "Forbidden Knowledge", "Fortified", "Four Eyes", "Fur Coat", "Galvanize", "Gaseous Form", "Gauze", "Gift Giver", "Gloomy", "Glutton", "Goliath", "Graceful", "Grass Cloak", "Guardian", "Guilt", "Gunk Spark", "Hammer Claw", "Hammer Time", "Hard Candy", "Hardy", "Harlequin", "Hawkeye", "Healthy Toxins", "Heavy Storms", "Helios", "Herbivore", "Hidden Strength", "High Value Target", "Hiruddtherapy", "Holy Water", "Hunter", "Hydration", "Hypothermia", "Ice Stream", "Ignorant", "Illogical", "Incandescent", "Insatiable Greed", "Iron Will", "Jab Cross", "Jelly Enhancer", "Jelly Lover", "Jester Privilege", "Electrician", "Kaleidoscope", "Karna", "Kindling", "Leech", "Levitate", "Light Orb", "Lightfooted", "Lipid Scale", "Lithe", "Luminosity", "Magician", "Mark Territory", "Melting Point", "Menacing Snarl", "Mental Depletion", "Mental Momentum", "Merciless", "Mimic", "Mind Control", "Mind Games", "Misery Guard", "Molt", "Moratorium", "Mushboom", "Mushroom Maneuver", "Naughty List", "Night Harbinger", "Nihil", "Nimble", "Nimbostratus", "Nitelite", "Nonchalant", "Nullify", "Oasis Deity", "Oil Spill", "Opportunist", "Outboxer", "Overbite", "Overwhelm", "Owolspeed", "Paper Cut", "Paralyzing Agent", "Parry", "Pecking Order", "Poison Absorb", "Poison Precipitation", "Poisonous Skin", "Pollen Armor", "Possession", "Precise", "Premonition", "Proboscis", "Pugilist", "Puncture", "Puppeteer", "Rain Power", "Ramming Speed", "Rapier", "Razor Skin", "Reactive Shock", "Reaper", "Reflective", "Reformation", "Refresh", "Refreshed Resilience", "Rejuvenator", "Relentless", "Resentment", "Resilience", "Restless", "Retaliate", "Revenant", "Revival", "Robust", "Routine", "Royal Decree", "Rubber Tissue", "Rugged", "Rule of Cool", "Rush", "Sand Screen", "Sand Shield", "Sand Surge", "Sand Swap", "Savage", "Scarf Down", "Scavenge", "Scorch", "Sea Goddess Disciple", "Second Mind", "Secret Darkness", "Seed Defense", "Serenade", "Sharp Fangs", "Sharp Reflexes", "Sickly Sweet", "Silly", "Skyborn", "Slash Expert", "Snailspeed", "Soul Fortification", "Soul Link", "Speedy Recovery", "Speed of Swag", "Spell Shield", "Spellcaster", "Spiteful", "Splintered Shards", "Split", "Spooky", "Spool", "Stabby Stabby", "Static Charge", "Steam Guard", "Sticky", "Stinky", "Stitching", "Stonefaced", "Storm Surge", "Stormwater", "Strong Armor", "Sugar Coating", "Superluminal", "Symbiosis", "Tainted", "Tangled", "Tar Body", "Tenacious", "The Flock", "The Fungus", "Thievery", "Thermal Energy", "Time Paralysis", "Time Stop", "Titanium Bucket", "Toxicity", "Trait", "Trick or Treat", "Trickster", "True Power", "Trump Card", "Tumble", "Turbulent", "Ugly", "Unbreakable", "Unraveling", "Vampire", "Vengeance", "Vicious", "Vigor", "Virulent Venom", "Viscosity", "Vitality", "Vocalist", "Ward", "Warden", "Water Absorb", "Whimsical", "Wish For Experience", "Wish For Power", "Wish For Wealth", "Your Meowjesty", "Impale", "Florist", "Phasmophobia", "Poison Sustenance", "Pollen Spread", "Monarch", "Sovereign", "To Arms!", "Kingly Aura", "Unpredictable", "Last Laugh", "Impersonate", "Static Purge", "Thunder Gut", "Overcharge", "Hydro Coating", "Iron Pincer", "Frostillery", "Steeped Spirit", "Reheat", "Signal Jammer", "Overgrowth Protocol", "Paragon Skin", "Flourish", "Last Lament", "Blightfrost", "Jelly Sync", "Mischievious", "Hero Spark", "Foul Welcome", "Pop Reflexes", "Spicehound", "Meat Shield", "Glucose Boost", "Impact Recoil", "Glitter Trail", "Curtain Call", "Impervious", "Rollercoaster", "Steel Frame", "Looper", "Kernal Scatter", "Grand Entrance", "Proliferate", "Assassin", "Binary Guard", "Firmware Update", "Last Stand", "Justicar", "Volcanic Core", "Verdant Predation", "Cursed Growth", "Short Circuit", "Home Ground", "Nullcoat", "True Flame", "Lunarc", "Animosity", "Heartbreak", "Altertype", "Metalant", "Venandi Feast", "Flowerhaven", "Ruinous Garden", "Resolve", "Starvision", "Cauldron Stew", "Trick Tail", "Mixed Bag", "Stimulant", "Holiday Spirit", "Sky Deity","Mistle Kiss","Evergreen Halo","Stormfrost","Cold Circuit","Sugarsick","Hazardous","Sweet Treat","Winter’s Blessing", "Incitement",];
 
@@ -2393,6 +2685,7 @@ const doodleAttunements = {
         let teams = [];
         let currentTeamIndex = -1;
         let defensiveDoodleCount = 1;
+        let matchupInitialized = false;
 
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.nav-button').forEach(button => {
@@ -2408,11 +2701,19 @@ const doodleAttunements = {
                         page.classList.remove('active');
                     });
                     document.getElementById(targetPage).classList.add('active');
+                    
+                    if (targetPage === 'matchup') {
+                        setTimeout(() => {
+                            if (!matchupInitialized) {
+                                initializeMatchupCalculator();
+                                matchupInitialized = true;
+                            }
+                        }, 100);
+                    }
                 });
             });
 
             populateMoveTypeMap();
-            
             initialize();
         });
 
@@ -4149,6 +4450,329 @@ const doodleAttunements = {
             document.getElementById('normal-effective').innerHTML = '<span class="none">None</span>';
             document.getElementById('not-very-effective').innerHTML = '<span class="none">None</span>';
             document.getElementById('no-effect').innerHTML = '<span class="none">None</span>';
+        }
+
+        function initializeMatchupCalculator() {
+            createMatchupDoodleSelectors();
+            setupMatchupEventListeners();
+        }
+
+        function createMatchupDoodleSelectors() {
+            const container = document.getElementById('matchup-doodles');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 4; i++) {
+                const selectorDiv = document.createElement('div');
+                selectorDiv.className = 'matchup-doodle-select';
+                selectorDiv.innerHTML = `
+                    <div class="matchup-dropdown-header" data-index="${i}">
+                        <span>Select Doodle ${i}</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="matchup-dropdown-list" data-index="${i}">
+                        <input type="text" class="matchup-dropdown-search" data-index="${i}" placeholder="Search doodles...">
+                        <div class="matchup-options" data-index="${i}"></div>
+                    </div>
+                `;
+                container.appendChild(selectorDiv);
+            }
+            
+            populateMatchupDropdowns();
+            setupMatchupDropdownEvents();
+        }
+
+        function populateMatchupDropdowns() {
+            doodles.forEach(doodle => {
+                for (let i = 1; i <= 4; i++) {
+                    const optionsContainer = document.querySelector(`.matchup-options[data-index="${i}"]`);
+                    const option = document.createElement('div');
+                    option.className = 'matchup-option';
+                    option.dataset.value = doodle.name;
+                    option.dataset.type = doodle.type;
+                    option.dataset.image = doodle.image;
+                    
+                    const sprite = document.createElement('div');
+                    sprite.className = 'mini-sprite';
+                    sprite.style.backgroundImage = `url(${doodle.image})`;
+                    
+                    const text = document.createElement('span');
+                    text.textContent = doodle.name;
+                    
+                    option.appendChild(sprite);
+                    option.appendChild(text);
+                    
+                    option.addEventListener('click', function() {
+                        const header = document.querySelector(`.matchup-dropdown-header[data-index="${i}"] span:first-child`);
+                        header.textContent = doodle.name;
+                        
+                        const dropdown = document.querySelector(`.matchup-dropdown-list[data-index="${i}"]`);
+                        dropdown.classList.remove('active');
+                        
+                        const allOptions = optionsContainer.querySelectorAll('.matchup-option');
+                        allOptions.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                    });
+                    
+                    optionsContainer.appendChild(option);
+                }
+            });
+        }
+
+        function setupMatchupDropdownEvents() {
+            document.querySelectorAll('.matchup-dropdown-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    const dropdown = document.querySelector(`.matchup-dropdown-list[data-index="${index}"]`);
+                    dropdown.classList.toggle('active');
+                    if (dropdown.classList.contains('active')) {
+                        const searchInput = dropdown.querySelector('.matchup-dropdown-search');
+                        searchInput.focus();
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.matchup-dropdown-search').forEach(search => {
+                search.addEventListener('input', function() {
+                    const index = this.dataset.index;
+                    const searchTerm = this.value.toLowerCase();
+                    const options = document.querySelectorAll(`.matchup-options[data-index="${index}"] .matchup-option`);
+                    
+                    options.forEach(option => {
+                        const text = option.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            option.style.display = 'flex';
+                        } else {
+                            option.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.matchup-doodle-select')) {
+                    document.querySelectorAll('.matchup-dropdown-list').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        }
+
+        function setupMatchupEventListeners() {
+            document.getElementById('calculate-matchup').addEventListener('click', calculateMatchup);
+            document.getElementById('clear-matchup').addEventListener('click', clearMatchup);
+        }
+
+        function getSelectedMatchupDoodles() {
+            const selectedDoodles = [];
+            
+            for (let i = 1; i <= 4; i++) {
+                const header = document.querySelector(`.matchup-dropdown-header[data-index="${i}"] span:first-child`);
+                const doodleName = header.textContent;
+                
+                if (doodleName && !doodleName.startsWith('Select Doodle')) {
+                    const doodle = doodles.find(d => d.name === doodleName);
+                    if (doodle) {
+                        selectedDoodles.push(doodle);
+                    }
+                }
+            }
+            
+            return selectedDoodles;
+        }
+
+        function calculateMatchup() {
+            const selectedDoodles = getSelectedMatchupDoodles();
+            
+            if (selectedDoodles.length === 0) {
+                alert('Please select at least one doodle!');
+                return;
+            }
+            
+            const coverageResults = [];
+            
+            doodles.forEach(attackingDoodle => {
+                if (selectedDoodles.some(d => d.name === attackingDoodle.name)) {
+                    return;
+                }
+                
+                const attackingTypes = attackingDoodle.type.split('/');
+                let bestCoverage = 0;
+                let effectiveTypes = [];
+                
+                attackingTypes.forEach(type => {
+                    let coversAll = true;
+                    let coversCount = 0;
+                    
+                    selectedDoodles.forEach(defendingDoodle => {
+                        const defendingTypes = defendingDoodle.type.split('/');
+                        const effectiveness = calculateTypeEffectiveness(type, defendingTypes);
+                        
+                        if (effectiveness > 1) {
+                            coversCount++;
+                        } else {
+                            coversAll = false;
+                        }
+                    });
+                    
+                    if (coversAll) {
+                        bestCoverage = selectedDoodles.length;
+                        effectiveTypes.push(type);
+                    } else if (coversCount > bestCoverage) {
+                        bestCoverage = coversCount;
+                        effectiveTypes = [type];
+                    } else if (coversCount === bestCoverage && coversCount > 0) {
+                        effectiveTypes.push(type);
+                    }
+                });
+                
+                if (bestCoverage > 0) {
+                    coverageResults.push({
+                        doodle: attackingDoodle,
+                        coverageScore: bestCoverage,
+                        effectiveTypes: [...new Set(effectiveTypes)],
+                        coveragePercent: (bestCoverage / selectedDoodles.length) * 100
+                    });
+                }
+            });
+            
+            coverageResults.sort((a, b) => {
+                if (b.coverageScore !== a.coverageScore) {
+                    return b.coverageScore - a.coverageScore;
+                }
+                return a.doodle.name.localeCompare(b.doodle.name);
+            });
+            
+            displayMatchupResults(coverageResults, selectedDoodles.length);
+        }
+
+        function calculateTypeEffectiveness(attackingType, defendingTypes) {
+            const normalizedAttackingType = attackingType.toLowerCase();
+            let effectiveness = 1;
+            
+            defendingTypes.forEach(defendingType => {
+                const normalizedDefendingType = defendingType.toLowerCase();
+                if (offensiveTypeChart[normalizedAttackingType] && 
+                    offensiveTypeChart[normalizedAttackingType][normalizedDefendingType] !== undefined) {
+                    effectiveness *= offensiveTypeChart[normalizedAttackingType][normalizedDefendingType];
+                }
+            });
+            
+            return effectiveness;
+        }
+
+        function displayMatchupResults(results, totalSelected) {
+            const bestCoverageList = document.getElementById('best-coverage-list');
+            const allCoverageList = document.getElementById('all-coverage-list');
+            const foundCount = document.getElementById('found-count');
+            const bestCoverage = document.getElementById('best-coverage');
+            const totalChecked = document.getElementById('total-checked');
+            
+            foundCount.textContent = results.length;
+            totalChecked.textContent = doodles.length - totalSelected;
+            
+            if (results.length === 0) {
+                bestCoverage.textContent = '0 types';
+                bestCoverageList.innerHTML = '<span class="none">No doodles found that hit all selected doodles super effectively</span>';
+                allCoverageList.innerHTML = '<span class="none">No coverage doodles found</span>';
+                return;
+            }
+            
+            const maxCoverage = results[0].coverageScore;
+            bestCoverage.textContent = `${maxCoverage}/${totalSelected} (${Math.round((maxCoverage/totalSelected)*100)}%)`;
+            
+            const bestCoverageDoodles = results.filter(r => r.coverageScore === maxCoverage);
+            const otherCoverageDoodles = results.filter(r => r.coverageScore < maxCoverage);
+            
+            if (bestCoverageDoodles.length === 0) {
+                bestCoverageList.innerHTML = '<span class="none">No perfect coverage doodles found</span>';
+            } else {
+                bestCoverageList.innerHTML = '';
+                bestCoverageDoodles.forEach(result => {
+                    bestCoverageList.appendChild(createMatchupResultItem(result));
+                });
+            }
+            
+            if (otherCoverageDoodles.length === 0) {
+                allCoverageList.innerHTML = '<span class="none">No other coverage doodles found</span>';
+            } else {
+                allCoverageList.innerHTML = '';
+                otherCoverageDoodles.forEach(result => {
+                    allCoverageList.appendChild(createMatchupResultItem(result));
+                });
+            }
+        }
+
+        function createMatchupResultItem(result) {
+            const item = document.createElement('div');
+            item.className = 'matchup-result-item';
+            
+            const sprite = document.createElement('div');
+            sprite.className = 'doodle-sprite';
+            sprite.style.backgroundImage = `url(${result.doodle.image})`;
+            
+            const info = document.createElement('div');
+            info.className = 'doodle-info';
+            
+            const name = document.createElement('div');
+            name.className = 'doodle-name';
+            name.textContent = result.doodle.name;
+            
+            const typeBadges = document.createElement('div');
+            typeBadges.className = 'type-badges';
+            const types = result.doodle.type.split('/');
+            types.forEach(type => {
+                const badge = document.createElement('span');
+                badge.className = 'type-badge';
+                badge.textContent = type;
+                badge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
+                
+                const icon = document.createElement('span');
+                icon.className = 'type-icon';
+                icon.style.backgroundImage = `url(${typeIcons[type] || typeIcons['Basic']})`;
+                badge.prepend(icon);
+                
+                typeBadges.appendChild(badge);
+            });
+            
+            const coverageInfo = document.createElement('div');
+            coverageInfo.style.marginTop = '8px';
+            coverageInfo.style.fontSize = '12px';
+            coverageInfo.style.color = result.coverageScore === getSelectedMatchupDoodles().length ? '#4CAF50' : '#FFA726';
+            coverageInfo.innerHTML = `
+                <strong>Coverage:</strong> ${result.coverageScore}/${getSelectedMatchupDoodles().length} (${Math.round(result.coveragePercent)}%)<br>
+                <strong>Effective Types:</strong> ${result.effectiveTypes.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}
+            `;
+            
+            info.appendChild(name);
+            info.appendChild(typeBadges);
+            info.appendChild(coverageInfo);
+            
+            item.appendChild(sprite);
+            item.appendChild(info);
+            
+            return item;
+        }
+
+        function clearMatchup() {
+            for (let i = 1; i <= 4; i++) {
+                const header = document.querySelector(`.matchup-dropdown-header[data-index="${i}"] span:first-child`);
+                header.textContent = `Select Doodle ${i}`;
+                
+                const options = document.querySelectorAll(`.matchup-options[data-index="${i}"] .matchup-option`);
+                options.forEach(opt => opt.classList.remove('selected'));
+                
+                const search = document.querySelector(`.matchup-dropdown-search[data-index="${i}"]`);
+                if (search) search.value = '';
+                
+                const dropdown = document.querySelector(`.matchup-dropdown-list[data-index="${i}"]`);
+                if (dropdown) dropdown.classList.remove('active');
+            }
+            
+            document.getElementById('found-count').textContent = '0';
+            document.getElementById('best-coverage').textContent = '0 types';
+            document.getElementById('total-checked').textContent = '0';
+            document.getElementById('best-coverage-list').innerHTML = '<span class="none">Select doodles and click "Find Coverage"</span>';
+            document.getElementById('all-coverage-list').innerHTML = '<span class="none">Select doodles and click "Find Coverage"</span>';
         }
     </script>
 </body>
