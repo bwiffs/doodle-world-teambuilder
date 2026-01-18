@@ -1777,33 +1777,34 @@
             'Basic': 'logos/basic.webp'
         };
 
-        const traitEffects = {
-            "Absorber": { immunity: "primary" },
-            "Apex": { removeType: "beast" },
-            "Arid": { immunity: "water" },
-            "Bright Lights": { immunity: "dark" },
-            "Caliginous": { immunity: "light" },
-            "Conductor": { immunity: "spark" },
-            "Divine Beast": { immunity: "beast" },
-            "Filament": { immunity: "spark" },
-            "Fire Up": { immunity: "fire" },
-            "Fireproof Armor": { damageReduction: { type: "fire", amount: 0.5 } },
-            "Blightfrost": { damageReduction: { type: "fire", amount: 0.5 } },
-            "Hard Candy": { damageReduction: { type: "fire", amount: 0.25 } },
-            "Herbivore": { immunity: "plant" },
-            "Karna": { damageReduction: { type: "earth", amount: 0.5 } },
-            "Levitate": { immunity: "earth" },
-            "Melting Point": { immunity: "ice" },
-            "Mushboom": { damageReduction: { type: "air", amount: 0.25 } },
-            "Nitelite": { damageReduction: { type: "dark", amount: 0.5 } },
-            "Puffball": { damageReduction: { type: "air", amount: 0.25 } },
-            "Skyborn": { immunity: "air" },
-            "Spiteful": { invertChart: true },
-            "Stormwater": { immunity: "water" },
-            "Tumble": { damageReduction: { type: "melee", amount: 0.5 } },
-            "Water Absorb": { immunity: "water" },
-            "Sky Deity": { immunity: ["air", "earth"] }
-        };
+const traitEffects = {
+    "Absorber": { immunity: "primary" },
+    "Apex": { removeType: "beast" },
+    "Arid": { immunity: "water" },
+    "Bright Lights": { immunity: "dark" },
+    "Caliginous": { immunity: "light" },
+    "Conductor": { immunity: "spark" },
+    "Divine Beast": { immunity: "beast" },
+    "Filament": { immunity: "spark" },
+    "Fire Up": { immunity: "fire" },
+    "Fireproof Armor": { damageReduction: { type: "fire", amount: 0.5 } },
+    "Blightfrost": { damageReduction: { type: "fire", amount: 0.5 } },
+    "Hard Candy": { damageReduction: { type: "fire", amount: 0.25 } },
+    "Herbivore": { immunity: "plant" },
+    "Karna": { damageReduction: { type: "earth", amount: 0.5 } },
+    "Levitate": { immunity: "earth" },
+    "Melting Point": { immunity: "ice" },
+    "Mushboom": { damageReduction: { type: "air", amount: 0.25 } },
+    "Nitelite": { damageReduction: { type: "dark", amount: 0.5 } },
+    "Puffball": { damageReduction: { type: "air", amount: 0.25 } },
+    "Skyborn": { immunity: "air" },
+    "Spiteful": { invertChart: true },
+    "Stormwater": { immunity: "water" },
+    "Tumble": { damageReduction: { type: "melee", amount: 0.5 } },
+    "Water Absorb": { immunity: "water" },
+    "Sky Deity": { immunity: ["air", "earth"] },
+    "Adipose": { damageReduction: [{ type: "fire", amount: 0.5 }, { type: "ice", amount: 0.5 }] }
+};
 
         const traitMoveTypeChanges = {
             "Galvanize": { from: "basic", to: "spark" },
@@ -1839,6 +1840,12 @@
             "Arthopex": "Apex",
             // Arid
             "Prickles": "Arid",
+            // Adipose
+            "Trithorn": "Adipose",
+            "Boblop": "Adipose", 
+            "Gigarlic": "Adipose",
+            "Caramellow": "Adipose",
+            "Groato": "Adipose",
             // Bright Lights
             "Phantern": "Bright Lights",
             "Abyssent": "Bright Lights",
@@ -3936,45 +3943,55 @@ const doodleAttunements = {
             updateDefensiveSummary();
         }
 
-        function applyTraitEffects(primary, secondary, trait, attackingType, effectiveness) {
-            if (!trait || !traitEffects[trait]) return effectiveness;
+function applyTraitEffects(primary, secondary, trait, attackingType, effectiveness) {
+    if (!trait || !traitEffects[trait]) return effectiveness;
 
-            const effect = traitEffects[trait];
-            
-            if (effect.immunity) {
-                if (effect.immunity === "primary" && primary === attackingType) {
-                    return 0;
-                } else if (effect.immunity === attackingType) {
-                    return 0;
-                } else if (Array.isArray(effect.immunity) && effect.immunity.includes(attackingType)) {
-                    return 0;
-                }
-            }
-            
-            if (effect.removeType && (primary === effect.removeType || secondary === effect.removeType)) {
-                let newEffectiveness = 1;
-                if (primary !== effect.removeType) {
-                    newEffectiveness *= defensiveTypeChart[primary][attackingType];
-                }
-                if (secondary && secondary !== effect.removeType) {
-                    newEffectiveness *= defensiveTypeChart[secondary][attackingType];
-                }
-                effectiveness = newEffectiveness;
-            }
-            
-            if (effect.damageReduction && effect.damageReduction.type === attackingType) {
-                effectiveness *= (1 - effect.damageReduction.amount);
-            }
-            
-            if (effect.invertChart) {
-                if (effectiveness === 4) effectiveness = 0.25;
-                else if (effectiveness === 2) effectiveness = 0.5;
-                else if (effectiveness === 0.5) effectiveness = 2;
-                else if (effectiveness === 0.25) effectiveness = 4;
-            }
-            
-            return effectiveness;
+    const effect = traitEffects[trait];
+    
+    if (effect.immunity) {
+        if (effect.immunity === "primary" && primary === attackingType) {
+            return 0;
+        } else if (effect.immunity === attackingType) {
+            return 0;
+        } else if (Array.isArray(effect.immunity) && effect.immunity.includes(attackingType)) {
+            return 0;
         }
+    }
+    
+    if (effect.removeType && (primary === effect.removeType || secondary === effect.removeType)) {
+        let newEffectiveness = 1;
+        if (primary !== effect.removeType) {
+            newEffectiveness *= defensiveTypeChart[primary][attackingType];
+        }
+        if (secondary && secondary !== effect.removeType) {
+            newEffectiveness *= defensiveTypeChart[secondary][attackingType];
+        }
+        effectiveness = newEffectiveness;
+    }
+    
+    // Handle single damage reduction (for backward compatibility)
+    if (effect.damageReduction && effect.damageReduction.type && effect.damageReduction.type === attackingType) {
+        effectiveness *= (1 - effect.damageReduction.amount);
+    }
+    
+    // Handle multiple damage reductions (for Adipose)
+    if (effect.damageReduction && Array.isArray(effect.damageReduction)) {
+        effect.damageReduction.forEach(reduction => {
+            if (reduction.type === attackingType) {
+                effectiveness *= (1 - reduction.amount);
+            }
+        });
+    }
+    
+    if (effect.invertChart) {
+        if (effectiveness === 4) effectiveness = 0.25;
+        else if (effectiveness === 2) effectiveness = 0.5;
+        else if (effectiveness === 0.5) effectiveness = 2;
+        else if (effectiveness === 0.25) effectiveness = 4;
+    }
+    
+    return effectiveness;
+}
 
         function calculateDefensiveWeaknesses(primary, secondary, trait) {
             const results = {};
