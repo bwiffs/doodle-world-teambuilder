@@ -899,15 +899,16 @@
     gap: 8px;
     flex: 1;
     min-height: 24px;
-    line-height: 24px;
+    line-height: 1;
 }
 
-        .dropdown-header .type-icon {
-        margin-right: 8px;
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-        vertical-align: middle;
+.move-dropdown .dropdown-header .type-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 
@@ -3139,107 +3140,140 @@
             setupEquipmentDropdowns(index);
         }
 
-        function setupMoveDropdowns(doodleIndex) {
-            for (let i = 0; i < 4; i++) {
-                const dropdown = document.querySelector(`.move-dropdown[data-doodle="${doodleIndex}"][data-move-index="${i}"]`);
-                const header = dropdown.querySelector('.move-header');
-                const list = dropdown.querySelector('.move-list');
-                const search = dropdown.querySelector('.move-search');
-                const options = dropdown.querySelector('.move-options');
+function setupMoveDropdowns(doodleIndex) {
+    for (let i = 0; i < 4; i++) {
+        const dropdown = document.querySelector(`.move-dropdown[data-doodle="${doodleIndex}"][data-move-index="${i}"]`);
+        const header = dropdown.querySelector('.move-header');
+        const list = dropdown.querySelector('.move-list');
+        const search = dropdown.querySelector('.move-search');
+        const options = dropdown.querySelector('.move-options');
+        
+        options.innerHTML = '';
+        
+        moveGroups.forEach(group => {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'move-option-group';
+            
+            const groupHeader = document.createElement('div');
+            groupHeader.className = 'move-group-header';
+            groupHeader.textContent = group.name;
+            groupHeader.style.color = typeColors[group.type];
+            groupDiv.appendChild(groupHeader);
+            
+            group.moves.forEach(move => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option move-option';
+                option.dataset.value = move;
+                option.dataset.groupType = group.type; // Store the group type
                 
-                options.innerHTML = '';
+                const icon = document.createElement('span');
+                icon.className = 'type-icon';
+                icon.style.backgroundImage = `url(${typeIcons[group.type] || typeIcons['Basic']})`;
                 
-                moveGroups.forEach(group => {
-                    const groupDiv = document.createElement('div');
-                    groupDiv.className = 'move-option-group';
+                const text = document.createTextNode(move);
+                
+                option.appendChild(icon);
+                option.appendChild(text);
+                
+                option.addEventListener('click', function() {
+                    const headerSpan = header.querySelector('span:first-child');
+                    // Clear the entire span content
+                    headerSpan.innerHTML = '';
                     
-                    const groupHeader = document.createElement('div');
-                    groupHeader.className = 'move-group-header';
-                    groupHeader.textContent = group.name;
-                    groupHeader.style.color = typeColors[group.type];
-                    groupDiv.appendChild(groupHeader);
+                    // Create a new icon for the header
+                    const headerIcon = document.createElement('span');
+                    headerIcon.className = 'type-icon';
+                    headerIcon.style.backgroundImage = `url(${typeIcons[group.type] || typeIcons['Basic']})`;
+                    headerIcon.style.width = '20px';
+                    headerIcon.style.height = '20px';
+                    headerIcon.style.display = 'inline-block';
+                    headerIcon.style.verticalAlign = 'middle';
+                    headerIcon.style.marginRight = '8px';
                     
-                    group.moves.forEach(move => {
-                        const option = document.createElement('div');
-                        option.className = 'dropdown-option move-option';
-                        option.dataset.value = move;
-                        
-                        const icon = document.createElement('span');
-                        icon.className = 'type-icon';
-                        icon.style.backgroundImage = `url(${typeIcons[group.type] || typeIcons['Basic']})`;
-                        
-                        const text = document.createTextNode(move);
-                        
-                        option.appendChild(icon);
-                        option.appendChild(text);
-                        
-                       option.addEventListener('click', function() {
-    const headerSpan = header.querySelector('span:first-child');
-    
-    headerSpan.innerHTML = '';
-    
-    const selectedIcon = document.createElement('span');
-    selectedIcon.className = 'type-icon';
-    selectedIcon.style.backgroundImage = icon.style.backgroundImage;
-    selectedIcon.style.width = '20px';
-    selectedIcon.style.height = '20px';
-    selectedIcon.style.display = 'inline-block';
-    selectedIcon.style.verticalAlign = 'middle';
-    selectedIcon.style.marginRight = '8px';
-    
-    headerSpan.appendChild(selectedIcon);
-    headerSpan.appendChild(document.createTextNode(move));
-    
-    list.classList.remove('active');
-    updateDoodleData(doodleIndex, `moves.${i}`, move);
-    
-    options.querySelectorAll('.move-option').forEach(opt => {
-        opt.classList.remove('selected');
-    });
-    this.classList.add('selected');
-});
-                        groupDiv.appendChild(option);
+                    // Create text node
+                    const textNode = document.createTextNode(move);
+                    
+                    // Append to header
+                    headerSpan.appendChild(headerIcon);
+                    headerSpan.appendChild(textNode);
+                    
+                    list.classList.remove('active');
+                    updateDoodleData(doodleIndex, `moves.${i}`, move);
+                    
+                    // Update selected state
+                    options.querySelectorAll('.move-option').forEach(opt => {
+                        opt.classList.remove('selected');
                     });
-                    
-                    options.appendChild(groupDiv);
+                    this.classList.add('selected');
                 });
                 
-                const doodle = teams[currentTeamIndex].doodles[doodleIndex];
-                if (doodle.moves[i]) {
-                    const moveOption = options.querySelector(`.move-option[data-value="${doodle.moves[i]}"]`);
-                    if (moveOption) {
-                        moveOption.click();
-                    }
-                }
+                groupDiv.appendChild(option);
+            });
+            
+            options.appendChild(groupDiv);
+        });
+        
+        // Set initial selected move WITHOUT triggering click event
+        const doodle = teams[currentTeamIndex].doodles[doodleIndex];
+        if (doodle.moves[i]) {
+            // Find the move option
+            const moveOption = Array.from(options.querySelectorAll('.move-option'))
+                .find(opt => opt.dataset.value === doodle.moves[i]);
+            
+            if (moveOption) {
+                // Manually set the header content without triggering events
+                const headerSpan = header.querySelector('span:first-child');
+                headerSpan.innerHTML = '';
                 
-                header.addEventListener('click', function() {
-                    list.classList.toggle('active');
-                    if (list.classList.contains('active')) {
-                        search.focus();
-                    }
-                });
+                const groupType = moveOption.dataset.groupType;
+                const headerIcon = document.createElement('span');
+                headerIcon.className = 'type-icon';
+                headerIcon.style.backgroundImage = `url(${typeIcons[groupType] || typeIcons['Basic']})`;
+                headerIcon.style.width = '20px';
+                headerIcon.style.height = '20px';
+                headerIcon.style.display = 'inline-block';
+                headerIcon.style.verticalAlign = 'middle';
+                headerIcon.style.marginRight = '8px';
                 
-                search.addEventListener('input', function() {
-                    const searchTerm = this.value.toLowerCase();
-                    const groups = options.querySelectorAll('.move-option-group');
-                    
-                    groups.forEach(group => {
-                        const optionsInGroup = group.querySelectorAll('.move-option');
-                        let hasVisible = false;
-                        optionsInGroup.forEach(option => {
-                            const text = option.textContent.toLowerCase();
-                            if (text.includes(searchTerm)) {
-                                option.style.display = 'flex';
-                                hasVisible = true;
-                            } else {
-                                option.style.display = 'none';
-                            }
-                        });
-                        group.style.display = hasVisible ? 'block' : 'none';
-                    });
-                });
+                const textNode = document.createTextNode(doodle.moves[i]);
+                
+                headerSpan.appendChild(headerIcon);
+                headerSpan.appendChild(textNode);
+                
+                // Set selected state
+                moveOption.classList.add('selected');
             }
         }
+        
+        // Event listeners for dropdown
+        header.addEventListener('click', function() {
+            list.classList.toggle('active');
+            if (list.classList.contains('active')) {
+                search.focus();
+            }
+        });
+        
+        search.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const groups = options.querySelectorAll('.move-option-group');
+            
+            groups.forEach(group => {
+                const optionsInGroup = group.querySelectorAll('.move-option');
+                let hasVisible = false;
+                optionsInGroup.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        option.style.display = 'flex';
+                        hasVisible = true;
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+                group.style.display = hasVisible ? 'block' : 'none';
+            });
+        });
+    }
+}
 
         function setupTraitDropdown(doodleIndex) {
             const dropdown = document.querySelector(`.trait-dropdown[data-doodle="${doodleIndex}"]`);
