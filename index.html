@@ -893,20 +893,23 @@
             align-items: center;
         }
 
-        .move-dropdown .dropdown-header span:first-child {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            min-height: 24px;
-            line-height: 24px;
-        }
+.move-dropdown .dropdown-header span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-height: 24px;
+    line-height: 24px;
+}
 
         .dropdown-header .type-icon {
-            margin-right: 8px;
-            width: 20px;
-            height: 20px;
-        }
+        margin-right: 8px;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+}
+
 
         .matchup-container {
             display: flex;
@@ -3170,30 +3173,37 @@
                         option.appendChild(icon);
                         option.appendChild(text);
                         
-                        option.addEventListener('click', function() {
-                            const headerSpan = header.querySelector('span:first-child');
-                            headerSpan.innerHTML = '';
-                            
-                            const selectedIcon = icon.cloneNode(true);
-                            headerSpan.appendChild(selectedIcon);
-                            headerSpan.appendChild(document.createTextNode(move));
-                            
-                            list.classList.remove('active');
-                            updateDoodleData(doodleIndex, `moves.${i}`, move);
-                            
-                            options.querySelectorAll('.move-option').forEach(opt => {
-                                opt.classList.remove('selected');
-                            });
-                            this.classList.add('selected');
-                        });
-                        
+                       option.addEventListener('click', function() {
+    const headerSpan = header.querySelector('span:first-child');
+    
+    headerSpan.innerHTML = '';
+    
+    const selectedIcon = document.createElement('span');
+    selectedIcon.className = 'type-icon';
+    selectedIcon.style.backgroundImage = icon.style.backgroundImage;
+    selectedIcon.style.width = '20px';
+    selectedIcon.style.height = '20px';
+    selectedIcon.style.display = 'inline-block';
+    selectedIcon.style.verticalAlign = 'middle';
+    selectedIcon.style.marginRight = '8px';
+    
+    headerSpan.appendChild(selectedIcon);
+    headerSpan.appendChild(document.createTextNode(move));
+    
+    list.classList.remove('active');
+    updateDoodleData(doodleIndex, `moves.${i}`, move);
+    
+    options.querySelectorAll('.move-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+    this.classList.add('selected');
+});
                         groupDiv.appendChild(option);
                     });
                     
                     options.appendChild(groupDiv);
                 });
                 
-                // Set initial selected move
                 const doodle = teams[currentTeamIndex].doodles[doodleIndex];
                 if (doodle.moves[i]) {
                     const moveOption = options.querySelector(`.move-option[data-value="${doodle.moves[i]}"]`);
