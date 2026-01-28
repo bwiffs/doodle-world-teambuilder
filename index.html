@@ -213,8 +213,9 @@
             justify-content: space-between;
             align-items: center;
             min-height: 44px;
-            font-size: 16px; /* Add this line */
-}
+            font-size: 16px;
+        }
+
         .dropdown-list {
             position: absolute;
             top: 100%;
@@ -266,13 +267,13 @@
         }
 
         .dropdown-option .type-icon {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
 
         .add-doodle-btn {
             background-color: var(--button-bg);
@@ -395,14 +396,21 @@
             padding: 3px 8px;
             border-radius: 0;
             font-size: 12px;
-            color: white;
             font-weight: bold;
             display: flex;
             align-items: center;
             gap: 4px;
         }
 
-        .type-icon {
+        /* Black text for specific types */
+        .type-badge.food,
+        .type-badge.spark,
+        .type-badge.ice,
+        .type-badge.light {
+            color: #000000;
+        }
+
+        .type-badge .type-icon {
             width: 16px;
             height: 16px;
             display: inline-block;
@@ -599,7 +607,6 @@
             align-items: center;
             padding: 6px 12px 6px 40px;
             border-radius: 0;
-            color: white;
             font-size: 13px;
             font-weight: bold;
             white-space: nowrap;
@@ -608,11 +615,19 @@
             box-shadow: 0 2px 4px var(--shadow);
         }
 
+        /* Black text for specific types in calculator */
+        .calc-type-badge.food,
+        .calc-type-badge.spark,
+        .calc-type-badge.ice,
+        .calc-type-badge.light {
+            color: #000000;
+        }
+
         .calc-type-badge .type-icon {
-    position: absolute;
-    left: 12px;
-    width: 20px; /* Change to 20px */
-    height: 20px; /* Change to 20px */
+            position: absolute;
+            left: 12px;
+            width: 20px;
+            height: 20px;
         }
 
         .team-summary {
@@ -819,8 +834,8 @@
         }
 
         .offensive-doodle-result .type-icon {
-    width: 16px; /* Change to 16px */
-    height: 16px; /* Change to 16px */
+            width: 16px;
+            height: 16px;
         }
 
         .offensive-traits-toggle {
@@ -863,20 +878,35 @@
         }
 
         .dropdown-option.move-option .type-icon {
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-}
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+        }
 
+        /* Vertical centering for move dropdown header */
+        .move-dropdown .dropdown-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .move-dropdown .dropdown-header span:first-child {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-height: 24px;
+            line-height: 24px;
+        }
 
         .dropdown-header .type-icon {
-                margin-right: 8px;
-    width: 20px;
-    height: 20px;
-}
+            margin-right: 8px;
+            width: 20px;
+            height: 20px;
+        }
 
         .matchup-container {
             display: flex;
@@ -1060,8 +1090,8 @@
         }
 
         .matchup-result-item .type-icon {
-                width: 20px; /* Change to 20px */
-    height: 20px; /* Change to 20px */
+            width: 20px;
+            height: 20px;
         }
 
         .matchup-stats {
@@ -1384,10 +1414,6 @@
                     <div class="matchup-stat">
                         <div>Best Coverage</div>
                         <div class="matchup-stat-value" id="best-coverage">0 types</div>
-                    </div>
-                    <div class="matchup-stat">
-                        <div>Total Checked</div>
-                        <div class="matchup-stat-value" id="total-checked">0</div>
                     </div>
                 </div>
 
@@ -1737,7 +1763,8 @@
             "Tumble": { damageReduction: { type: "melee", amount: 0.5 } },
             "Water Absorb": { immunity: "water" },
             "Sky Deity": { immunity: ["air", "earth"] },
-            "Adipose": { damageReduction: [{ type: "fire", amount: 0.5 }, { type: "ice", amount: 0.5 }] }
+            "Adipose": { damageReduction: [{ type: "fire", amount: 0.5 }, { type: "ice", amount: 0.5 }] },
+            "Floaty": { damageReduction: { type: "air", amount: 0.5 } }
         };
 
         const traitMoveTypeChanges = {
@@ -1829,7 +1856,8 @@
             "Mantiscald": "Water Absorb",
             "Umaisho": "Water Absorb",
             "Kelpimer": "Water Absorb",
-            "Riptorvent-A": "Sky Deity"
+            "Riptorvent-A": "Sky Deity",
+            "Aerystal": "Floaty"
         };
 
         const moveTypeMap = {};
@@ -2923,7 +2951,7 @@
             const types = doodle.type.split('/');
             types.forEach(type => {
                 const badge = document.createElement('span');
-                badge.className = 'type-badge';
+                badge.className = `type-badge ${type.toLowerCase()}`;
                 badge.textContent = type;
                 badge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
                 
@@ -4442,7 +4470,7 @@
                 const types = doodle.type.split('/');
                 types.forEach(type => {
                     const badge = document.createElement('span');
-                    badge.className = 'type-badge';
+                    badge.className = `type-badge ${type.toLowerCase()}`;
                     badge.textContent = type;
                     badge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
                     
@@ -4621,31 +4649,22 @@
                 
                 const attackingTypes = attackingDoodle.type.split('/');
                 let bestCoverage = 0;
-                let effectiveTypes = [];
                 
-                attackingTypes.forEach(type => {
-                    let coversAll = true;
-                    let coversCount = 0;
+                // Check coverage using BOTH STAB moves (if the doodle has two types)
+                selectedDoodles.forEach(defendingDoodle => {
+                    const defendingTypes = defendingDoodle.type.split('/');
                     
-                    selectedDoodles.forEach(defendingDoodle => {
-                        const defendingTypes = defendingDoodle.type.split('/');
-                        const effectiveness = calculateTypeEffectiveness(type, defendingTypes);
-                        
+                    // For each defending doodle, check if ANY of the attacking types is super effective
+                    let isCovered = false;
+                    attackingTypes.forEach(attackingType => {
+                        const effectiveness = calculateTypeEffectiveness(attackingType, defendingTypes);
                         if (effectiveness > 1) {
-                            coversCount++;
-                        } else {
-                            coversAll = false;
+                            isCovered = true;
                         }
                     });
                     
-                    if (coversAll) {
-                        bestCoverage = selectedDoodles.length;
-                        effectiveTypes.push(type);
-                    } else if (coversCount > bestCoverage) {
-                        bestCoverage = coversCount;
-                        effectiveTypes = [type];
-                    } else if (coversCount === bestCoverage && coversCount > 0) {
-                        effectiveTypes.push(type);
+                    if (isCovered) {
+                        bestCoverage++;
                     }
                 });
                 
@@ -4653,7 +4672,6 @@
                     coverageResults.push({
                         doodle: attackingDoodle,
                         coverageScore: bestCoverage,
-                        effectiveTypes: [...new Set(effectiveTypes)],
                         coveragePercent: (bestCoverage / selectedDoodles.length) * 100
                     });
                 }
@@ -4689,10 +4707,8 @@
             const allCoverageList = document.getElementById('all-coverage-list');
             const foundCount = document.getElementById('found-count');
             const bestCoverage = document.getElementById('best-coverage');
-            const totalChecked = document.getElementById('total-checked');
             
             foundCount.textContent = results.length;
-            totalChecked.textContent = doodles.length - totalSelected;
             
             if (results.length === 0) {
                 bestCoverage.textContent = '0 types';
@@ -4712,7 +4728,7 @@
             } else {
                 bestCoverageList.innerHTML = '';
                 bestCoverageDoodles.forEach(result => {
-                    bestCoverageList.appendChild(createMatchupResultItem(result));
+                    bestCoverageList.appendChild(createMatchupResultItem(result, totalSelected));
                 });
             }
             
@@ -4721,12 +4737,12 @@
             } else {
                 allCoverageList.innerHTML = '';
                 otherCoverageDoodles.forEach(result => {
-                    allCoverageList.appendChild(createMatchupResultItem(result));
+                    allCoverageList.appendChild(createMatchupResultItem(result, totalSelected));
                 });
             }
         }
 
-        function createMatchupResultItem(result) {
+        function createMatchupResultItem(result, totalSelected) {
             const item = document.createElement('div');
             item.className = 'matchup-result-item';
             
@@ -4746,7 +4762,7 @@
             const types = result.doodle.type.split('/');
             types.forEach(type => {
                 const badge = document.createElement('span');
-                badge.className = 'type-badge';
+                badge.className = `type-badge ${type.toLowerCase()}`;
                 badge.textContent = type;
                 badge.style.backgroundColor = typeColors[type] || typeColors['Basic'];
                 
@@ -4761,10 +4777,9 @@
             const coverageInfo = document.createElement('div');
             coverageInfo.style.marginTop = '8px';
             coverageInfo.style.fontSize = '12px';
-            coverageInfo.style.color = result.coverageScore === getSelectedMatchupDoodles().length ? '#4CAF50' : '#FFA726';
+            coverageInfo.style.color = result.coverageScore === totalSelected ? '#4CAF50' : '#FFA726';
             coverageInfo.innerHTML = `
-                <strong>Coverage:</strong> ${result.coverageScore}/${getSelectedMatchupDoodles().length} (${Math.round(result.coveragePercent)}%)<br>
-                <strong>Effective Types:</strong> ${result.effectiveTypes.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}
+                <strong>Coverage:</strong> ${result.coverageScore}/${totalSelected} (${Math.round(result.coveragePercent)}%)
             `;
             
             info.appendChild(name);
@@ -4794,7 +4809,6 @@
             
             document.getElementById('found-count').textContent = '0';
             document.getElementById('best-coverage').textContent = '0 types';
-            document.getElementById('total-checked').textContent = '0';
             document.getElementById('best-coverage-list').innerHTML = '<span class="none">Select doodles and click "Find Coverage"</span>';
             document.getElementById('all-coverage-list').innerHTML = '<span class="none">Select doodles and click "Find Coverage"</span>';
         }
