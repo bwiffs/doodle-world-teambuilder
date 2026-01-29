@@ -1384,10 +1384,6 @@
                         <div>Best Coverage</div>
                         <div class="matchup-stat-value" id="best-coverage">0 types</div>
                     </div>
-                    <div class="matchup-stat">
-                        <div>Total Checked</div>
-                        <div class="matchup-stat-value" id="total-checked">0</div>
-                    </div>
                 </div>
 
                 <div class="matchup-results-container">
@@ -1722,21 +1718,22 @@
             "Fire Up": { immunity: "fire" },
             "Fireproof Armor": { damageReduction: { type: "fire", amount: 0.5 } },
             "Blightfrost": { damageReduction: { type: "fire", amount: 0.5 } },
-            "Hard Candy": { damageReduction: { type: "fire", amount: 0.25 } },
+            "Hard Candy": { superEffectiveToResisted: { type: "fire", from: 2, to: 0.5 } },
             "Herbivore": { immunity: "plant" },
             "Karna": { damageReduction: { type: "earth", amount: 0.5 } },
             "Levitate": { immunity: "earth" },
             "Melting Point": { immunity: "ice" },
-            "Mushboom": { damageReduction: { type: "air", amount: 0.25 } },
+            "Mushboom": { superEffectiveToResisted: { type: "air", from: 2, to: 0.5 } },
             "Nitelite": { damageReduction: { type: "dark", amount: 0.5 } },
-            "Puffball": { damageReduction: { type: "air", amount: 0.25 } },
+            "Puffball": { superEffectiveToResisted: { type: "air", from: 2, to: 0.5 } },
             "Skyborn": { immunity: "air" },
             "Spiteful": { invertChart: true },
             "Stormwater": { immunity: "water" },
             "Tumble": { damageReduction: { type: "melee", amount: 0.5 } },
             "Water Absorb": { immunity: "water" },
             "Sky Deity": { immunity: ["air", "earth"] },
-            "Adipose": { damageReduction: [{ type: "fire", amount: 0.5 }, { type: "ice", amount: 0.5 }] }
+            "Adipose": { damageReduction: [{ type: "fire", amount: 0.5 }, { type: "ice", amount: 0.5 }] },
+            "Floaty": { damageReduction: { type: "air", amount: 0.5 } }
         };
 
         const traitMoveTypeChanges = {
@@ -1828,7 +1825,8 @@
             "Mantiscald": "Water Absorb",
             "Umaisho": "Water Absorb",
             "Kelpimer": "Water Absorb",
-            "Riptorvent-A": "Sky Deity"
+            "Riptorvent-A": "Sky Deity",
+            "Aerystal": "Floaty"
         };
 
         const moveTypeMap = {};
@@ -3989,6 +3987,12 @@
                 });
             }
             
+            if (effect.superEffectiveToResisted && effect.superEffectiveToResisted.type === attackingType) {
+                if (effectiveness >= effect.superEffectiveToResisted.from) {
+                    effectiveness = effect.superEffectiveToResisted.to;
+                }
+            }
+            
             if (effect.invertChart) {
                 if (effectiveness === 4) effectiveness = 0.25;
                 else if (effectiveness === 2) effectiveness = 0.5;
@@ -4619,45 +4623,42 @@
                 }
                 
                 const attackingTypes = attackingDoodle.type.split('/');
-                let bestCoverage = 0;
+                let totalCoverage = 0;
                 let effectiveTypes = [];
                 
+                // Check each STAB type of the attacking doodle
                 attackingTypes.forEach(type => {
-                    let coversAll = true;
-                    let coversCount = 0;
+                    let typeCovers = 0;
                     
                     selectedDoodles.forEach(defendingDoodle => {
                         const defendingTypes = defendingDoodle.type.split('/');
                         const effectiveness = calculateTypeEffectiveness(type, defendingTypes);
                         
                         if (effectiveness > 1) {
-                            coversCount++;
-                        } else {
-                            coversAll = false;
+                            typeCovers++;
                         }
                     });
                     
-                    if (coversAll) {
-                        bestCoverage = selectedDoodles.length;
-                        effectiveTypes.push(type);
-                    } else if (coversCount > bestCoverage) {
-                        bestCoverage = coversCount;
-                        effectiveTypes = [type];
-                    } else if (coversCount === bestCoverage && coversCount > 0) {
+                    if (typeCovers > 0) {
+                        totalCoverage += typeCovers;
                         effectiveTypes.push(type);
                     }
                 });
                 
-                if (bestCoverage > 0) {
+                // Calculate coverage percentage
+                const coveragePercent = (totalCoverage / selectedDoodles.length) * 100;
+                
+                if (totalCoverage > 0) {
                     coverageResults.push({
                         doodle: attackingDoodle,
-                        coverageScore: bestCoverage,
+                        coverageScore: totalCoverage,
                         effectiveTypes: [...new Set(effectiveTypes)],
-                        coveragePercent: (bestCoverage / selectedDoodles.length) * 100
+                        coveragePercent: coveragePercent
                     });
                 }
             });
             
+            // Sort by coverage score (descending)
             coverageResults.sort((a, b) => {
                 if (b.coverageScore !== a.coverageScore) {
                     return b.coverageScore - a.coverageScore;
@@ -4688,14 +4689,12 @@
             const allCoverageList = document.getElementById('all-coverage-list');
             const foundCount = document.getElementById('found-count');
             const bestCoverage = document.getElementById('best-coverage');
-            const totalChecked = document.getElementById('total-checked');
             
             foundCount.textContent = results.length;
-            totalChecked.textContent = doodles.length - totalSelected;
             
             if (results.length === 0) {
                 bestCoverage.textContent = '0 types';
-                bestCoverageList.innerHTML = '<span class="none">No doodles found that hit all selected doodles super effectively</span>';
+                bestCoverageList.innerHTML = '<span class="none">No doodles found that hit selected doodles super effectively</span>';
                 allCoverageList.innerHTML = '<span class="none">No coverage doodles found</span>';
                 return;
             }
@@ -4793,7 +4792,6 @@
             
             document.getElementById('found-count').textContent = '0';
             document.getElementById('best-coverage').textContent = '0 types';
-            document.getElementById('total-checked').textContent = '0';
             document.getElementById('best-coverage-list').innerHTML = '<span class="none">Select doodles and click "Find Coverage"</span>';
             document.getElementById('all-coverage-list').innerHTML = '<span class="none">Select doodles and click "Find Coverage"</span>';
         }
