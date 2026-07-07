@@ -336,10 +336,12 @@
         .type-badge.Light,
         .type-badge.Spark,
         .type-badge.Food,
+        .type-badge.Mind,
         .calc-type-badge.Ice,
         .calc-type-badge.Light,
         .calc-type-badge.Spark,
-        .calc-type-badge.Food {
+        .calc-type-badge.Food,
+        .calc-type-badge.Mind {
             color: #000 !important;
         }
         .type-icon {
@@ -2606,11 +2608,19 @@
             const expandBtn = document.createElement('button');
             expandBtn.className = 'card-btn expand-btn';
             expandBtn.textContent = 'Expand';
-            expandBtn.onclick = () => {
+            expandBtn.onclick = function() {
                 const sec = document.getElementById(`expand-section-${index}`);
-                if (sec.classList.contains('active')) { sec.classList.remove('active');
-                    expandBtn.textContent = 'Expand'; } else { sec.classList.add('active');
-                    expandBtn.textContent = 'Hide'; }
+                const isOpen = sec.classList.contains('active');
+
+                // Close all expand sections
+                document.querySelectorAll('.expand-section').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('.expand-btn').forEach(b => b.textContent = 'Expand');
+
+                // If it wasn't open, open it
+                if (!isOpen) {
+                    sec.classList.add('active');
+                    this.textContent = 'Hide';
+                }
             };
 
             const expandSection = document.createElement('div');
@@ -2703,7 +2713,8 @@
             setupMoveDropdowns(index);
             setupGenericDropdown(index, 'trait', traits, 'Select Trait');
             setupGenericDropdown(index, 'held-item', heldItems, 'Held Item');
-            setupGenericDropdown(index, 'stat', stats, 'Select Stat', true);
+            setupGenericDropdown(index, 'stat', stats, 'Select Stat', true, 0);
+            setupGenericDropdown(index, 'stat', stats, 'Select Stat', true, 1);
             setupGenericDropdown(index, 'helmet', helmets, 'Helmet');
             setupGenericDropdown(index, 'amulet', amulets, 'Amulet');
             setupGenericDropdown(index, 'artifact', artifacts, 'Artifact');
@@ -2775,8 +2786,11 @@
             }
         }
 
-        function setupGenericDropdown(doodleIndex, kind, items, placeholder, isStat = false) {
-            const selector = `.${kind}-dropdown[data-doodle="${doodleIndex}"]`;
+        function setupGenericDropdown(doodleIndex, kind, items, placeholder, isStat = false, statIndex = null) {
+            let selector = `.${kind}-dropdown[data-doodle="${doodleIndex}"]`;
+            if (isStat && statIndex !== null) {
+                selector = `.${kind}-dropdown[data-doodle="${doodleIndex}"][data-stat-index="${statIndex}"]`;
+            }
             const container = document.querySelector(selector);
             if (!container) return;
             const header = container.querySelector(`.${kind}-header`);
@@ -2793,10 +2807,11 @@
                 opt.addEventListener('click', function() {
                     header.querySelector('span:first-child').textContent = item;
                     list.classList.remove('active');
-                    const field = kind === 'trait' ? 'trait' :
-                        kind === 'held-item' ? 'heldItem' :
-                        kind === 'stat' ? `stats.${container.dataset.statIndex}` :
-                        `equipment.${kind}`;
+                    let field;
+                    if (kind === 'trait') field = 'trait';
+                    else if (kind === 'held-item') field = 'heldItem';
+                    else if (kind === 'stat') field = `stats.${container.dataset.statIndex}`;
+                    else field = `equipment.${kind}`;
                     updateDoodleData(doodleIndex, field, item);
                     options.querySelectorAll('.dropdown-option').forEach(o => o.classList.remove('selected'));
                     this.classList.add('selected');
@@ -3664,3 +3679,4 @@
 
 </body>
 </html>
+
