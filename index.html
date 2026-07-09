@@ -3154,7 +3154,8 @@
             allTypes.forEach(atk => {
                 let eff = defensiveTypeChart[prim][atk] * (sec ? defensiveTypeChart[sec][atk] : 1);
                 eff = applyTraitEffects(prim, sec, trait, atk, eff);
-                if (Math.abs(eff) < .1) res[atk] = 'immune';
+                // Treat any effectiveness < 0.1 or exactly 0 as immunity
+                if (eff === 0 || Math.abs(eff) < 0.1) res[atk] = 'immune';
             });
             return res;
         }
@@ -3224,24 +3225,42 @@
         function renderDefTeamResult(selector, data) {
             const el = document.querySelector(selector);
             if (!el) return;
-            const isObj = typeof data === 'object' && !Array.isArray(data);
-            if ((isObj && !Object.keys(data).length) || (Array.isArray(data) && !data.length) || (data instanceof Set &&
-                    !data.size)) {
+
+            // Properly detect empty data for Set, Array, or Object
+            let isEmpty = false;
+            if (data instanceof Set) {
+                isEmpty = data.size === 0;
+            } else if (Array.isArray(data)) {
+                isEmpty = data.length === 0;
+            } else if (typeof data === 'object' && data !== null) {
+                isEmpty = Object.keys(data).length === 0;
+            } else {
+                isEmpty = true;
+            }
+
+            if (isEmpty) {
                 el.innerHTML = '<span class="none">None</span>';
                 return;
             }
-            el.innerHTML = '';
+
+            // Build array of items
             let arr;
-            if (isObj) {
-                arr = Object.entries(data).map(([type, d]) => ({ type, count: d.count || 0, effect: d.maxEffect || d }));
-                arr.sort((a, b) => b.count - a.count || a.type.localeCompare(b.type));
+            if (data instanceof Set) {
+                arr = Array.from(data).map(t => ({ type: t }));
             } else if (Array.isArray(data)) {
                 arr = data.map(t => ({ type: t }));
+            } else {
+                arr = Object.entries(data).map(([type, d]) => ({ type, count: d.count || 0, effect: d.maxEffect || d }));
+            }
+
+            // Sort
+            if (data instanceof Set || Array.isArray(data)) {
                 arr.sort((a, b) => a.type.localeCompare(b.type));
             } else {
-                arr = Array.from(data).map(t => ({ type: t }));
-                arr.sort((a, b) => a.type.localeCompare(b.type));
+                arr.sort((a, b) => b.count - a.count || a.type.localeCompare(b.type));
             }
+
+            el.innerHTML = '';
             arr.forEach(({ type, count, effect }) => {
                 let label = type.charAt(0).toUpperCase() + type.slice(1);
                 if (count) label += ` (${count})`;
@@ -3679,4 +3698,3 @@
 
 </body>
 </html>
-
