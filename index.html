@@ -2780,8 +2780,25 @@
                     if (target) target.click();
                 }
 
-                header.addEventListener('click', () => { list.classList.toggle('active'); if (list.classList.contains(
-                        'active')) search.focus(); });
+                // ---- MODIFIED: close other dropdowns in the same expand section ----
+                header.addEventListener('click', function(e) {
+                    const expandSection = this.closest('.expand-section');
+                    if (expandSection) {
+                        // Close all other dropdown lists in this expand section
+                        expandSection.querySelectorAll('.dropdown-list').forEach(otherList => {
+                            if (otherList !== list) {
+                                otherList.classList.remove('active');
+                            }
+                        });
+                    }
+                    // Toggle the clicked dropdown
+                    list.classList.toggle('active');
+                    if (list.classList.contains('active')) {
+                        search.focus();
+                    }
+                });
+                // ---- END MODIFIED ----
+
                 search.addEventListener('input', function() {
                     const term = this.value.toLowerCase();
                     options.querySelectorAll('.move-option-group').forEach(group => {
@@ -2841,8 +2858,25 @@
                 if (target) target.click();
             }
 
-            header.addEventListener('click', () => { list.classList.toggle('active'); if (list.classList.contains(
-                    'active')) search.focus(); });
+            // ---- MODIFIED: close other dropdowns in the same expand section ----
+            header.addEventListener('click', function(e) {
+                const expandSection = this.closest('.expand-section');
+                if (expandSection) {
+                    // Close all other dropdown lists in this expand section
+                    expandSection.querySelectorAll('.dropdown-list').forEach(otherList => {
+                        if (otherList !== list) {
+                            otherList.classList.remove('active');
+                        }
+                    });
+                }
+                // Toggle the clicked dropdown
+                list.classList.toggle('active');
+                if (list.classList.contains('active')) {
+                    search.focus();
+                }
+            });
+            // ---- END MODIFIED ----
+
             search.addEventListener('input', function() {
                 const term = this.value.toLowerCase();
                 options.querySelectorAll('.dropdown-option').forEach(o => {
