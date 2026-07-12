@@ -331,7 +331,6 @@
             align-items: center;
             gap: 4px;
         }
-        /* Light backgrounds → black text */
         .type-badge.Ice,
         .type-badge.Light,
         .type-badge.Spark,
@@ -1569,6 +1568,8 @@
         ];
 
         const moveTypeMap = {};
+        populateMoveTypeMap();
+
         function populateMoveTypeMap() {
             basicMoves.forEach(m => moveTypeMap[m] = 'basic');
             mythicMoves.forEach(m => moveTypeMap[m] = 'mythic');
@@ -1591,7 +1592,6 @@
             darkMoves.forEach(m => moveTypeMap[m] = 'dark');
             poisonMoves.forEach(m => moveTypeMap[m] = 'poison');
         }
-        populateMoveTypeMap();
 
         // ---------- trait data ----------
         const traitEffects = {
@@ -2493,7 +2493,6 @@
                 stats: ['', ''],
                 equipment: { helmet: 'None', amulet: 'None', artifact: 'None' }
             };
-            // Auto-attune is always applied – no checkbox needed
             const att = doodleAttunements[doodle.name];
             let final = { ...base };
             if (att) {
@@ -2624,11 +2623,9 @@
                 const sec = document.getElementById(`expand-section-${index}`);
                 const isOpen = sec.classList.contains('active');
 
-                // Close all expand sections
                 document.querySelectorAll('.expand-section').forEach(s => s.classList.remove('active'));
                 document.querySelectorAll('.expand-btn').forEach(b => b.textContent = 'Expand');
 
-                // If it wasn't open, open it
                 if (!isOpen) {
                     sec.classList.add('active');
                     this.textContent = 'Hide';
@@ -2781,24 +2778,20 @@
                     if (target) target.click();
                 }
 
-                // ---- MODIFIED: close other dropdowns in the same expand section ----
                 header.addEventListener('click', function(e) {
                     const expandSection = this.closest('.expand-section');
                     if (expandSection) {
-                        // Close all other dropdown lists in this expand section
                         expandSection.querySelectorAll('.dropdown-list').forEach(otherList => {
                             if (otherList !== list) {
                                 otherList.classList.remove('active');
                             }
                         });
                     }
-                    // Toggle the clicked dropdown
                     list.classList.toggle('active');
                     if (list.classList.contains('active')) {
                         search.focus();
                     }
                 });
-                // ---- END MODIFIED ----
 
                 search.addEventListener('input', function() {
                     const term = this.value.toLowerCase();
@@ -2859,24 +2852,20 @@
                 if (target) target.click();
             }
 
-            // ---- MODIFIED: close other dropdowns in the same expand section ----
             header.addEventListener('click', function(e) {
                 const expandSection = this.closest('.expand-section');
                 if (expandSection) {
-                    // Close all other dropdown lists in this expand section
                     expandSection.querySelectorAll('.dropdown-list').forEach(otherList => {
                         if (otherList !== list) {
                             otherList.classList.remove('active');
                         }
                     });
                 }
-                // Toggle the clicked dropdown
                 list.classList.toggle('active');
                 if (list.classList.contains('active')) {
                     search.focus();
                 }
             });
-            // ---- END MODIFIED ----
 
             search.addEventListener('input', function() {
                 const term = this.value.toLowerCase();
@@ -2916,15 +2905,10 @@
             if (currentTeamIndex === -1 || currentTeamIndex >= teams.length) return;
             const d = teams[currentTeamIndex].doodles[index];
             if (!d) return;
-            let text =
-                `${d.name} @ ${d.heldItem||'None'} - ${d.trait||'No Trait'} - ${d.equipment.helmet}/${d.equipment.amulet}/${d.equipment.artifact}`;
-            const st = d.stats.filter(s => s).join(', ');
-            if (st) text += ` - ${st}`;
-            const mv = d.moves.filter(m => m).join('/');
-            if (mv) text += ` - ${mv}`;
-            navigator.clipboard.writeText(text).catch(() => {
+            const txt = formatDoodleBlock(d);
+            navigator.clipboard.writeText(txt).catch(() => {
                 const ta = document.createElement('textarea');
-                ta.value = text;
+                ta.value = txt;
                 document.body.appendChild(ta);
                 ta.select();
                 document.execCommand('copy');
@@ -2933,20 +2917,100 @@
             alert('Doodle text copied!');
         }
 
+        // ----- Format a single doodle as a clean multi-line block (NO leading spaces) -----
+        function formatDoodleBlock(d) {
+            const held = d.heldItem || 'None';
+            const trait = d.trait || 'None';
+            const helmet = d.equipment.helmet || 'None';
+            const amulet = d.equipment.amulet || 'None';
+            const artifact = d.equipment.artifact || 'None';
+            const statsStr = d.stats.filter(s => s).length ? d.stats.filter(s => s).join(', ') : 'None';
+            const moveLines = d.moves.map(m => `- ${m || 'None'}`);
+            // No leading spaces on any line – template literal starts at column 0 for each line
+            return `${d.name} @ ${held}
+        Trait: ${trait}
+        ${helmet}, ${amulet}, ${artifact}
+        ${statsStr}
+        ${moveLines.join('\n')}`;
+        }
+
+        // ----- Parse a single doodle block (handles clean format) -----
+        function parseDoodleBlock(block) {
+            const lines = block.split('\n').map(l => l.trim()).filter(l => l);
+            if (!lines.length) return null;
+
+            const first = lines[0];
+            const atMatch = first.match(/^(.+?)\s*@\s*(.+)$/);
+            if (!atMatch) return null;
+            const name = atMatch[1].trim();
+            const heldItem = atMatch[2].trim() === 'None' ? '' : atMatch[2].trim();
+
+            const doodle = doodles.find(d => d.name === name);
+            if (!doodle) return null;
+
+            let idx = 1;
+            let trait = '';
+            if (lines[idx] && lines[idx].startsWith('Trait:')) {
+                trait = lines[idx].replace(/^Trait:\s*/, '').trim();
+                if (trait === 'None') trait = '';
+                idx++;
+            }
+
+            let helmet = 'None',
+                amulet = 'None',
+                artifact = 'None';
+            if (lines[idx] && lines[idx].includes(',')) {
+                const parts = lines[idx].split(',').map(p => p.trim());
+                helmet = parts[0] || 'None';
+                amulet = parts[1] || 'None';
+                artifact = parts[2] || 'None';
+                if (helmet === 'None') helmet = '';
+                if (amulet === 'None') amulet = '';
+                if (artifact === 'None') artifact = '';
+                idx++;
+            }
+
+            let stats = ['', ''];
+            if (lines[idx] && (lines[idx].includes('%') || lines[idx] === 'None')) {
+                if (lines[idx] !== 'None') {
+                    const parts = lines[idx].split(',').map(p => p.trim());
+                    stats[0] = parts[0] || '';
+                    stats[1] = parts[1] || '';
+                }
+                idx++;
+            }
+
+            const moves = ['', '', '', ''];
+            let moveIdx = 0;
+            for (let i = idx; i < lines.length && moveIdx < 4; i++) {
+                if (lines[i].startsWith('- ')) {
+                    const mv = lines[i].substring(2).trim();
+                    moves[moveIdx] = (mv === 'None') ? '' : mv;
+                    moveIdx++;
+                }
+            }
+
+            return {
+                name: doodle.name,
+                image: doodle.image,
+                type: doodle.type,
+                moves,
+                trait,
+                heldItem,
+                stats,
+                equipment: { helmet, amulet, artifact }
+            };
+        }
+
+        // ============================================================
+        //  COPY TEAM CODE (clean multi-line format, no extra spaces)
+        // ============================================================
+
         function copyTeamCode() {
             if (currentTeamIndex === -1 || currentTeamIndex >= teams.length) return;
             const team = teams[currentTeamIndex];
-            let txt = `Team: ${team.name}\n\n`;
-            team.doodles.forEach((d, i) => {
-                txt += `Slot ${i+1}:\n`;
-                txt +=
-                    `${d.name} @ ${d.heldItem||'None'} - ${d.trait||'No Trait'} - ${d.equipment.helmet}/${d.equipment.amulet}/${d.equipment.artifact}`;
-                const st = d.stats.filter(s => s).join(', ');
-                if (st) txt += ` - ${st}`;
-                const mv = d.moves.filter(m => m).join('/');
-                if (mv) txt += ` - ${mv}`;
-                txt += '\n\n';
-            });
+            const blocks = team.doodles.map(d => formatDoodleBlock(d));
+            const txt = blocks.join('\n\n');
             navigator.clipboard.writeText(txt).catch(() => {
                 const ta = document.createElement('textarea');
                 ta.value = txt;
@@ -2958,123 +3022,62 @@
             alert('Team code copied!');
         }
 
+        // ============================================================
+        //  IMPORT TEAM CODE (clean multi-line format)
+        // ============================================================
+
         function importTeamCode() {
-            const raw = prompt('Paste team code:');
+            const raw = prompt('Paste team code (multi-line format):');
             if (!raw) return;
-            try {
-                if (currentTeamIndex !== -1 && currentTeamIndex < teams.length) saveCurrentTeamState();
-                const lines = raw.split('\n');
-                const nameMatch = lines[0].match(/Team: (.+)/);
-                const name = nameMatch ? nameMatch[1] : 'Imported Team';
-                const imported = [];
-                let cur = null;
-                for (let i = 1; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    if (line.startsWith('Slot')) {
-                        if (cur) imported.push(cur);
-                        cur = { name: '', image: '', type: '', moves: ['', '', '', ''], trait: '', heldItem: '',
-                            stats: ['', ''], equipment: { helmet: 'None', amulet: 'None', artifact: 'None' } };
-                    } else if (line.includes(' @ ')) {
-                        if (!cur) continue;
-                        const parts = line.split(' - ');
-                        const di = parts[0].split(' @ ');
-                        cur.name = di[0].trim();
-                        cur.heldItem = di.length > 1 ? di[1].trim() : 'None';
-                        if (parts.length > 1) cur.trait = parts[1].trim();
-                        if (parts.length > 2) {
-                            const eq = parts[2].split('/');
-                            if (eq.length >= 1) cur.equipment.helmet = eq[0].trim() || 'None';
-                            if (eq.length >= 2) cur.equipment.amulet = eq[1].trim() || 'None';
-                            if (eq.length >= 3) cur.equipment.artifact = eq[2].trim() || 'None';
-                        }
-                        let idx = 3;
-                        if (parts.length > 3 && parts[3].includes('%')) {
-                            const ss = parts[3].split(',').map(s => s.trim());
-                            ss.forEach((s, j) => { if (j < 2) cur.stats[j] = s; });
-                            idx = 4;
-                        }
-                        if (parts.length > idx) {
-                            const ms = parts[idx].split('/').map(m => m.trim());
-                            ms.forEach((m, j) => { if (j < 4) cur.moves[j] = m; });
-                        }
-                        const found = doodles.find(d => d.name === cur.name);
-                        if (found) { cur.image = found.image;
-                            cur.type = found.type; }
-                    }
-                }
-                if (cur) imported.push(cur);
-                const data = { name, notes: '', doodles: imported };
-                if (teams.length < MAX_TEAMS) {
-                    teams.push(data);
-                    currentTeamIndex = teams.length - 1;
-                    updateTeamSelect();
+
+            const blocks = raw.split(/\n\s*\n/).filter(b => b.trim());
+            if (!blocks.length) { alert('No doodle data found.'); return; }
+
+            const imported = [];
+            for (const block of blocks) {
+                const parsed = parseDoodleBlock(block);
+                if (parsed) imported.push(parsed);
+            }
+
+            if (!imported.length) { alert('No valid doodles could be parsed.'); return; }
+
+            if (teams.length < MAX_TEAMS) {
+                const name = `Imported Team ${teams.length + 1}`;
+                teams.push({ name, notes: '', doodles: imported });
+                currentTeamIndex = teams.length - 1;
+                updateTeamSelect();
+                loadTeam(currentTeamIndex);
+                saveToStorage();
+                alert(`Imported ${imported.length} doodle(s) as a new team.`);
+            } else {
+                if (confirm('No space for new team. Replace current team?')) {
+                    teams[currentTeamIndex].doodles = imported.slice(0, 6);
+                    teams[currentTeamIndex].name = 'Imported Team';
                     loadTeam(currentTeamIndex);
                     saveToStorage();
-                    alert('Team imported as new team');
-                } else {
-                    if (confirm('No space for new team. Replace current team?')) {
-                        teams[currentTeamIndex] = data;
-                        loadTeam(currentTeamIndex);
-                        saveToStorage();
-                        alert('Team imported (replaced current)');
-                    }
+                    alert(`Replaced current team with ${imported.length} doodle(s).`);
                 }
-            } catch (e) { console.error(e);
-                alert('Invalid team code'); }
+            }
         }
 
+        // ============================================================
+        //  IMPORT FROM TEXT (single doodle, clean format)
+        // ============================================================
+
         function importFromText() {
-            const raw = prompt(
-                'Paste Doodle text (format: Doodle @ Item - Trait - Helmet/Amulet/Artifact - +10%, +10% - Move/Move/Move/Move)'
-                );
+            const raw = prompt('Paste Doodle text (multi-line format):');
             if (!raw) return;
-            try {
-                const parts = raw.split(' - ');
-                const di = parts[0].split(' @ ');
-                const name = di[0].trim();
-                const held = di.length > 1 ? di[1].trim() : 'None';
-                const trait = parts.length > 1 ? parts[1].trim() : '';
-                let eq = { helmet: 'None', amulet: 'None', artifact: 'None' };
-                if (parts.length > 2) {
-                    const e = parts[2].split('/');
-                    if (e.length >= 1) eq.helmet = e[0].trim() || 'None';
-                    if (e.length >= 2) eq.amulet = e[1].trim() || 'None';
-                    if (e.length >= 3) eq.artifact = e[2].trim() || 'None';
-                }
-                let stats = ['', ''];
-                let idx = 3;
-                if (parts.length > 3 && parts[3].includes('%')) {
-                    const ss = parts[3].split(',').map(s => s.trim());
-                    ss.forEach((s, j) => { if (j < 2) stats[j] = s; });
-                    idx = 4;
-                }
-                let moves = ['', '', '', ''];
-                if (parts.length > idx) {
-                    const ms = parts[idx].split('/').map(m => m.trim());
-                    ms.forEach((m, j) => { if (j < 4) moves[j] = m; });
-                }
-                if (currentTeamIndex === -1 || teams[currentTeamIndex].doodles.length >= 6) {
-                    alert('Team full');
-                    return;
-                }
-                const found = doodles.find(d => d.name === name);
-                if (!found) { alert('Doodle not found'); return; }
-                teams[currentTeamIndex].doodles.push({
-                    name: found.name,
-                    image: found.image,
-                    type: found.type,
-                    moves,
-                    trait,
-                    heldItem: held,
-                    stats,
-                    equipment: eq
-                });
-                renderTeam();
-                saveToStorage();
-                alert('Doodle imported!');
-            } catch (e) { console.error(e);
-                alert('Error importing doodle'); }
+            const parsed = parseDoodleBlock(raw.trim());
+            if (!parsed) { alert('Could not parse doodle. Make sure the format is correct.'); return; }
+            if (currentTeamIndex === -1 || currentTeamIndex >= teams.length) { alert('Select a team first.'); return; }
+            const team = teams[currentTeamIndex];
+            if (team.doodles.length >= 6) { alert('Team full (max 6).'); return; }
+            team.doodles.push(parsed);
+            renderTeam();
+            saveToStorage();
+            alert(`Imported ${parsed.name}!`);
         }
+
 
         function loadTeam(index) {
             if (index < 0 || index >= teams.length) return;
@@ -3200,7 +3203,6 @@
             allTypes.forEach(atk => {
                 let eff = defensiveTypeChart[prim][atk] * (sec ? defensiveTypeChart[sec][atk] : 1);
                 eff = applyTraitEffects(prim, sec, trait, atk, eff);
-                // Treat any effectiveness < 0.1 or exactly 0 as immunity
                 if (eff === 0 || Math.abs(eff) < 0.1) res[atk] = 'immune';
             });
             return res;
@@ -3272,7 +3274,6 @@
             const el = document.querySelector(selector);
             if (!el) return;
 
-            // Properly detect empty data for Set, Array, or Object
             let isEmpty = false;
             if (data instanceof Set) {
                 isEmpty = data.size === 0;
@@ -3289,7 +3290,6 @@
                 return;
             }
 
-            // Build array of items
             let arr;
             if (data instanceof Set) {
                 arr = Array.from(data).map(t => ({ type: t }));
@@ -3299,7 +3299,6 @@
                 arr = Object.entries(data).map(([type, d]) => ({ type, count: d.count || 0, effect: d.maxEffect || d }));
             }
 
-            // Sort
             if (data instanceof Set || Array.isArray(data)) {
                 arr.sort((a, b) => a.type.localeCompare(b.type));
             } else {
@@ -3634,7 +3633,7 @@
             if (!results.length) {
                 document.getElementById('best-coverage').textContent = '0 types';
                 document.getElementById('best-coverage-list').innerHTML =
-                '<span class="none">No doodles found</span>';
+                    '<span class="none">No doodles found</span>';
                 document.getElementById('all-coverage-list').innerHTML = '<span class="none">No coverage doodles</span>';
                 return;
             }
@@ -3702,9 +3701,9 @@
             document.getElementById('found-count').textContent = '0';
             document.getElementById('best-coverage').textContent = '0 types';
             document.getElementById('best-coverage-list').innerHTML =
-            '<span class="none">Select doodles and click "Find Coverage"</span>';
+                '<span class="none">Select doodles and click "Find Coverage"</span>';
             document.getElementById('all-coverage-list').innerHTML =
-            '<span class="none">Select doodles and click "Find Coverage"</span>';
+                '<span class="none">Select doodles and click "Find Coverage"</span>';
         }
 
 
@@ -3723,7 +3722,6 @@
                     setTimeout(() => { if (!matchupInitialized) { initMatchup();
                             matchupInitialized = true; } }, 100);
                 }
-                // re-apply footers after navigation
                 setTimeout(updateAllFooters, 50);
             });
         });
@@ -3738,7 +3736,6 @@
             initDefensive();
             initOffensive();
             updateAllFooters();
-            // matchup lazy-loaded on nav click
         });
     </script>
 
