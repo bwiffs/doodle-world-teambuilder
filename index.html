@@ -2927,11 +2927,13 @@
             const statsStr = d.stats.filter(s => s).length ? d.stats.filter(s => s).join(', ') : 'None';
             const moveLines = d.moves.map(m => `- ${m || 'None'}`);
             // No leading spaces on any line – template literal starts at column 0 for each line
-            return `${d.name} @ ${held}
-        Trait: ${trait}
-        ${helmet}, ${amulet}, ${artifact}
-        ${statsStr}
-        ${moveLines.join('\n')}`;
+            return [
+                `${d.name} @ ${held}`,
+                `Trait: ${trait}`,
+                `${helmet}, ${amulet}, ${artifact}`,
+                statsStr,
+                ...moveLines
+            ].join('\n');
         }
 
         // ----- Parse a single doodle block (handles clean format) -----
