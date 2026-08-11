@@ -1925,6 +1925,19 @@
         const defensiveTraits = Object.keys(traitEffects);
 
         // ---------- doodles ----------
+        // All Doodle sprites are served from the DoodlePaste repository.
+        const doodleImageBase = 'https://raw.githubusercontent.com/bwiffs/doodlepaste/main/Doodles/';
+        const doodleImageAliases = {
+            'Peaktrice-F': 'Peakatrice-F',
+            'Peaktrice-M': 'Peakatrice-M'
+        };
+        function doodleImage(name) {
+            const canonicalName = doodleImageAliases[name] || name;
+            if (/-A$/i.test(canonicalName)) {
+                return doodleImageBase + 'A-' + canonicalName.slice(0, -2) + '_1.webp';
+            }
+            return doodleImageBase + canonicalName + '_1.webp';
+        }
         const doodles = [
             { name: "Abyssent", image: "https://i.ibb.co/6089VMk2/Abyssent-1.webp", type: "Water/Light" },
             { name: "Aborsa", image: "https://i.ibb.co/BKPmV1G1/Aborsa-1.webp", type: "Plant/Beast" },
@@ -2248,7 +2261,7 @@
             { name: "Zapoeira", image: "https://i.ibb.co/pjjBsLmj/Zapoeira-1.webp", type: "Spark/Melee" },
             { name: "Zeepringo", image: "https://i.ibb.co/PzZBk3d8/Zeepringo-1.png", type: "Mind/Melee" },
             { name: "Zerzura", image: "https://i.ibb.co/x8YTpzGZ/Zerzura-1.webp", type: "Water/Air" }
-        ];
+        ].map(doodle => ({ ...doodle, image: doodleImage(doodle.name) }));
 
 
         // ============================================================
