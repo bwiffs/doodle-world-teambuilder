@@ -292,7 +292,7 @@ body{background-color:var(--bg-color);margin:0;padding:0;min-height:100vh;}
 
 <script>
 //  GLOBAL CONFIG – update once, applies everywhere
-const UPDATE_DATE = "S22";
+const UPDATE_DATE = "Halloween Batch 2";
 const CREDIT_TEXT = "Created by Bwiffs";
 
 //  DATA
@@ -507,7 +507,7 @@ const fireMoves = [
     "Incinerate", "Lava Toss", "Raging Bonfire", "Sizzle",
     "Solar Flare", "Soulfire", "Pyroclast", "Infernal Hold",
     "Charcoil", "Boiling Point", "High Degree Bake", "Final Explosion",
-    "Hotpot"
+    "Hotpot","Burnout",
 ];
 const waterMoves = [
     "Pressure Build", "Geyser",
@@ -569,7 +569,8 @@ const bugMoves = [
     "Quick Sting", "Serrated Claws", "Skitter",
     "Swaddle", "Swarm", "Web", "Web Ball",
     "Panic Pounce", "Spicefield", "Hivemind",
-    "Malware Mangle", "Opening Talon", "Nectar Sip"
+    "Malware Mangle", "Opening Talon", "Nectar Sip",
+    "Metamorphosis",
 ];
 const earthMoves = [
     "Dirt Lump", "Earth Lance", "Earth Surge",
@@ -605,7 +606,7 @@ const foodMoves = [
     "Pie Gag", "Seasoning", "Snack Chomp", "Spicy Tackle", "Sugar Kiss",
     "Sugar Rush", "Sweet Aroma", "Takeout", "Savory Slam", "Last Course",
     "Sweet Remains", "Sugarfade", "Explosive Popcorn", "Sugar Crash",
-    "Sugar Shock", "Bite and Blight"
+    "Sugar Shock", "Bite and Blight", "Candy Cornado"
 ];
 const lightMoves = [
     "Abyss Breaker", "Aurora Flash", "Blinding Lights", "Blessed Blade",
@@ -638,7 +639,7 @@ const spiritMoves = [
     "Spectral Ire", "Spirit Claws", "Spirit Orb", "Vague Vortex",
     "Whisper", "Phantom Rush", "Boo!", "Ghostly Maw",
     "Healing Pumpkin", "Korbidal Nuke", "Hypnotizing Spiral",
-    "Perish Cry", "Spirit Bomb", "Curse",
+    "Perish Cry", "Spirit Bomb", "Curse", "Phantom Cantrip",
 ];
 const iceMoves = [
     "Absolute Zero", "Arctic Blitz", "Bowling Strike", "Chilling Chorus",
@@ -657,7 +658,7 @@ const darkMoves = [
     "Pursuit", "Retribution", "Revitalize", "Scrutinize", "Shadowbolt",
     "Shadowstep", "Siphon Soul", "Sonata of Darkness", "Taunt",
     "Vampiric Strike", "Worthwhile Sacrifice", "Mallet Crush",
-    "Stage Trick", "Greedy Grab"
+    "Stage Trick", "Greedy Grab","In The Shadows",
 ];
 const poisonMoves = [
     "Brimstone Burst",
@@ -770,7 +771,7 @@ const specialMoveTypes = {
 const doodleDefaultTraits = {
     Luzun: 'Lunar Eclipse',
     Scaldra: ['Water Absorb', 'Hydro Coating'],
-    Arcanimodo: 'Poison Absorb',
+    Arcanimodo: 'Fire Up',
     'Lacergen-Earth': 'Absorber',
     'Lacergen-Spark': 'Absorber',
     'Lacergen-Fire': 'Absorber',
@@ -897,6 +898,8 @@ const doodleAttunements = {
     'Aromaflora-A': { signatureItem: 'Aromaflora Rune', signatureTrait: 'Faerie Sanctuary' },
     'Boblop-A': { signatureItem: 'Boblop Wing', signatureTrait: 'Thermal Uplift' },
     'Kinglith-A': { signatureItem: 'Kinglith Pyreblade', signatureTrait: 'Siegebreaker' },
+    'Squonk-A': { signatureItem: 'Squonk Spectral Hand', signatureTrait: 'Breaking Point' },
+    'Owol-A': { signatureItem: 'Owol Sword', signatureTrait: 'Mothers Resolve' },
     Bungo: { signatureTrait: 'Split' },
     Seamknight: { signatureTrait: 'Vigor' },
     Seamstress: { signatureTrait: 'Elegance' },
@@ -971,6 +974,7 @@ const heldItems = ['None', 'Acid Storm in a Bottle', 'Air Candy Cube', 'Air Taff
     'Plastic Fangs', 'Riptorvent Rune', 'Hollihare Wreath', 'Flower Crown', 'Potted Plant',
     'Aromaflora Rune', 'Boblop Wing', 'Siphon Egg', 'Fluppy Petal', 'Plague Mask',
     'Kinglith Pyreblade', 'Junipyro Berry', 'Kindled Heart', 'Vengeful Cape','Guardian Feather',
+    'Owol Blade', 'Squonk Spectral Hand',
 ];
 const traits = ['Sulfur Soul', 'Ancient Instinct', 'Atavism', 'Lunar Eclipse', 'Sealkeeper', 'Absorber', 'Accelerate', 'Acid Advance', 'Adaptive', 'Adipose', 'Air Current',
     'Alacrity', 'Almagest', 'Aloe Vera', 'Ambrosia', 'Amp It Up', 'Analytical', 'Annihilation',
@@ -1054,7 +1058,8 @@ const traits = ['Sulfur Soul', 'Ancient Instinct', 'Atavism', 'Lunar Eclipse', '
     'Slippery Surface', 'Resonance', 'Night Stalker', 'Umbral Hunger',
     'Slipstream', 'Survival Instinct', 'Dishonest', 'Flow State', 'Fortuna',
     'Salt Safeguard','Impalement','Fixation', 'Daybreak', 'Sunbask', 'Nightfall', 'Moonbask',
-    'From the Ashes','Juicy','Ripening',
+    'From the Ashes','Juicy','Ripening','Three Heads','Gatekeeper','Mothers Resolve','Breaking Point',
+    'Night Prowler','Mana Pool',
 ];
 const defensiveTraits = Object.keys(traitEffects);
 
@@ -1066,7 +1071,13 @@ function doodleImage(name) {
     return doodleImageBase + encodeURIComponent(filename);
 }
 // One name/type pair per row; image URLs are generated centrally.
-const doodles = `Obsibeak|Dark/Earth
+const doodles = 
+`Obsibeak|Dark/Earth
+Scarvest|Dark/Basic
+Faelixin|Dark
+Cornifly|Food/Insect
+Cerberant|Plant/Fire
+Archphibian|Spirit/Basic
 Scaldra|Water/Fire
 Crostacean|Crystal/Ice
 Arcanimodo|Poison/Spirit
@@ -1295,6 +1306,7 @@ Osman-shi|Food/Spirit
 Ostigon|Beast/Poison
 Ostigon-A|Dark/Poison
 Owol|Air
+Owol-A|Fire/Air
 Partybug|Insect/Mind
 Partybug-A|Beast/Mind
 Peaktrice-F|Fire/Melee
@@ -1346,6 +1358,7 @@ Spiraryu|Dark/Melee
 Springling|Plant/Basic
 Spunny|Basic/Spirit
 Squonk|Spirit/Plant
+Squonk-A|Spirit/Plant
 Stagine|Plant/Metal
 Staligant-A|Crystal/Mind
 Staligant-F|Crystal/Mind
