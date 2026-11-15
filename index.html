@@ -582,7 +582,7 @@ const fireMoves = [
     "Incinerate", "Lava Toss", "Raging Bonfire", "Sizzle",
     "Solar Flare", "Soulfire", "Pyroclast", "Infernal Hold",
     "Charcoil", "Boiling Point", "High Degree Bake", "Final Explosion",
-    "Hotpot","Burnout",
+    "Hotpot","Burnout", "Dripping Wax"
 ];
 const waterMoves = [
     "Pressure Build", "Geyser",
@@ -689,7 +689,7 @@ const lightMoves = [
     "Glimmer Wing", "Glow Up", "Hope Beacon", "Laser", "Lightspeed Flurry",
     "Purge", "Radiant Beam", "Shining Severance", "Light Hook",
     "Blazing Comet", "Light Show", "Dissolution", "Flicker",
-    "Sacred Lunge", "Light Noise"
+    "Sacred Lunge", "Light Noise", "Eyeball Death Laser",
 ];
 const crystalMoves = [
     "Alloy Missiles", "Crystal Armor", "Crystal Arrow", "Crystal Cut",
@@ -860,6 +860,7 @@ const doodleDefaultTraits = {
     Caramellow: 'Adipose',
     Groato: 'Adipose',
     Phantern: 'Bright Lights',
+    Waxancholy: 'Bright Lights',
     Abyssent: 'Bright Lights',
     Flong: 'Caliginous',
     Mourveil: 'Caliginous',
@@ -1134,7 +1135,7 @@ const traits = ['Sulfur Soul', 'Ancient Instinct', 'Atavism', 'Lunar Eclipse', '
     'Slipstream', 'Survival Instinct', 'Dishonest', 'Flow State', 'Fortuna',
     'Salt Safeguard','Impalement','Fixation', 'Daybreak', 'Sunbask', 'Nightfall', 'Moonbask',
     'From the Ashes','Juicy','Ripening','Three Heads','Gatekeeper','Mothers Resolve','Breaking Point',
-    'Night Prowler','Mana Pool',
+    'Night Prowler','Mana Pool','Food Frenzy','Spirit Collector'
 ];
 const defensiveTraits = Object.keys(traitEffects);
 
@@ -1151,6 +1152,9 @@ function doodleImage(name) {
 // One name/type pair per row; image URLs are generated centrally.
 const doodles = 
 `Obsibeak|Dark/Earth
+Purrundle|Beast/Spirit
+Mishgumash|Food
+Waxancholy|Fire/Spirit
 Scarvest|Dark/Basic
 Faelixin|Dark
 Cornifly|Food/Insect
